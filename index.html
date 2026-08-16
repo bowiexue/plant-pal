@@ -138,16 +138,13 @@
     
     function checkWin(){
       var currentAnimal=plantPets[kind];
-      if(pts>=9){
+      if(pts&&pts%9===0){
         var e=document.createElement('div');e.className='pet';e.innerText=currentAnimal;e.style.left=Math.random()*240+'px';document.getElementById('an').appendChild(e);
         pets.push({dom:e,x:parseFloat(e.style.left),tx:parseFloat(e.style.left),ani:currentAnimal});
         
         setTimeout(function(){
           alert("🎉 Congratulations! Your plant is fully grown and you unlocked a hidden visitor! Your list will now reset.");
-          pts=0;
-          list=[];
-          ren();
-          draw();
+          pts=0;list=[];ren();draw();
         },100);
       }
     }
@@ -166,7 +163,7 @@
       var k=kind;
       if(k=="sprout"||k=="fern"||k=="bamboo"){
         var col=(k=="bamboo")?"#38b000":(k=="fern")?"#1b4332":"#52b788";
-        if(l>0){pxl(7,10,2,2,col);}if(l>1){pxl(7,8,2,2,col);pxl(5,9,2,1专'#74c69d');pxl(9,9,2,1,'#74c69d');}if(l>2){pxl(7,5,2,3,col);pxl(4,7,3,1,'#74c69d');pxl(9,7,3,1,'#74c69d');}
+        if(l>0){pxl(7,10,2,2,col);}if(l>1){pxl(7,8,2,2,col);pxl(5,9,2,1,'#74c69d');pxl(9,9,2,1,'#74c69d');}if(l>2){pxl(7,5,2,3,col);pxl(4,7,3,1,'#74c69d');pxl(9,7,3,1,'#74c69d');}
       }else if(k=="cactus"||k=="mushroom"){
         var col=(k=="mushroom")?"#e63946":"#2d6a4f";
         if(l>0){pxl(7,10,2,2,col);}if(l>1){pxl(7,8,2,2,col);pxl(6,9,1,2,'#40916c');pxl(9,9,1,2,'#40916c');}if(l>2){pxl(7,6,2,2,col);pxl(5,7,2,2,'#40916c');pxl(9,7,2,2,'#40916c');pxl(7,5,2,1,(k=="mushroom")?'#fff':'#ff4d6d');}
