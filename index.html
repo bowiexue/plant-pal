@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><title>Plant Pal Master Edition</title>
+  <meta charset="UTF-8">
+  <title>Plant Pal Master</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="bx">
-    <h4 style="margin:0 0 5px 0; font-size:16px;">SproutPal Pro Master 🌿</h4>
+    <h4>SproutPal Pro Master 🌿</h4>
     
-    <!-- Weather Widget Display Box -->
-    <div id="wdg" class="sl" style="background:#e8f1f5;border-color:#b0c4de;margin-bottom:4px;">
+    <div id="wdg" class="sl" style="background:#e8f1f5; border-color:#b0c4de;">
       <div class="sl-row" style="font-weight:bold;">
-        <span>Palo Alto, CA 📍</span>
-        <span id="wdg-temp">73°F</span>
+        <span>Palo Alto, CA 📍</span><span id="wdg-temp">73°F</span>
       </div>
       <div class="sl-row">
-        <span id="wdg-time">12:00:00 PM</span>
-        <span id="wdg-cond">☁️ Mostly Cloudy</span>
+        <span id="wdg-time">12:00:00 PM</span><span>☁️ Mostly Cloudy</span>
       </div>
     </div>
 
-    <!-- MAIN MIDDLE GRID: Canvas Left, Controls Right -->
     <div class="mid-row">
-      <div class="cv-wrap">
-        <canvas id="cv" width="144" height="144"></canvas>
-      </div>
-      
+      <div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div>
       <div class="side-ctrls">
         <div id="st" class="st"></div>
-        <div id="tmbx" class="tm-box mode-focus">
-          <div id="tm" class="tm">25:00</div>
-        </div>
+        <div id="tmbx" class="tm-box mode-focus"><div id="tm" class="tm">25:00</div></div>
         <div class="bt">
           <button id="go" onclick="run()">Start</button>
           <button onclick="reset()">Reset</button>
@@ -37,46 +30,39 @@
       </div>
     </div>
 
-    <!-- DYNAMIC PLANT ECOSYSTEM DESCRIPTION CARD -->
     <div class="sl" style="background:#eaf4f4; border-color:#cce3de;">
-      <div style="font-size:11px; font-weight:bold; color:#164e63; margin-bottom:2px;">📖 Ecosystem Field Guide Report:</div>
-      <div id="eco-desc" style="font-size:11px; line-height:1.3; color:#2d3748; text-align:justify; font-style:italic;">Loading report...</div>
+      <div style="font-weight:bold; color:#164e63;">📖 Ecosystem Field Guide Report:</div>
+      <div id="eco-desc" style="font-style:italic;">Loading...</div>
     </div>
     
-    <!-- HIGH CONTRAST DYNAMIC STICKER SECTION -->
     <div class="sl" style="background:#fff3e0; border-color:#ffe0b2;">
-      <div style="font-size:11px; font-weight:bold; color:#e65100; margin-bottom:4px;">✨ Expanded Theme Kaomojis (Click to Copy):</div>
+      <div style="font-weight:bold; color:#e65100;">✨ Expanded Theme Kaomojis:</div>
       <div class="stk-row" id="stk-box"></div>
     </div>
 
-    <!-- DYNAMIC CUSTOM TEXT STYLE CONVERTER SECTION -->
     <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb;">
-      <div style="font-size:11px; font-weight:bold; color:#004d40; margin-bottom:4px;">🔤 Plant-Themed Font Variance Engine:</div>
-      <div style="display:flex; flex-direction:column; gap:6px;">
-        <input type="text" id="cust-txt-in" value="Plant Pal" placeholder="Type custom text here..." oninput="genFonts()" style="padding:5px; font-family:monospace; font-size:11px; border:1px solid #b2dfdb; border-radius:4px; width:100%;">
-        <div class="fnt-col" id="fnt-box"></div>
-      </div>
+      <div style="font-weight:bold; color:#004d40;">🔤 Custom Font Variance Engine:</div>
+      <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="width:100%;">
+      <div class="fnt-col" id="fnt-box"></div>
     </div>
     
-    <!-- Music Synth Interface -->
     <div class="mu-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:11px;font-weight:bold;">
+      <div style="display:flex; justify-content:space-between; color:#fff;">
         <span>Mood Synth:</span>
         <select id="mtype">
-          <option value="chill">Cozy Vinyl Pad</option>
-          <option value="jazz">Warm Melancholy</option>
-          <option value="rain">Soft Rainy Beats</option>
-          <option value="cosmic">Deep Space Drone</option>
-          <option value="retro">Chiptune Focus</option>
+          <option value="chill">Vinyl Pad</option>
+          <option value="jazz">Melancholy</option>
+          <option value="rain">Rainy Beats</option>
+          <option value="cosmic">Space Drone</option>
+          <option value="retro">Chiptune</option>
         </select>
       </div>
       <button id="m" class="mu" onclick="tune()">🎵 Synthesize Music</button>
     </div>
 
-    <!-- Dials and Selection Panels -->
     <div class="sl">
       <div class="sl-row">
-        <span>Plant Type:</span>
+        <span>Plant:</span>
         <select id="pt" onchange="chg()">
           <option value="sprout">Thick Sprout</option>
           <option value="cactus">Big Cactus</option>
@@ -91,7 +77,7 @@
         </select>
       </div>
       <div class="sl-row">
-        <span>Timer Mode:</span>
+        <span>Mode:</span>
         <select id="tmode" onchange="setMode()">
           <option value="focus">Focus Session</option>
           <option value="break">Break Time</option>
@@ -103,316 +89,25 @@
       </div>
     </div>
     
-    <div class="an-box">🐾 Unique Visitor:<div id="an" class="pt-c"></div></div>
+    <div class="an-box">🐾 Visitor:<div id="an" class="pt-c"></div></div>
     
-    <!-- Tasks and History Log Displays -->
     <div class="td">
-      <div class="rw">
-        <input type="text" id="in" placeholder="Task..."><button onclick="add()">Add</button>
-      </div>
+      <div class="rw"><input type="text" id="in" placeholder="Task..."><button onclick="add()">Add</button></div>
       <ul id="el"></ul>
     </div>
     
-    <div class="td" style="border-top:1px dashed #aaa;padding-top:4px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
-        <span style="font-size:10px;font-weight:bold;color:#666;">📜 Completed History Log:</span>
-        <button onclick="clearHist()" style="background:#ff6b6b;font-size:9px;padding:1px 5px;height:16px;line-height:1;">Clear</button>
+    <div class="td" style="border-top:1px dashed #aaa;">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:#666;">📜 Completed History Log:</span>
+        <button onclick="clearHist()" style="background:#ff6b6b; font-size:9px; padding:1px 5px;">Clear</button>
       </div>
-      <ul id="hist-log" style="max-height:45px;opacity:0.8;"></ul>
+      <ul id="hist-log" style="max-height:45px; opacity:0.8;"></ul>
     </div>
   </div>
-</body>
-</html>
-<style>
-  :root{--bg:#f4f9f4;--c:#fff;--p:#52b788;--pd:#2d6a4f;--ac:#d8f3dc;--t:#2f3e46;}
-  *{box-sizing:border-box;}
-  body{font-family:monospace;background:var(--bg);color:var(--t);display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:5px;}
-  
-  .bx{background:var(--c);padding:15px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);width:620px;text-align:center;display:flex;flex-direction:column;gap:8px;}
-  
-  .mid-row{display:flex;gap:15px;align-items:center;justify-content:space-between;width:100%;}
-  .cv-wrap{width:180px;height:180px;background:var(--ac);border-radius:8px;display:flex;justify-content:center;align-items:center;flex-shrink:0;}
-  .side-ctrls{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;}
-  
-  .stk-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
-  .stk-btn{background:#ffffff;color:#222222;border:2px solid #e65100;padding:5px 10px;font-size:12px;border-radius:20px;cursor:pointer;font-weight:bold;}
-  .stk-btn:hover{background:#fff3e0;}
-  
-  .fnt-col{display:flex;flex-direction:column;gap:4px;text-align:left;}
-  .fnt-row{display:flex;justify-content:space-between;align-items:center;background:#ffffff;color:#222222;padding:6px 10px;border-radius:4px;border:2px solid #004d40;font-size:12px;font-weight:bold;cursor:pointer;}
-  .fnt-row:hover{background:#e0f2f1;}
 
-  canvas{background:var(--ac);image-rendering:pixelated;width:160px;height:160px;}
-  .st{font-size:11px;font-weight:bold;color:var(--pd);min-height:22px;display:flex;align-items:center;justify-content:center;}
-  .tm-box{background:#f8f9fa;padding:6px;border-radius:6px;border:1px solid #e9ecef;}
-  .tm{font-size:32px;font-weight:bold;margin:0;}
-  .bt{display:flex;gap:6px;justify-content:center;}
-  button{background:var(--p);color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-family:monospace;font-size:12px;}
-  button:hover{background:var(--pd);}
-  .mu-box{background:#457b9d;padding:6px;border-radius:6px;display:flex;flex-direction:column;gap:4px;}
-  .mu-box span,.mu-box select,.mu-box button{color:#fff;font-family:monospace;font-size:11px;}
-  .mu-box select{background:#1d3557;border:1px solid #fff;border-radius:4px;padding:2px;}
-  .mu{background:#1d3557;width:100%;margin-top:2px;padding:5px;}
-  .sl{font-size:11px;font-weight:bold;display:flex;flex-direction:column;gap:4px;text-align:left;background:#f8f9fa;padding:6px;border-radius:6px;border:1px solid #e9ecef;}
-  .sl-row{display:flex;justify-content:space-between;align-items:center;}
-  select,input[type="number"]{font-family:monospace;font-size:11px;border-radius:4px;border:1px solid #ccc;padding:2px 4px;}
-  input[type="number"]{width:50px;}
-  .an-box{background:#f8f9fa;padding:4px;border-radius:6px;font-size:11px;font-weight:bold;text-align:left;height:45px;position:relative;border:1px solid #e9ecef;}
-  .pt-c{position:absolute;bottom:0;left:0;width:100%;height:28px;}
-  .pet{position:absolute;font-size:18px;bottom:2px;transition:left 0.4s,bottom 0.2s;line-height:1;}
-  .td{text-align:left;border-top:1px dashed #ccc;padding-top:6px;display:flex;flex-direction:column;gap:4px;}
-  .rw{display:flex;gap:4px;}
-  input[type="text"]{flex:1;padding:5px;border:1px solid #ccc;border-radius:4px;font-family:monospace;font-size:11px;}
-  ul{list-style:none;padding:0;margin:0;max-height:75px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
-  li{display:flex;align-items:center;justify-content:space-between;font-size:11px;padding:3px;background:#fdfdfd;border:1px solid #f0f0f0;border-radius:4px;}
-  li label{display:flex;align-items:center;gap:4px;cursor:pointer;flex:1;overflow:hidden;}
-  .dn span{text-decoration:line-through;color:#888;}
-  .dl{background:none;color:#ff6b6b;padding:0 4px;}
-  .mode-focus{border-left:4px solid var(--p);}
-  .mode-break{border-left:4px solid #457b9d;}
-</style>
-<script>
-  var cv=document.getElementById('cv'),cx=cv.getContext('2d'),pts=0,sleep=false,act=Date.now(),time=1500,mId=null,on=false,list=[],historyLog=[],kind="sprout",aCtx=null,synthId=null,play=false,beat=0,pets=[],lockGrowth=false;
-  
-  var plantPets={"sprout":"🐰","cactus":"🐪","flower":"🐝","orchid":"🦚","sakura":"🦊","fern":"🦌","bamboo":"🐼","rose":"🦋","maple":"🐿️","mushroom":"🐸"};
-
-  // Comprehensive Ecosystem Information & Decoupled Custom Font Blueprints
-  var plantData = {
-    "sprout": {
-      desc: "Fresh green sprouts fix vital nitrogen directly into your farming soil beds. This feeds friendly ground bugs and kicks off local biome health.",
-      kaomojis: ["(🌱•ᴗ•🌱)", "(っˆڡˆς)🌱", "✧sprout✧", "🥬(•‿•)", "(*•▿•*)﨡"],
-      fonts: [ {name:"Gothic Outline", key:"gothic"}, {name:"Spaced Retro", key:"wide"} ]
-    },
-    "cactus": {
-      desc: "Desert cacti store vast amount of internal rain water safely in dry arid regions. They serve as structural life-saving nectar oases for travelling camels and small finches.",
-      kaomojis: ["🌵(•‿•)🌵", "(>_<)凸", "✧prickly✧", "⊂(🌵_🌵)⊃", "(•̀⤙•́)🌵"],
-      fonts: [ {name:"Bold Blocky Text", key:"wide"}, {name:"Gothic Text", key:"gothic"} ]
-    },
-    "flower": {
-      desc: "Sunflowers filter harmful chemical residues out of open wild meadows. Their sweet bright petals attract busy bumblebees to optimize region pollination loops.",
-      kaomojis: ["(🌸◠‿◠)", "(*✿‿✿)", "✧sunny✧", "🌻(❛‿❛✿)", "╰(✿´⌣`✿)╯"],
-      fonts: [ {name:"Sweet Cursive", key:"script"}, {name:"Light Monospace", key:"wide"} ]
-    },
-    "orchid": {
-      desc: "Exotic night orchids grow cleanly along rainforest trunk walls. They anchor moisture layers and supply shade safe spaces for colorful micro tree frogs.",
-      kaomojis: ["(｡♥‿♥｡)🔮", "(◕‿◕✿)", "✧exotic✧", "🔮(☯‿☯)", "(*✨▽✨*)"],
-      fonts: [ {name:"Mystic Calligraphy", key:"script"}, {name:"Gothic Void", key:"gothic"} ]
-    },
-    "sakura": {
-      desc: "Sakura trees anchor riverside clay soils to completely stop heavy rain washouts. Their falling organic leaves supply organic nutrients to local forest rivers.",
-      kaomojis: ["(💮◡💮)", "(｡✿‿✿｡)", "✧bonsai✧", "🌸(◕‿◕)", "💮(๑ᵕ̳ᵕ̳)💮"],
-      fonts: [ {name:"Imperial Cursive", key:"script"}, {name:"Spaced Text", key:"wide"} ]
-    },
-    "fern": {
-      desc: "Cozy ground ferns blanket dark damp woods to regulate air moisture. They create soft, insulated nesting pockets for woodland fawns and small mice.",
-      kaomojis: ["🌿(ᵕ‿ᵕ)🌿", "(๑˃̵ᴗ˂̵)🍃", "✧cozy✧", "🍃(•ᴗ•)🍃", "🌿(๑'ᴗ')🌿"],
-      fonts: [ {name:"Dense Gothic", key:"gothic"}, {name:"Clean Wide", key:"wide"} ]
-    },
-    "bamboo": {
-      desc: "Lucky bamboo holds a fast growth speed that scrub clean CO2 carbon from the atmosphere. They build durable shelter barriers for pandas and nesting jungle birds.",
-      kaomojis: ["🎍(•_•)🎍", "(ᵔᴥᵔ)🐼", "✧lucky✧", "🐼(￣▽￣)", "🎍(◕‿◕)🎍"],
-      fonts: [ {name:"Straight Block Bold", key:"wide"}, {name:"Gothic Roots", key:"gothic"} ]
-    },
-    "rose": {
-      desc: "Crimson roses display dense defensive thorns that shield songbirds from predators. Their sweet buds support vital butterflies and insects all summer long.",
-      kaomojis: ["🌹(♨_♨)", "(✿ ♥‿♥)", "✧crimson✧", "🌹(•_•✿)", "⊂(✿﹏✿)⊃"],
-      fonts: [ {name:"Romantic Script", key:"script"}, {name:"Gothic Drama", key:"gothic"} ]
-    },
-    "maple": {
-      desc: "Mini maple trees sap sugars to feed dynamic soil fungi nets. Their wide leaf umbrellas catch storms to stop dangerous mud movement.",
-      kaomojis: ["🍁(👁️_👁️)", "ﾍ(￣▽￣*)🍁", "✧autumn✧", "🍁(◠‿◠)", "(🍁'⌣')"],
-      fonts: [ {name:"Spaced Autumn", key:"wide"}, {name:"Script Outline", key:"script"} ]
-    },
-    "mushroom": {
-      desc: "Shroom patches break down old rotting fallen wood logs into clean rich soil compost. This returns crucial core vitamins back into the forest loops.",
-      kaomojis: ["🍄(𖦹_𖦹)🍄", "(•͈ᴗ•͈)🍄", "✧shroom✧", "🍄(❛‿❛)", "(🍄•‿•🍄)"],
-      fonts: [ {name:"Gothic Fungi", key:"gothic"}, {name:"Round Wide Text", key:"wide"} ]
-    }
-  };
-
-  var maps = {
-    gothic: {
-      a:'𝔞',b:'𝔔',c:'𝔠',d:'𝔡',e:'𝔢',f:'𝔣',g:'𝔤',h:'𝔥',i:'𝔦',j:'𝔧',k:'𝔨',l:'𝔩',m:'𝔪',n:'𝔫',o:'𝔬',p:'𝔭',q:'𝔮',r:'𝔯',s:'𝔰',t:'𝔱',u:'𝔲',v:'𝔳',w:'𝔴',x:'𝔵',y:'𝔶',z:'𝔷',
-      A:'𝔄',B:'𝔅',C:'ℭ',D:'𝔇',E:'𝔈',F:'𝔉',G:'𝔊',H:'ℌ',I:'ℑ',J:'𝔍',K:'𝔎',L:'𝔏',M:'𝔐',N:'𝔑',O:'𝔒',P:'𝔓',Q:'𝔔',R:'ℜ',S:'𝔖',T:'𝔗',U:'𝔲',V:'𝔳',W:'𝔴',X:'𝔵',Y:'𝔶',Z:'𝔷'
-    },
-    script: {
-      a:'𝓪',b:'𝓫',c:'𝓬',d:'𝓭',e:'𝓮',f:'𝓯',g:'𝓰',h:'𝓱',i:'𝓲',j:'𝓳',k:'𝓴',l:'𝓵',m:'𝓶',n:'𝓷',o:'𝓸',p:'𝓹',q:'𝓺',r:'𝓻',s:'𝓼',t:'𝓽',u:'𝓾',v:'𝓿',w:'𝔀',x:'𝔁',y:'𝔂',z:'𝔃',
-      A:'𝓐',B:'𝓑',C:'𝓒',D:'𝓓',E:'𝓔',F:'𝓕',G:'𝓖',H:'𝓗',I:'𝓘',J:'𝓙',K:'𝓚',L:'𝓛',M:'𝓜',N:'𝓝',O:'𝓞',P:'𝓟',Q:'𝓠',R:'𝓡',S:'𝓢',T:'𝓣',U:'𝓤',V:'𝓥',W:'𝓦',X:'𝓧',Y:'𝓨',Z:'𝓩'
-    },
-    wide: {
-      a:'ａ',b:'ｂ',c:'ｃ',d:'ｄ',e:'ｅ',f:'ｆ',g:'ｇ',h:'ｈ',i:'ｉ',j:'ｊ',k:'ｋ',l:'ｌ',m:'ｍ',n:'ｎ',o:'ｏ',p:'ｐ',q:'ｑ',r:'ｒ',s:'ｓ',t:'ｔ',u:'ｕ',v:'ｖ',w:'ｗ',x:'ｘ',y:'ｙ',z:'ｚ',
-      A:'Ａ',B:'Ｂ',C:'Ｃ',D:'Ｄ',E:'Ｅ',F:'Ｆ',G:'Ｇ',H:'Ｈ',I:'Ｉ',J:'Ｊ',K:'Ｋ',L:'Ｌ',M:'Ｍ',N:'Ｎ',O:'Ｏ',P:'Ｐ',Q:'Ｑ',R:'Ｒ',S:'Ｓ',T:'Ｔ',U:'Ｕ',V:'Ｖ',W:'Ｗ',X:'Ｘ',Y:'Ｙ',Z:'Ｚ'
-    }
-  };
-
-  function convertStr(str, type) {
-    var out = '', m = maps[type];
-    for (var i = 0; i < str.length; i++) {
-      var c = str[i];
-      out += (m && m[c]) ? m[c] : c;
-    }
-    return out;
-  }
-
-  function copyText(val) {
-    navigator.clipboard.writeText(val);
-    alert("📋 Copied: " + val);
-  }
-
-  function genFonts() {
-    var txt = document.getElementById('cust-txt-in').value || 'Plant Pal';
-    var fBox = document.getElementById('fnt-box');
-    var pConfig = plantData[kind];
-    var out = [];
-    
-    // Changes font styling types to match selected plant engine
-    for (var j = 0; j < pConfig.fonts.length; j++) {
-      var fType = pConfig.fonts[j].key;
-      var fName = pConfig.fonts[j].name;
-      var converted = convertStr(txt, fType);
-      out.push('<div class="fnt-row" onclick="copyText(\''+converted+'\')"><span>'+converted+'</span><span style="color:#004d40; font-size:9px; font-weight:normal;">['+fName+'] click to copy</span></div>');
-    }
-    fBox.innerHTML = out.join('');
-  }
-
-  function updateStickers() {
-    var pConfig = plantData[kind];
-    document.getElementById('eco-desc').innerText = pConfig.desc;
-    
-    var sBox = document.getElementById('stk-box');
-    var sOut = [];
-    for(var i=0; i<pConfig.kaomojis.length; i++) {
-      sOut.push('<button class="stk-btn" onclick="copyText(\''+pConfig.kaomojis[i]+'\')">'+pConfig.kaomojis[i]+'</button>');
-    }
-    sBox.innerHTML = sOut.join('');
-    genFonts();
-  }
-
-  if(localStorage.getItem('p_hist')){try{historyLog=JSON.parse(localStorage.getItem('p_hist'));}catch(e){}}
-
-  setInterval(function(){
-    var d=new Date();
-    document.getElementById('wdg-time').innerText=d.toLocaleTimeString()+' ('+d.toLocaleDateString()+')';
-  },1000);
-
-  setInterval(function(){if(!on&&Date.now()-act>600000){sleep=true;msg();draw();}},10000);
-  function tch(){act=Date.now();sleep=false;msg();}
-  function lvl(){return pts>=9?3:pts>=6?2:pts>=3?1:0;}
-  
-  function setMode(){
-    var m=document.getElementById('tmode').value,b=document.getElementById('tmbx');
-    if(m=="focus"){b.className="tm-box mode-focus";document.getElementById('cust').value="25";}
-    else{b.className="tm-box mode-break";document.getElementById('cust').value="5";}
-    applyCustomTime();
-  }
-  function applyCustomTime(){clearInterval(mId);on=false;document.getElementById('go').innerText="Start";time=parseInt(document.getElementById('cust').value)*60;show();}
-  function run(){
-    tch();var b=document.getElementById('go');
-    if(on){clearInterval(mId);on=false;b.innerText="Start";}
-    else{on=true;b.innerText="Pause";mId=setInterval(function(){if(time>0){time--;show();}else{reset();var m=document.getElementById('tmode').value;if(m=="focus"){pts+=3;alert("Focus session complete!");}else{alert("Break over!");}tch();draw();checkWin();}},1000);}
-  }
-  function reset(){clearInterval(mId);on=false;var m=document.getElementById('tmode').value;time=(m=="focus"?25:5)*60;document.getElementById('cust').value=m=="focus"?"25":"5";document.getElementById('go').innerText="Start";show();}
-  function show(){var m=Math.floor(time/60),s=time%60;document.getElementById('tm').innerText=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
-  function add(){var i=document.getElementById('in'),v=i.value.trim();if(!v)return;list.push({t:v,d:false});i.value='';ren();tch();}
-  
-  window.hF=function(el){
-    if(lockGrowth)return;var x=parseInt(el.getAttribute('data-i'));list[x].d=!list[x].d;
-    if(list[x].d){
-      pts++;var timestamp=new Date().toLocaleTimeString();
-      historyLog.unshift(list[x].t+' ['+timestamp+']');
-      localStorage.setItem('p_hist',JSON.stringify(historyLog));
-    }else{if(pts>0)pts--;}
-    ren();tch();draw();checkWin();
-  };
-  
-  window.hR=function(el){if(lockGrowth)return;var x=parseInt(el.getAttribute('data-i'));if(list[x].d&&pts>0)pts--;list.splice(x,1);ren();tch();draw();};
-  function clearHist(){historyLog=[];localStorage.removeItem('p_hist');ren();}
-  
-  function ren(){
-    var out=[];for(var i=0;i<list.length;i++){var item=list[i],cls=item.d?' class="dn"':'',chk=item.d?' checked':'';out.push('<li'+cls+'><label><input type="checkbox"'+chk+' data-i="'+i+'" onclick="window.hF(this)"><span>'+item.t+'</span></label><button class="dl" data-i="'+i+'" onclick="window.hR(this)">X</button></li>');}
-    document.getElementById('el').innerHTML=out.join('');
-    var hOut=[];for(var j=0;j<historyLog.length;j++){hOut.push('<li style="color:#666;">✓ '+historyLog[j]+'</li>');}
-    document.getElementById('hist-log').innerHTML=hOut.join('');
-    msg();
-  }
-</script>
-<script>
-  function tune(){
-    var b=document.getElementById('m'),mt=document.getElementById('mtype').value;
-    try{
-      if(!aCtx)aCtx=new(window.AudioContext||window.webkitAudioContext)();
-      if(play){clearInterval(synthId);play=false;b.innerText="🎵 Synthesize Music";}
-      else{
-        play=true;b.innerText="⏸️ Stop Beats";
-        synthId=setInterval(function(){
-          var nw=aCtx.currentTime;
-          if(mt=="chill"){
-            var f=130.81+((beat)%4)*20,o=aCtx.createOscillator(),g=aCtx.createGain();o.type='triangle';o.frequency.setValueAtTime(f,nw);o.connect(g);g.connect(aCtx.destination);g.gain.setValueAtTime(0.015,nw);g.gain.exponentialRampToValueAtTime(0.001,nw+1.8);o.start(nw);o.stop(nw+1.8);
-          }else if(mt=="jazz"){
-            var chords=[146.83,164.81,196.00,220.00],f=chords[beat%chords.length];var o=aCtx.createOscillator(),g=aCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,nw);o.connect(g);g.connect(aCtx.destination);g.gain.setValueAtTime(0.02,nw);g.gain.exponentialRampToValueAtTime(0.001,nw+2.5);o.start(nw);o.stop(nw+2.5);
-          }else if(mt=="rain"){
-            var o=aCtx.createOscillator(),g=aCtx.createGain();o.frequency.setValueAtTime(55+Math.random()*10,nw);o.connect(g);g.connect(aCtx.destination);g.gain.setValueAtTime(0.01,nw);g.gain.exponentialRampToValueAtTime(0.001,nw+0.12);o.start(nw);o.stop(nw+0.12);
-          }else if(mt=="cosmic"){
-            var f=73.42+Math.sin(beat*0.2)*5,o=aCtx.createOscillator(),g=aCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,nw);o.connect(g);g.connect(aCtx.destination);g.gain.setValueAtTime(0.025,nw);g.gain.exponentialRampToValueAtTime(0.001,nw+3);o.start(nw);o.stop(nw+3);
-          }else if(mt=="retro"){
-            var notes=[261.63,329.63,392.00,523.25],f=notes[beat%notes.length];var o=aCtx.createOscillator(),g=aCtx.createGain();o.type='square';o.frequency.setValueAtTime(f,nw);o.connect(g);g.connect(aCtx.destination);g.gain.setValueAtTime(0.008,nw);g.gain.exponentialRampToValueAtTime(0.001,nw+0.4);o.start(nw);o.stop(nw+0.4);
-          }beat++;
-        },mt=="rain"?120:mt=="retro"?250:900);
-      }
-    }catch(e){b.innerText="⚠️ Audio Lock";}
-  }
-  function chg(){
-    if(lockGrowth)return;kind=document.getElementById('pt').value;var b="#f4f9f4",c="#d8f3dc";
-    if(kind=="cactus"||kind=="rose"){b="#fdf0d5";c="#fcd5a1";}else if(kind=="flower"||kind=="mushroom"){b="#fffbfa";c="#fef1d2";}else if(kind=="orchid"||kind=="maple"){b="#1a1a2e";c="#16213e";}else if(kind=="bamboo"||kind=="fern"){b="#f0f7f4";c="#cdeac0";}
-    document.body.style.background=b;cv.style.background=c;tch();updateStickers();draw();
-  }
-  function checkWin(){
-    var currentAnimal=plantPets[kind];
-    if(pts&&pts%9===0&&!lockGrowth){
-      lockGrowth=true;var d=new Date(),stamp=d.toLocaleDateString()+' @ '+d.toLocaleTimeString();
-      var e=document.createElement('div');e.className='pet';e.innerText=currentAnimal;e.style.left=Math.random()*450+'px';document.getElementById('an').appendChild(e);
-      pets.push({dom:e,x:parseFloat(e.style.left),tx:parseFloat(e.style.left),ani:currentAnimal});
-      setTimeout(function(){
-        if(confirm("🎉 Plant fully grown! Unlocked: "+currentAnimal+" on "+stamp+"!\n\nReady to reset the checklist and plant a new seed?")){pts=0;list=[];}
-        lockGrowth=false;ren();draw();
-      },7000);
-    }
-  }
-  setInterval(function(){for(var i=0; i<pets.length;i++){var p=pets[i];if(Math.random()<0.2)p.tx=Math.random()*450;if(Math.abs(p.x-p.tx)>2){p.x+=p.tx>p.x?2:-2;p.dom.style.bottom=(Math.sin(p.x*0.1)*4+2)+'px';}p.dom.style.left=p.x+'px';}},80);
-  function msg(){
-    var l=pts>=9?3:pts>=6?2:pts>=3?1:0,n=Math.max(0,9-pts),t="Needs "+n+" checks to fully grow!";
-    if(lockGrowth)t="✨ Admiring growth! Reset prompt loading...";
-    else if(sleep)t="Zzz... Pal is sleepy from neglect!";else if(l==1)t="Strong sprout! ("+n+" left)";else if(l==2)t="Thick and growing! ("+n+" left)";else if(l==3||pts>=9)t="Grand size! Unlocked its special pet!";
-    document.getElementById('st').innerText=t;
-  }
-  function pxl(x,y,w,h,c){cx.fillStyle=c;cx.fillRect(x*9,y*9,w*9,h*9);}
-  function draw(){
-    cx.clearRect(0,0,144,144);var l=pts>=9?3:pts>=6?2:pts>=3?1:0;pxl(4,13,8,1,"#c2c5cc");pxl(4,14,8,1,"#8d99ae");pxl(5,12,6,1,'#4a3728');
-    if(sleep){pxl(7,10,2,2,'#52b788');cx.fillStyle=(kind=="orchid"||kind=="maple")?'#fff':'#2f3e46';cx.font="12px monospace";cx.fillText("z Z",100,40);return;}
-    var k=kind;
-    if(k=="sprout"){
-      if(l>0||lockGrowth){pxl(7,10,2,2,'#52b788');}if(l>1||lockGrowth){pxl(7,8,2,2,'#52b788');pxl(5,9,2,1,'#74c69d');pxl(9,9,2,1,'#74c69d');}if(l>2||lockGrowth){pxl(7,5,2,3,'#52b788');pxl(4,7,3,1,'#74c69d');}
-    }else if(k=="cactus"){
-      if(l>0||lockGrowth){pxl(7,10,2,2,'#2d6a4f');}if(l>1||lockGrowth){pxl(6,8,4,2,'#2d6a4f');pxl(5,9,1,2,'#40916c');}if(l>2||lockGrowth){pxl(7,5,2,3,'#2d6a4f');pxl(9,6,1,2,'#40916c');}
-    }else if(k=="flower"){
-      if(l>0||lockGrowth){pxl(7,10,2,1,'#1b4332');}if(l>1||lockGrowth){pxl(7,8,2,2,'#2d6a4f');pxl(5,9,2,1,'#74c69d');}if(l>2||lockGrowth){pxl(5,5,6,3,'#ffc300');pxl(7,6,2,1,'#ffb703');}
-    }else if(k=="orchid"){
-      if(l>0||lockGrowth){pxl(7,10,2,2,'#7209b7');}if(l>1||lockGrowth){pxl(6,8,4,2,'#560bad');}if(l>2||lockGrowth){pxl(4,6,8,2,'#b5179e');pxl(7,5,2,1,'#f72585');}
-    }else if(k=="sakura"){
-      if(l>0||lockGrowth){pxl(7,10,2,2,'#6f4e37');}if(l>1||lockGrowth){pxl(6,8,3,2,'#6f4e37');pxl(5,8,1,1,'#ffb3c1');}if(l>2||lockGrowth){pxl(4,5,7,3,'#ffcbf2');pxl(8,4,2,2,'#ffb3c1');}
-    }else if(k=="fern"){
-      if(l>0||lockGrowth){pxl(7,11,2,1,'#1b4332');}if(l>1||lockGrowth){pxl(6,9,3,2,'#1b4332');pxl(4,10,2,1,'#2d6a4f');}if(l>2||lockGrowth){pxl(5,6,4,3,'#1b4332');pxl(9,7,2,1,'#2d6a4f');pxl(3,8,2,1,'#2d6a4f');}
-    }else if(k=="bamboo"){
-      if(l>0||lockGrowth){pxl(7,9,2,3,'#38b000');}if(l>1||lockGrowth){pxl(7,6,2,3,'#38b000');pxl(9,8,2,1,'#70e000');}if(l>2||lockGrowth){pxl(7,3,2,3,'#38b000');pxl(5,5,2,1,'#70e000');}
-    }else if(k=="rose"){
-      if(l>0||lockGrowth){pxl(7,10,2,2,'#2d6a4f');}if(l>1||lockGrowth){pxl(7,8,2,2,'#2d6a4f');pxl(5,8,2,1,'#40916c');}if(l>2||lockGrowth){pxl(6,5,4,3,'#e63946');pxl(7,4,2,1,'#b5179e');}
-    }else if(k=="maple"){
-      if(l>0||lockGrowth){pxl(7,10,2,2,'#af2916');}if(l>1||lockGrowth){pxl(6,8,4,2,'#af2916');pxl(4,9,2,1,'#d90429');}if(l>2||lockGrowth){pxl(5,5,6,3,'#d90429');pxl(7,4,2,1,'#ffb703');}
-    }else if(k=="mushroom"){
-      if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}
-    }
-  }
-  ren();show();updateStickers();draw();msg();
-</script>
+  <!-- Loading script files back-to-back -->
+  <script src="database.js"></script>
+  <script src="audio.js"></script>
+  <script src="engine.js"></script>
 </body>
 </html>
