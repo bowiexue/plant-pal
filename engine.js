@@ -18,7 +18,6 @@ function updateStickers(){
   sBox.innerHTML=sOut.join('');genFonts();
 }
 
-// Particle Sandbox Physics Trigger Mechanisms
 var pz = document.getElementById('playzone');
 var trailGlitters = ["✨", "▫️", "▪️", "⭐", "▪️"];
 var burstElements = ["🌸", "🐰", "⭐", "🍃", "✨", "🐼", "🦊", "🐸", "🦋", "🐿️"];
@@ -29,19 +28,16 @@ function spawnNode(x, y, char, type) {
   n.innerText = char;
   n.style.left = x + 'px';
   n.style.top = y + 'px';
-  
-  // Sets dynamic random vectors for explosion velocities
   var mx = (Math.random() - 0.5) * (type === 'click' ? 120 : 30);
   var my = (Math.random() - 0.5) * (type === 'click' ? 120 : 30) - (type === 'click' ? 40 : 15);
   n.style.setProperty('--mx', mx + 'px');
   n.style.setProperty('--my', my + 'px');
-  
   pz.appendChild(n);
   setTimeout(function() { n.remove(); }, 800);
 }
 
 pz.addEventListener('mousemove', function(e) {
-  if (Math.random() > 0.15) return; // Controls trail particle density
+  if (Math.random() > 0.15) return;
   var rect = pz.getBoundingClientRect();
   var x = e.clientX - rect.left;
   var y = e.clientY - rect.top;
@@ -53,7 +49,6 @@ pz.addEventListener('mousedown', function(e) {
   var rect = pz.getBoundingClientRect();
   var x = e.clientX - rect.left;
   var y = e.clientY - rect.top;
-  // Explodes multiple star and pet animal nodes outwards simultaneously
   for (var i = 0; i < 8; i++) {
     var randomBurst = burstElements[Math.floor(Math.random() * burstElements.length)];
     spawnNode(x, y, randomBurst, 'click');
@@ -126,7 +121,7 @@ function draw(){
   else if(k=="bamboo"){if(l>0||lockGrowth){pxl(7,9,2,3,'#38b000');}if(l>1||lockGrowth){pxl(7,6,2,3,'#38b000');pxl(9,8,2,1,'#70e000');}if(l>2||lockGrowth){pxl(7,3,2,3,'#38b000');pxl(5,5,2,1,'#70e000');}}
   else if(k=="rose"){if(l>0||lockGrowth){pxl(7,10,2,2,'#2d6a4f');}if(l>1||lockGrowth){pxl(7,8,2,2,'#2d6a4f');pxl(5,8,2,1,'#40916c');}if(l>2||lockGrowth){pxl(6,5,4,3,'#e63946');pxl(7,4,2,1,'#b5179e');}}
   else if(k=="maple"){if(l>0||lockGrowth){pxl(7,10,2,2,'#af2916');}if(l>1||lockGrowth){pxl(6,8,4,2,'#af2916');pxl(4,9,2,1,'#d90429');}if(l>2||lockGrowth){pxl(5,5,6,3,'#d90429');pxl(7,4,2,1,'#ffb703');}}
-  else if(kmushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
+  else if(kind=="mushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
 }
 
 ren(); show(); updateStickers(); draw(); msg();
