@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Virtual Plant Pal</title>
+    <style>
+        :root {
+            --bg-color: #f4f9f4;
+            --card-bg: #ffffff;
+            --primary: #52b788;
+            --primary-dark: #2d6a4f;
+            --accent: #d8f3dc;
+            --text: #2f3e46;
+            --sleep: #90a9b7;
+            --music-btn: #457b9d;
+            --music-btn-active: #1d3557;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            width: 360px;
+            text-align: center;
+        }
+        canvas {
+            background: var(--accent);
+            border-radius: 12px;
+            image-rendering: pixelated;
+            margin-bottom: 12px;
+        }
+        .status-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            height: 20px;
+        }
+        .timer-display {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+        .music-btn {
+            background-color: var(--music-btn);
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .music-btn.active {
+            background-color: var(--music-btn-active);
+        }
+        .todo-section {
+            text-align: left;
+            border-top: 2px dashed #e0e0e0;
+            padding-top: 12px;
+        }
+        .todo-input-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        li.completed span {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .delete-btn {
+            background: none;
+            color: #ff6b6b;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>SproutPal 🌿</h2>
+    <canvas id="plantCanvas" width="160" height="160"></canvas>
+    <div class="status-text" id="statusText">Your sprout is happy!</div>
+
+    <div class="timer-display" id="timerDisplay">25:00</div>
+    <div class="btn-group">
+        <button id="startTimerBtn" onclick="toggleTimer()">Start Focus</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+
+    <button id="musicBtn" class="music-btn" onclick="toggleMusic()">🎵 Play Lo-Fi Music</button>
+
+    <div class="todo-section">
+        <div class="todo-input-row">
+            <input type="text" id="taskInput" placeholder="Add a daily task..." />
+            <button onclick="addTask()">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('plantCanvas');
+    const ctx = canvas.getContext('2d');
+    const pixelSize = 10; 
+
+    // Game / Pal State
+    let growthLevel = 0; 
+    let isSleepy = false;
+    let lastActivityTime = Date.now();
+
+    // Timer State (25 mins default)
+    let timeLeft = 25 * 60;
+    let timerId = null;
+    let isRunning = false;
+
+    // To-Do List Data
+    let tasks = [];
+
+    // Audio Context Setup for Synthesized Sound Effects
+    let audioCtx = null;
+    let musicInterval = null;
+    let isMusicPlaying = false;
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    // Sound FX: Short Click
+    function playClickSound() {
+        initAudio();
+        if (!audioCtx) return;
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+    }
+
+    // Sound FX: Task Complete (Happy Chime)
+    function playChimeSound() {
+        initAudio();
+        if (!audioCtx) return;
+        let now = audioCtx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, index) => {
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(freq, now + index * 0.08);
+            gain.gain.setValueAtTime(0.08, now + index * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.08 + 0.3);
+            osc.start(now + index * 0.08);
+            osc.stop(now + index * 0.08 + 0.3);
+        });
+    }
+
+    // Sound FX: Level Up / Timer Finish
+    function playLevelUpSound() {
+        initAudio();
+        if (!audioCtx) return;
+        let now = audioCtx.currentTime;
+        let notes = [587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50];
+        notes.forEach((freq, index) => {
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + index * 0.1);
+            gain.gain.setValueAtTime(0.1, now + index * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.1 + 0.4);
+            osc.start(now + index * 0.1);
+            osc.stop(now + index * 0.1 + 0.4);
+        });
+    }
+
+    // Synthesized Chill Lo-Fi Chill Beats Generator
+    function toggleMusic() {
+        initAudio();
+        const musicBtn = document.getElementById('musicBtn');
+        
+        if (isMusicPlaying) {
+            clearInterval(musicInterval);
+            isMusicPlaying = false;
+            musicBtn.innerText = "🎵 Play Lo-Fi Music";
+            musicBtn.classList.remove('active');
+        } else {
+            isMusicPlaying = true;
+            musicBtn.innerText = "⏸️ Pause Lo-Fi Music";
+            musicBtn.classList.add('active');
+            
+            // Loop chord progression & soft snare pop
+            let beatCount = 0;
+            // Lo-fi chord frequencies: Am7, D7, Gmaj7, Cmaj7
+            const progression = [
+                [220, 261.63, 329.63, 392.00], // Am7
+                [146.83, 293.66, 349.23, 440.00], // D7
+                [196.00, 246.94, 293.66, 381.99], // Gmaj7
+                [130.81, 261.63, 329.63, 392.00]  // Cmaj7
+            ];
+
+            musicInterval = setInterval(() => {
+                let now = audioCtx.currentTime;
+                let chordIndex = Math.floor(beatCount / 4) % progression.length;
+                
+                // Play soft electric piano style chord on downbeats
+                if (beatCount % 2 === 0) {
+                    progression[chordIndex].forEach(freq => {
+                        let osc = audioCtx.createOscillator();
+                        let gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        gain.gain.setValueAtTime(0.04, now);
+                        gain.gain.linearRampToValueAtTime(0.02, now + 0.2);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+                        osc.start(now);
+                        osc.stop(now + 1.8);
+                    });
+                }
+
+                // Soft lo-fi vinyl crackle/pop/beat mimicry
+                if (beatCount % 2 === 1) {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(80, now);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    gain.gain.setValueAtTime(0.03, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                }
+
+                beatCount++;
+            }, 1000); // 60 BPM chill tempo
+        }
+    }
+
+    // Check neglect every 10 seconds
+    setInterval(() => {
+        if (!isRunning && Date.now() - lastActivityTime > 600000) { 
+            isSleepy = true;
+                
