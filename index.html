@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><title>Plant Pal Square</title>
+  <meta charset="UTF-8"><title>Plant Pal Mega Edition</title>
 </head>
 <body>
   <div class="bx">
-    <h4 style="margin:0 0 5px 0;">SproutPal Pro 🌿</h4>
+    <h4 style="margin:0 0 5px 0; font-size:16px;">SproutPal Pro Mega 🌿</h4>
     
     <!-- Weather Widget Display Box -->
-    <div id="wdg" class="sl" style="background:#e8f1f5;border-color:#b0c4de;margin-bottom:2px;">
+    <div id="wdg" class="sl" style="background:#e8f1f5;border-color:#b0c4de;margin-bottom:4px;">
       <div class="sl-row" style="font-weight:bold;">
         <span>Palo Alto, CA 📍</span>
         <span id="wdg-temp">73°F</span>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <!-- MAIN MIDDLE ROW: Canvas Left, Controls Right -->
+    <!-- MAIN MIDDLE GRID: Canvas Left, Controls Right -->
     <div class="mid-row">
       <div class="cv-wrap">
         <canvas id="cv" width="144" height="144"></canvas>
@@ -35,6 +35,13 @@
           <button onclick="reset()">Reset</button>
         </div>
       </div>
+    </div>
+    
+    <!-- DYNAMIC STICKER & TEXT STYLE SECTION -->
+    <div class="sl" style="background:#fff3e0; border-color:#ffe0b2;">
+      <div style="font-size:11px; font-weight:bold; color:#e65100; margin-bottom:4px;">✨ Plant Theme Stickers & Text Fonts (Click to Copy):</div>
+      <div class="stk-row" id="stk-box"></div>
+      <div class="fnt-col" id="fnt-box"></div>
     </div>
     
     <!-- Music Synth Interface -->
@@ -107,96 +114,141 @@
   *{box-sizing:border-box;}
   body{font-family:monospace;background:var(--bg);color:var(--t);display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:5px;}
   
-  /* WIDENED & COMPACT SQUARE WINDOW CONTAINER */
-  .bx{background:var(--c);padding:12px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);width:370px;text-align:center;display:flex;flex-direction:column;gap:6px;}
+  /* EXPANDED MEGA CONTAINER */
+  .bx{background:var(--c);padding:15px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);width:620px;text-align:center;display:flex;flex-direction:column;gap:8px;}
   
-  /* HORIZONTAL FLEX TILES */
-  .mid-row{display:flex;gap:10px;align-items:center;justify-content:space-between;width:100%;}
-  .cv-wrap{width:144px;height:144px;background:var(--ac);border-radius:8px;display:flex;justify-content:center;align-items:center;flex-shrink:0;}
-  .side-ctrls{display:flex;flex-direction:column;gap:5px;flex:1;justify-content:center;}
+  /* SIDE BY SIDE ARRANGEMENT ROWS */
+  .mid-row{display:flex;gap:15px;align-items:center;justify-content:space-between;width:100%;}
+  .cv-wrap{width:180px;height:180px;background:var(--ac);border-radius:8px;display:flex;justify-content:center;align-items:center;flex-shrink:0;}
+  .side-ctrls{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;}
   
-  canvas{background:var(--ac);image-rendering:pixelated;}
-  .st{font-size:10px;font-weight:bold;color:var(--pd);min-height:20px;display:flex;align-items:center;justify-content:center;line-height:1.1;}
-  .tm-box{background:#f8f9fa;padding:4px;border-radius:6px;border:1px solid #e9ecef;}
-  .tm{font-size:24px;font-weight:bold;margin:0;}
-  .bt{display:flex;gap:4px;justify-content:center;}
-  button{background:var(--p);color:#fff;border:none;padding:5px 8px;border-radius:6px;cursor:pointer;font-weight:bold;font-family:monospace;font-size:11px;}
+  /* STICKER COPIER BOX ITEMS */
+  .stk-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
+  .stk-btn{background:#fff;border:1px solid #ffcc80;padding:4px 8px;font-size:11px;border-radius:20px;cursor:pointer;font-weight:bold;}
+  .stk-btn:hover{background:#fff3e0;}
+  .fnt-col{display:flex;flex-direction:column;gap:4px;text-align:left;}
+  .fnt-row{display:flex;justify-content:space-between;background:#fff;padding:4px 8px;border-radius:4px;border:1px solid #ffe0b2;font-size:11px;cursor:pointer;}
+  .fnt-row:hover{background:#fff3e0;}
+
+  canvas{background:var(--ac);image-rendering:pixelated;width:160px;height:160px;}
+  .st{font-size:11px;font-weight:bold;color:var(--pd);min-height:22px;display:flex;align-items:center;justify-content:center;}
+  .tm-box{background:#f8f9fa;padding:6px;border-radius:6px;border:1px solid #e9ecef;}
+  .tm{font-size:32px;font-weight:bold;margin:0;}
+  .bt{display:flex;gap:6px;justify-content:center;}
+  button{background:var(--p);color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-family:monospace;font-size:12px;}
   button:hover{background:var(--pd);}
-  .mu-box{background:#457b9d;padding:5px;border-radius:6px;display:flex;flex-direction:column;gap:3px;}
+  .mu-box{background:#457b9d;padding:6px;border-radius:6px;display:flex;flex-direction:column;gap:4px;}
   .mu-box span,.mu-box select,.mu-box button{color:#fff;font-family:monospace;font-size:11px;}
-  .mu-box select{background:#1d3557;border:1px solid #fff;border-radius:4px;padding:1px;}
-  .mu{background:#1d3557;width:100%;margin-top:1px;padding:4px;}
-  .sl{font-size:10px;font-weight:bold;display:flex;flex-direction:column;gap:3px;text-align:left;background:#f8f9fa;padding:5px;border-radius:6px;border:1px solid #e9ecef;}
+  .mu-box select{background:#1d3557;border:1px solid #fff;border-radius:4px;padding:2px;}
+  .mu{background:#1d3557;width:100%;margin-top:2px;padding:5px;}
+  .sl{font-size:11px;font-weight:bold;display:flex;flex-direction:column;gap:4px;text-align:left;background:#f8f9fa;padding:6px;border-radius:6px;border:1px solid #e9ecef;}
   .sl-row{display:flex;justify-content:space-between;align-items:center;}
-  select,input[type="number"]{font-family:monospace;font-size:11px;border-radius:4px;border:1px solid #ccc;padding:1px 3px;}
-  input[type="number"]{width:45px;}
-  .an-box{background:#f8f9fa;padding:4px;border-radius:6px;font-size:11px;font-weight:bold;text-align:left;height:42px;position:relative;border:1px solid #e9ecef;}
-  .pt-c{position:absolute;bottom:0;left:0;width:100%;height:26px;}
-  .pet{position:absolute;font-size:16px;bottom:2px;transition:left 0.4s,bottom 0.2s;line-height:1;}
-  .td{text-align:left;border-top:1px dashed #ccc;padding-top:4px;display:flex;flex-direction:column;gap:4px;}
+  select,input[type="number"]{font-family:monospace;font-size:11px;border-radius:4px;border:1px solid #ccc;padding:2px 4px;}
+  input[type="number"]{width:50px;}
+  .an-box{background:#f8f9fa;padding:4px;border-radius:6px;font-size:11px;font-weight:bold;text-align:left;height:45px;position:relative;border:1px solid #e9ecef;}
+  .pt-c{position:absolute;bottom:0;left:0;width:100%;height:28px;}
+  .pet{position:absolute;font-size:18px;bottom:2px;transition:left 0.4s,bottom 0.2s;line-height:1;}
+  .td{text-align:left;border-top:1px dashed #ccc;padding-top:6px;display:flex;flex-direction:column;gap:4px;}
   .rw{display:flex;gap:4px;}
-  input[type="text"]{flex:1;padding:4px;border:1px solid #ccc;border-radius:4px;font-family:monospace;font-size:11px;}
-  ul{list-style:none;padding:0;margin:0;max-height:65px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
-  li{display:flex;align-items:center;justify-content:space-between;font-size:11px;padding:2px;background:#fdfdfd;border:1px solid #f0f0f0;border-radius:4px;}
+  input[type="text"]{flex:1;padding:5px;border:1px solid #ccc;border-radius:4px;font-family:monospace;font-size:11px;}
+  ul{list-style:none;padding:0;margin:0;max-height:75px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+  li{display:flex;align-items:center;justify-content:space-between;font-size:11px;padding:3px;background:#fdfdfd;border:1px solid #f0f0f0;border-radius:4px;}
   li label{display:flex;align-items:center;gap:4px;cursor:pointer;flex:1;overflow:hidden;}
   .dn span{text-decoration:line-through;color:#888;}
-  .dl{background:none;color:#ff6b6b;padding:0 3px;}
+  .dl{background:none;color:#ff6b6b;padding:0 4px;}
   .mode-focus{border-left:4px solid var(--p);}
   .mode-break{border-left:4px solid #457b9d;}
 </style>
-  <script>
-    var cv=document.getElementById('cv'),cx=cv.getContext('2d'),pts=0,sleep=false,act=Date.now(),time=1500,mId=null,on=false,list=[],historyLog=[],kind="sprout",aCtx=null,synthId=null,play=false,beat=0,pets=[],lockGrowth=false;
-    
-    var plantPets={"sprout":"🐰","cactus":"🐪","flower":"🐝","orchid":"🦚","sakura":"🦊","fern":"🦌","bamboo":"🐼","rose":"🦋","maple":"🐿️","mushroom":"🐸"};
+<script>
+  var cv=document.getElementById('cv'),cx=cv.getContext('2d'),pts=0,sleep=false,act=Date.now(),time=1500,mId=null,on=false,list=[],historyLog=[],kind="sprout",aCtx=null,synthId=null,play=false,beat=0,pets=[],lockGrowth=false;
+  
+  var plantPets={"sprout":"🐰","cactus":"🐪","flower":"🐝","orchid":"🦚","sakura":"🦊","fern":"🦌","bamboo":"🐼","rose":"🦋","maple":"🐿️","mushroom":"🐸"};
 
-    if(localStorage.getItem('p_hist')){try{historyLog=JSON.parse(localStorage.getItem('p_hist'));}catch(e){}}
+  // Theme Kaomoji and Font Variations Dataset 
+  var themeStickers = {
+    "sprout": { text: ["(🌱•ᴗ•🌱)", "(っˆڡˆς)🌱", "✧sprout✧"], styles: ["𝔖𝔭𝔯𝔬𝔲𝔱 𝔓𝔞𝔩", "𝓼𝓿𝓻𝓸𝓾𝓽 𝓿𝓪𝓵", "ｓｐｒｏｕｔ  ｐａｌ"] },
+    "cactus": { text: ["🌵(•‿•)🌵", "(>_<)凸", "✧prickly✧"], styles: ["ℭ𝔞𝔠𝔱𝔲𝔰 𝔏𝔦𝔣𝔢", "𝓬𝓪𝓬𝓽𝓾𝓼 𝓵𝓲𝓯𝓮", "ｃａｃｔｕｓ  ｌｉｆｅ"] },
+    "flower": { text: ["(🌸◠‿◠)", "(*✿‿✿)", "✧sunny✧"], styles: ["𝔉𝔩𝔬𝔴𝔢𝔯 𝔓𝔬𝔴𝔢𝔯", "𝓯𝓵𝓸𝔀𝓮𝓻 𝓿𝓸𝔀𝓮𝓻", "ｆｌｏｗｅｒ  ｐｏｗｅｒ"] },
+    "orchid": { text: ["(｡♥‿♥｡)🔮", "(◕‿◕✿)", "✧exotic✧"], styles: ["𝔒𝔯𝔠𝔥𝔦𝔡 𝔑𝔦𝔤𝔥𝔱", "𝓸𝓻𝓬𝓿𝓲𝓭 𝓷𝓲𝓰𝓿𝓽", "ｏｒｃｈｉｄ  ｎｉｇｈｔ"] },
+    "sakura": { text: ["(💮◡💮)", "(｡✿‿✿｡)", "✧bonsai✧"], styles: ["𝔖𝔞𝔨𝔲𝔯𝔞 𝔅𝔩𝔬𝔬𝔪", "𝓼𝓪𝓴𝓾𝓻𝓪 𝓫𝓵𝓸𝓸𝓶", "ｓａｋｕｒａ  ｂｌｏｏｍ"] },
+    "fern": { text: ["🌿(ᵕ‿ᵕ)🌿", "(๑˃̵ᴗ˂̵)🍃", "✧cozy✧"], styles: ["𝔉𝔢𝔯𝔫 𝔊𝔯𝔬𝔳𝔢", "𝓯𝓿举行 𝓰𝓻𝓸𝓿𝓮", "ｆｅｒｎ  ｇｒｏｖｅ"] },
+    "bamboo": { text: ["🎍(•_•)🎍", "(ᵔᴥᵔ)🐼", "✧lucky✧"], styles: ["𝔅𝔞𝔨𝔟𝔬𝔬 ℭ𝔥𝔬𝔭", "𝓫𝓪𝓶𝓫𝓸𝓸 𝓬𝓿𝓸𝓿", "ｂａｍｂｏｏ  ｃｈｏｐ"] },
+    "rose": { text: ["🌹(♨_♨)", "(✿ ♥‿♥)", "✧crimson✧"], styles: ["𝔖𝔠𝔞𝔯𝔩𝔢𝔱 ℜ𝔬𝔰𝔢", "𝓼𝓬𝓪𝓻𝓵𝓮𝓽 𝓻𝓸𝓼𝓮", "ｓｃａｒｌｅｔ  ｒｏｓｅ"] },
+    "maple": { text: ["🍁(👁️_👁️)", "ﾍ(￣▽￣*)🍁", "✧autumn✧"], styles: ["𝔐𝔞𝔭𝔩𝔢 𝔏𝔢𝔞𝔣", "𝓶𝓪𝓿𝓵𝓮 𝓵𝓿𝓪𝓯", "ｍａｐｌｅ  ｌｅａｆ"] },
+    "mushroom": { text: ["🍄(𖦹_𖦹)🍄", "(•͈ᴗ•͈)🍄", "✧shroom✧"], styles: ["𝔉𝔲𝔫𝔤𝔦 𝔉𝔬𝔯𝔢𝔰𝔱", "𝓯𝓾𝓷𝓰𝓲 𝓯𝓸𝓻𝓮𝓼𝓽", "ｆｕｎｇｉ  ｆｏｒｅｓｔ"] }
+  };
 
-    // Real-Time Widget Loop
-    setInterval(function(){
-      var d=new Date();
-      document.getElementById('wdg-time').innerText=d.toLocaleTimeString()+' ('+d.toLocaleDateString()+')';
-    },1000);
+  function copyText(val) {
+    navigator.clipboard.writeText(val);
+    alert("📋 Copied Sticker: " + val);
+  }
 
-    setInterval(function(){if(!on&&Date.now()-act>600000){sleep=true;msg();draw();}},10000);
-    function tch(){act=Date.now();sleep=false;msg();}
-    function lvl(){return pts>=9?3:pts>=6?2:pts>=3?1:0;}
+  function updateStickers() {
+    var data = themeStickers[kind];
+    var sBox = document.getElementById('stk-box');
+    var fBox = document.getElementById('fnt-box');
     
-    function setMode(){
-      var m=document.getElementById('tmode').value,b=document.getElementById('tmbx');
-      if(m=="focus"){b.className="tm-box mode-focus";document.getElementById('cust').value="25";}
-      else{b.className="tm-box mode-break";document.getElementById('cust').value="5";}
-      applyCustomTime();
+    var sOut = [];
+    for(var i=0; i<data.text.length; i++) {
+      sOut.push('<button class="stk-btn" onclick="copyText(\''+data.text[i]+'\')">'+data.text[i]+'</button>');
     }
-    function applyCustomTime(){clearInterval(mId);on=false;document.getElementById('go').innerText="Start";time=parseInt(document.getElementById('cust').value)*60;show();}
-    function run(){
-      tch();var b=document.getElementById('go');
-      if(on){clearInterval(mId);on=false;b.innerText="Start";}
-      else{on=true;b.innerText="Pause";mId=setInterval(function(){if(time>0){time--;show();}else{reset();var m=document.getElementById('tmode').value;if(m=="focus"){pts+=3;alert("Focus session complete!");}else{alert("Break over!");}tch();draw();checkWin();}},1000);}
+    sBox.innerHTML = sOut.join('');
+
+    var fOut = [];
+    for(var j=0; j<data.styles.length; j++) {
+      fOut.push('<div class="fnt-row" onclick="copyText(\''+data.styles[j]+'\')"><span>'+data.styles[j]+'</span><span style="color:#aaa; font-size:9px;">click to copy</span></div>');
     }
-    function reset(){clearInterval(mId);on=false;var m=document.getElementById('tmode').value;time=(m=="focus"?25:5)*60;document.getElementById('cust').value=m=="focus"?"25":"5";document.getElementById('go').innerText="Start";show();}
-    function show(){var m=Math.floor(time/60),s=time%60;document.getElementById('tm').innerText=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
-    function add(){var i=document.getElementById('in'),v=i.value.trim();if(!v)return;list.push({t:v,d:false});i.value='';ren();tch();}
-    
-    window.hF=function(el){
-      if(lockGrowth)return;var x=parseInt(el.getAttribute('data-i'));list[x].d=!list[x].d;
-      if(list[x].d){
-        pts++;var timestamp=new Date().toLocaleTimeString();
-        historyLog.unshift(list[x].t+' ['+timestamp+']');
-        localStorage.setItem('p_hist',JSON.stringify(historyLog));
-      }else{if(pts>0)pts--;}
-      ren();tch();draw();checkWin();
-    };
-    
-    window.hR=function(el){if(lockGrowth)return;var x=parseInt(el.getAttribute('data-i'));if(list[x].d&&pts>0)pts--;list.splice(x,1);ren();tch();draw();};
-    function clearHist(){historyLog=[];localStorage.removeItem('p_hist');ren();}
-    
-    function ren(){
-      var out=[];for(var i=0;i<list.length;i++){var item=list[i],cls=item.d?' class="dn"':'',chk=item.d?' checked':'';out.push('<li'+cls+'><label><input type="checkbox"'+chk+' data-i="'+i+'" onclick="window.hF(this)"><span>'+item.t+'</span></label><button class="dl" data-i="'+i+'" onclick="window.hR(this)">X</button></li>');}
-      document.getElementById('el').innerHTML=out.join('');
-      var hOut=[];for(var j=0;j<historyLog.length;j++){hOut.push('<li style="color:#666;">✓ '+historyLog[j]+'</li>');}
-      document.getElementById('hist-log').innerHTML=hOut.join('');
-      msg();
-    }
+    fBox.innerHTML = fOut.join('');
+  }
+
+  if(localStorage.getItem('p_hist')){try{historyLog=JSON.parse(localStorage.getItem('p_hist'));}catch(e){}}
+
+  setInterval(function(){
+    var d=new Date();
+    document.getElementById('wdg-time').innerText=d.toLocaleTimeString()+' ('+d.toLocaleDateString()+')';
+  },1000);
+
+  setInterval(function(){if(!on&&Date.now()-act>600000){sleep=true;msg();draw();}},10000);
+  function tch(){act=Date.now();sleep=false;msg();}
+  function lvl(){return pts>=9?3:pts>=6?2:pts>=3?1:0;}
+  
+  function setMode(){
+    var m=document.getElementById('tmode').value,b=document.getElementById('tmbx');
+    if(m=="focus"){b.className="tm-box mode-focus";document.getElementById('cust').value="25";}
+    else{b.className="tm-box mode-break";document.getElementById('cust').value="5";}
+    applyCustomTime();
+  }
+  function applyCustomTime(){clearInterval(mId);on=false;document.getElementById('go').innerText="Start";time=parseInt(document.getElementById('cust').value)*60;show();}
+  function run(){
+    tch();var b=document.getElementById('go');
+    if(on){clearInterval(mId);on=false;b.innerText="Start";}
+    else{on=true;b.innerText="Pause";mId=setInterval(function(){if(time>0){time--;show();}else{reset();var m=document.getElementById('tmode').value;if(m=="focus"){pts+=3;alert("Focus session complete!");}else{alert("Break over!");}tch();draw();checkWin();}},1000);}
+  }
+  function reset(){clearInterval(mId);on=false;var m=document.getElementById('tmode').value;time=(m=="focus"?25:5)*60;document.getElementById('cust').value=m=="focus"?"25":"5";document.getElementById('go').innerText="Start";show();}
+  function show(){var m=Math.floor(time/60),s=time%60;document.getElementById('tm').innerText=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
+  function add(){var i=document.getElementById('in'),v=i.value.trim();if(!v)return;list.push({t:v,d:false});i.value='';ren();tch();}
+  
+  window.hF=function(el){
+    if(lockGrowth)return;var x=parseInt(el.getAttribute('data-i'));list[x].d=!list[x].d;
+    if(list[x].d){
+      pts++;var timestamp=new Date().toLocaleTimeString();
+      historyLog.unshift(list[x].t+' ['+timestamp+']');
+      localStorage.setItem('p_hist',JSON.stringify(historyLog));
+    }else{if(pts>0)pts--;}
+    ren();tch();draw();checkWin();
+  };
+  
+  window.hR=function(el){if(lockGrowth)return;var x=parseInt(el.getAttribute('data-i'));if(list[x].d&&pts>0)pts--;list.splice(x,1);ren();tch();draw();};
+  function clearHist(){historyLog=[];localStorage.removeItem('p_hist');ren();}
+  
+  function ren(){
+    var out=[];for(var i=0;i<list.length;i++){var item=list[i],cls=item.d?' class="dn"':'',chk=item.d?' checked':'';out.push('<li'+cls+'><label><input type="checkbox"'+chk+' data-i="'+i+'" onclick="window.hF(this)"><span>'+item.t+'</span></label><button class="dl" data-i="'+i+'" onclick="window.hR(this)">X</button></li>');}
+    document.getElementById('el').innerHTML=out.join('');
+    var hOut=[];for(var j=0;j<historyLog.length;j++){hOut.push('<li style="color:#666;">✓ '+historyLog[j]+'</li>');}
+    document.getElementById('hist-log').innerHTML=hOut.join('');
+    msg();
+  }
+</script>
     function tune(){
       var b=document.getElementById('m'),mt=document.getElementById('mtype').value;
       try{
@@ -224,13 +276,13 @@
     function chg(){
       if(lockGrowth)return;kind=document.getElementById('pt').value;var b="#f4f9f4",c="#d8f3dc";
       if(kind=="cactus"||kind=="rose"){b="#fdf0d5";c="#fcd5a1";}else if(kind=="flower"||kind=="mushroom"){b="#fffbfa";c="#fef1d2";}else if(kind=="orchid"||kind=="maple"){b="#1a1a2e";c="#16213e";}else if(kind=="bamboo"||kind=="fern"){b="#f0f7f4";c="#cdeac0";}
-      document.body.style.background=b;cv.style.background=c;tch();draw();
+      document.body.style.background=b;cv.style.background=c;tch();updateStickers();draw();
     }
     function checkWin(){
       var currentAnimal=plantPets[kind];
       if(pts&&pts%9===0&&!lockGrowth){
         lockGrowth=true;var d=new Date(),stamp=d.toLocaleDateString()+' @ '+d.toLocaleTimeString();
-        var e=document.createElement('div');e.className='pet';e.innerText=currentAnimal;e.style.left=Math.random()*300+'px';document.getElementById('an').appendChild(e);
+        var e=document.createElement('div');e.className='pet';e.innerText=currentAnimal;e.style.left=Math.random()*450+'px';document.getElementById('an').appendChild(e);
         pets.push({dom:e,x:parseFloat(e.style.left),tx:parseFloat(e.style.left),ani:currentAnimal});
         setTimeout(function(){
           if(confirm("🎉 Plant fully grown! Unlocked: "+currentAnimal+" on "+stamp+"!\n\nReady to reset the checklist and plant a new seed?")){pts=0;list=[];}
@@ -238,7 +290,7 @@
         },7000);
       }
     }
-    setInterval(function(){for(var i=0;i<pets.length;i++){var p=pets[i];if(Math.random()<0.2)p.tx=Math.random()*300;if(Math.abs(p.x-p.tx)>2){p.x+=p.tx>p.x?2:-2;p.dom.style.bottom=(Math.sin(p.x*0.1)*4+2)+'px';}p.dom.style.left=p.x+'px';}},80);
+    setInterval(function(){for(var i=0;i<pets.length;i++){var p=pets[i];if(Math.random()<0.2)p.tx=Math.random()*450;if(Math.abs(p.x-p.tx)>2){p.x+=p.tx>p.x?2:-2;p.dom.style.bottom=(Math.sin(p.x*0.1)*4+2)+'px';}p.dom.style.left=p.x+'px';}},80);
     function msg(){
       var l=lvl(),n=Math.max(0,9-pts),t="Needs "+n+" checks to fully grow!";
       if(lockGrowth)t="✨ Admiring growth! Reset prompt loading...";
@@ -272,7 +324,7 @@
         if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}
       }
     }
-    ren();show();draw();msg();
+    ren();show();updateStickers();draw();msg();
   </script>
 </body>
 </html>
