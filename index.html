@@ -34,27 +34,19 @@
       <div style="font-weight:bold; color:#164e63;">📖 Ecosystem Field Guide Report:</div>
       <div id="eco-desc" style="font-style:italic;">Loading...</div>
     </div>
-    
-    <div class="sl" style="background:#fff3e0; border-color:#ffe0b2;">
-      <div style="font-weight:bold; color:#e65100;">✨ Expanded Theme Kaomojis:</div>
-      <div class="stk-row" id="stk-box"></div>
-    </div>
 
-    <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb;">
-      <div style="font-weight:bold; color:#004d40;">🔤 Custom Font Variance Engine:</div>
-      <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="width:100%;">
-      <div class="fnt-col" id="fnt-box"></div>
-    </div>
-    
     <div class="mu-box">
       <div style="display:flex; justify-content:space-between; color:#fff;">
-        <span>Mood Synth:</span>
+        <span>Mood Synth Pack:</span>
         <select id="mtype">
           <option value="chill">Vinyl Pad</option>
           <option value="jazz">Melancholy</option>
           <option value="rain">Rainy Beats</option>
           <option value="cosmic">Space Drone</option>
           <option value="retro">Chiptune</option>
+          <option value="lofi">Ambient Lo-Fi</option>
+          <option value="synth">Lofi Synthwave</option>
+          <option value="classic">Neo-Classical piano</option>
         </select>
       </div>
       <button id="m" class="mu" onclick="tune()">🎵 Synthesize Music</button>
@@ -103,9 +95,20 @@
       </div>
       <ul id="hist-log" style="max-height:45px; opacity:0.8;"></ul>
     </div>
+
+    <!-- Pinned to bottom of the card block container layout -->
+    <div class="sl" style="background:#fff3e0; border-color:#ffe0b2; margin-top:4px;">
+      <div style="font-weight:bold; color:#e65100;">✨ Expanded Theme Kaomojis:</div>
+      <div class="stk-row" id="stk-box"></div>
+    </div>
+
+    <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb;">
+      <div style="font-weight:bold; color:#004d40;">🔤 Custom Font Variance Engine:</div>
+      <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="width:100%;">
+      <div class="fnt-col" id="fnt-box"></div>
+    </div>
   </div>
 
-  <!-- Loading script files back-to-back -->
   <script src="database.js"></script>
   <script src="audio.js"></script>
   <script src="engine.js"></script>
