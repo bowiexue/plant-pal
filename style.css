@@ -7,7 +7,7 @@ body { background:var(--bg); color:var(--t); display:flex; justify-content:cente
 .cv-wrap { width:180px; height:180px; background:var(--ac); border-radius:8px; display:flex; justify-content:center; align-items:center; }
 
 .side-ctrls { display:flex; flex-direction:column; gap:8px; flex:1; }
-.stk-row { display:flex; gap:6px; flex-wrap:wrap; }
+.stk-row { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
 .stk-btn { background:#fff; color:#222; border:2px solid #e65100; padding:4px 8px; border-radius:20px; cursor:pointer; font-weight:bold; }
 .stk-btn:hover { background:#fff3e0; }
 
@@ -24,7 +24,7 @@ canvas { background:var(--ac); image-rendering:pixelated; width:160px; height:16
 button { background:var(--p); color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold; }
 button:hover { background:var(--pd); }
 .mu-box { background:#457b9d; padding:6px; border-radius:6px; display:flex; flex-direction:column; gap:4px; }
-.mu-box select { background:#1d3557; color:#fff; border:1px solid #fff; border-radius:4px; }
+.mu-box select { background:#1d3557; color:#fff; border:1px solid #fff; border-radius:4px; padding:2px; }
 .mu { background:#1d3557; width:100%; color:#fff; padding:5px; }
 
 .sl { font-weight:bold; display:flex; flex-direction:column; gap:4px; text-align:left; background:#f8f9fa; padding:6px; border-radius:6px; border:1px solid #e9ecef; }
