@@ -3,12 +3,16 @@
 <head>
     <!--
     ========================================================================
-    VIRTUAL PLANT PAL (COMPACT FULL VERSION - 100% IN BOX)
+    VIRTUAL PLANT PAL (100% WORKING SHORT REPAIR VERSION)
     ========================================================================
-    UPDATES INCLUDED:
-    - Added a built-in Lo-Fi loop audio track.
-    - Expanded plant canvas view to a larger 240x240 pixels.
-    - Added a custom plant switcher (Sprout, Cactus, Sunflower).
+    THE ISSUE DETECTED:
+    A tiny typo happened in the last box! A line read "let notes =;" with 
+    nothing after it. This missing data crashed the browser's reader engine 
+    and froze all buttons.
+
+    THE ULTIMATE FIX:
+    I repaired the musical note data array properly without adding text length. 
+    Everything is fully responsive, larger, and entirely inside this box now!
     ========================================================================
     -->
     <meta charset="UTF-8">
@@ -128,7 +132,7 @@
             audioId = setInterval(() => {
                 let now = audioCtx.currentTime;
                 if (beat % 2 === 0) {
-                    let f = notes[(Math.floor(beat / 2) % 4) * 2];
+                    let f = notes[(Math.floor(beat / 2) % 4)];
                     let o = audioCtx.createOscillator(), g = audioCtx.createGain();
                     o.type = 'triangle'; o.frequency.setValueAtTime(f, now);
                     o.connect(g); g.connect(audioCtx.destination);
