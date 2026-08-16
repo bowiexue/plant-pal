@@ -37,11 +37,19 @@
       </div>
     </div>
     
-    <!-- DYNAMIC STICKER & TEXT STYLE SECTION -->
+    <!-- HIGH CONTRAST DYNAMIC STICKER SECTION -->
     <div class="sl" style="background:#fff3e0; border-color:#ffe0b2;">
-      <div style="font-size:11px; font-weight:bold; color:#e65100; margin-bottom:4px;">✨ Plant Theme Stickers & Text Fonts (Click to Copy):</div>
+      <div style="font-size:11px; font-weight:bold; color:#e65100; margin-bottom:4px;">✨ Plant Theme Stickers (Click to Copy):</div>
       <div class="stk-row" id="stk-box"></div>
-      <div class="fnt-col" id="fnt-box"></div>
+    </div>
+
+    <!-- DYNAMIC CUSTOM TEXT STYLE CONVERTER SECTION -->
+    <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb;">
+      <div style="font-size:11px; font-weight:bold; color:#004d40; margin-bottom:4px;">🔤 Custom Font Variation Generator:</div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <input type="text" id="cust-txt-in" value="Plant Pal" placeholder="Type custom text here..." oninput="genFonts()" style="padding:5px; font-family:monospace; font-size:11px; border:1px solid #b2dfdb; border-radius:4px; width:100%;">
+        <div class="fnt-col" id="fnt-box"></div>
+      </div>
     </div>
     
     <!-- Music Synth Interface -->
@@ -120,12 +128,14 @@
   .cv-wrap{width:180px;height:180px;background:var(--ac);border-radius:8px;display:flex;justify-content:center;align-items:center;flex-shrink:0;}
   .side-ctrls{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;}
   
+  /* HIGH CONTRAST CHARCOAL ON WHITE RULES */
   .stk-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
-  .stk-btn{background:#fff;border:1px solid #ffcc80;padding:4px 8px;font-size:11px;border-radius:20px;cursor:pointer;font-weight:bold;}
+  .stk-btn{background:#ffffff;color:#222222;border:2px solid #e65100;padding:5px 10px;font-size:12px;border-radius:20px;cursor:pointer;font-weight:bold;}
   .stk-btn:hover{background:#fff3e0;}
+  
   .fnt-col{display:flex;flex-direction:column;gap:4px;text-align:left;}
-  .fnt-row{display:flex;justify-content:space-between;background:#fff;padding:4px 8px;border-radius:4px;border:1px solid #ffe0b2;font-size:11px;cursor:pointer;}
-  .fnt-row:hover{background:#fff3e0;}
+  .fnt-row{display:flex;justify-content:space-between;align-items:center;background:#ffffff;color:#222222;padding:6px 10px;border-radius:4px;border:2px solid #004d40;font-size:12px;font-weight:bold;cursor:pointer;}
+  .fnt-row:hover{background:#e0f2f1;}
 
   canvas{background:var(--ac);image-rendering:pixelated;width:160px;height:160px;}
   .st{font-size:11px;font-weight:bold;color:var(--pd);min-height:22px;display:flex;align-items:center;justify-content:center;}
@@ -162,37 +172,75 @@
   var plantPets={"sprout":"🐰","cactus":"🐪","flower":"🐝","orchid":"🦚","sakura":"🦊","fern":"🦌","bamboo":"🐼","rose":"🦋","maple":"🐿️","mushroom":"🐸"};
 
   var themeStickers = {
-    "sprout": { text: ["(🌱•ᴗ•🌱)", "(っˆڡˆς)🌱", "✧sprout✧"], styles: ["𝔖𝔭𝔯𝔬𝔲𝔱 𝔓𝔞𝔩", "𝓼𝓿𝓻𝓸𝓾𝓽 𝓿𝓪𝓵", "ｓｐｒｏｕｔ  ｐａｌ"] },
-    "cactus": { text: ["🌵(•‿•)🌵", "(>_<)凸", "✧prickly✧"], styles: ["ℭ𝔞𝔠𝔱𝔲𝔰 𝔏𝔦𝔣𝔢", "𝓬𝓪𝓬𝓽𝓾𝓼 𝓵𝓲𝓯𝓮", "ｃａｃｔｕｓ  ｌｉｆｅ"] },
-    "flower": { text: ["(🌸◠‿◠)", "(*✿‿✿)", "✧sunny✧"], styles: ["𝔉𝔩𝔬𝔴𝔢𝔯 𝔓𝔬𝔴𝔢𝔯", "𝓯𝓵𝓸𝔀𝓮𝓻 𝓿𝓸𝔀𝓮𝓻", "ｆｌｏｗｅｒ  ｐｏｗｅｒ"] },
-    "orchid": { text: ["(｡♥‿♥｡)🔮", "(◕‿◕✿)", "✧exotic✧"], styles: ["𝔒放𝔠𝔥𝔦𝔡 𝔑𝔤𝔥𝔱", "𝓸𝓻𝓬𝓿𝓲𝓭 𝓷𝓲𝓰𝓿𝓽", "ｏｒｃｈｉｄ  ｎｉｇｈｔ"] },
-    "sakura": { text: ["(💮◡💮)", "(｡✿‿✿｡)", "✧bonsai✧"], styles: ["𝔖𝔞𝔨𝔲𝔯𝔞 𝔅𝔩𝔬𝔬𝔪", "𝓼𝓪𝓴𝓾𝓻𝓪 𝓫𝓵𝓸𝓸𝓶", "ｓａｋｕｒａ  ｂｌｏｏｍ"] },
-    "fern": { text: ["🌿(ᵕ‿ᵕ)🌿", "(๑˃̵ᴗ˂̵)🍃", "✧cozy✧"], styles: ["𝔉𝔢𝔯𝔫 𝔊𝔯𝔬𝔳𝔢", "𝓯𝓿举行 𝓰𝓻𝓸𝓿𝓮", "ｆｅｒｎ  ｇｒｏｖｅ"] },
-    "bamboo": { text: ["🎍(•_•)🎍", "(ᵔᴥᵔ)🐼", "✧lucky✧"], styles: ["𝔅𝔞𝔨𝔟𝔬𝔬 ℭ𝔥准𝔭", "𝓫𝓪bam𝓫𝓸𝓸 𝓬𝓿𝓸𝓿", "ｂａｍｂｏｏ  ｃｈｏｐ"] },
-    "rose": { text: ["🌹(♨_♨)", "(✿ ♥‿♥)", "✧crimson✧"], styles: ["𝔖𝔠𝔞𝔯𝔩𝔢𝒕 ℜ𝔬𝔰𝔢", "𝓼𝓬𝓪𝓻𝓵𝒆𝓽 𝓻𝓸𝓼𝒆", "ｓｃａｒｌｅｔ  ｒｏｓｅ"] },
-    "maple": { text: ["🍁(👁️_👁️)", "ﾍ(￣▽￣*)🍁", "✧autumn✧"], styles: ["𝔐𝔞𝔭𝔩𝔢 𝔏𝔢𝔞𝔣", "𝓶𝓪𝓿 Maple 𝓵𝓿𝓪𝓯", "ｍａｐｌｅ  ｌｅａｆ"] },
-    "mushroom": { text: ["🍄(𖦹_𖦹)🍄", "(•͈ᴗ•͈)🍄", "✧shroom✧"], styles: ["𝔉𝔲𝔫𝔄𝔦 𝔉𝔬𝔯𝔢𝔰𝔱", "𝓯𝓾𝓷𝓰𝓲 𝓯𝓸𝓻𝒆𝓼𝓽", "ｆｕｎｇｉ  ｆｏｒｅｓｔ"] }
+    "sprout": ["(🌱•ᴗ•🌱)", "(っˆڡˆς)🌱", "✧sprout✧"],
+    "cactus": ["🌵(•‿•)🌵", "(>_<)凸", "✧prickly✧"],
+    "flower": ["(🌸◠‿◠)", "(*✿‿✿)", "✧sunny✧"],
+    "orchid": ["(｡♥‿♥｡)🔮", "(◕‿◕✿)", "✧exotic✧"],
+    "sakura": ["(💮◡💮)", "(｡✿‿✿｡)", "✧bonsai✧"],
+    "fern": ["🌿(ᵕ‿ᵕ)🌿", "(๑˃̵ᴗ˂̵)🍃", "✧cozy✧"],
+    "bamboo": ["🎍(•_•)🎍", "(ᵔᴥᵔ)🐼", "✧lucky✧"],
+    "rose": ["🌹(♨_♨)", "(✿ ♥‿♥)", "✧crimson✧"],
+    "maple": ["🍁(👁️_👁️)", "ﾍ(￣▽￣*)🍁", "✧autumn✧"],
+    "mushroom": ["🍄(𖦹_𖦹)🍄", "(•͈ᴗ•͈)🍄", "✧shroom✧"]
   };
+
+  // Mathematical Font Translation Maps
+  var maps = {
+    gothic: {
+      a:'𝔞',b:'𝔔',c:'𝔠',d:'𝔡',e:'𝔢',f:'𝔣',g:'𝔤',h:'𝔥',i:'𝔦',j:'𝔧',k:'𝔨',l:'𝔩',m:'𝔪',n:'𝔫',o:'𝔬',p:'𝔭',q:'𝔮',r:'𝔯',s:'𝔰',t:'𝔱',u:'𝔲',v:'𝔳',w:'𝔴',x:'𝔵',y:'𝔶',z:'𝔷',
+      A:'𝔄',B:'𝔅',C:'ℭ',D:'𝔇',E:'𝔈',F:'𝔉',G:'𝔊',H:'ℌ',I:'ℑ',J:'𝔍',K:'𝔎',L:'𝔏',M:'𝔐',N:'𝔑',O:'𝔒',P:'𝔓',Q:'𝔔',R:'ℜ',S:'𝔖',T:'𝔗',U:'𝔲',V:'𝔳',W:'𝔴',X:'𝔵',Y:'𝔶',Z:'𝔷'
+    },
+    script: {
+      a:'𝓪',b:'𝓫',c:'𝓬',d:'𝓭',e:'𝓮',f:'𝓯',g:'𝓰',h:'𝓱',i:'𝓲',j:'𝓳',k:'𝓴',l:'𝓵',m:'𝓶',n:'𝓷',o:'𝓸',p:'𝓹',q:'𝓺',r:'𝓻',s:'𝓼',t:'𝓽',u:'𝓾',v:'𝓿',w:'𝔀',x:'𝔁',y:'𝔂',z:'𝔃',
+      A:'𝓐',B:'𝓑',C:'𝓒',D:'𝓓',E:'𝓔',F:'𝓕',G:'𝓖',H:'𝓗',I:'𝓘',J:'𝓙',K:'𝓚',L:'𝓛',M:'𝓜',N:'𝓝',O:'𝓞',P:'𝓟',Q:'𝓠',R:'𝓡',S:'𝓢',T:'𝓣',U:'𝓤',V:'𝓥',W:'𝓦',X:'𝓧',Y:'𝓨',Z:'𝓩'
+    },
+    wide: {
+      a:'ａ',b:'ｂ',c:'ｃ',d:'ｄ',e:'ｅ',f:'ｆ',g:'ｇ',h:'ｈ',i:'ｉ',j:'ｊ',k:'ｋ',l:'ｌ',m:'ｍ',n:'ｎ',o:'ｏ',p:'ｐ',q:'ｑ',r:'ｒ',s:'ｓ',t:'ｔ',u:'ｕ',v:'ｖ',w:'ｗ',x:'ｘ',y:'ｙ',z:'ｚ',
+      A:'Ａ',B:'Ｂ',C:'Ｃ',D:'Ｄ',E:'Ｅ',F:'Ｆ',G:'Ｇ',H:'Ｈ',I:'Ｉ',J:'Ｊ',K:'Ｋ',L:'Ｌ',M:'Ｍ',N:'Ｎ',O:'Ｏ',P:'Ｐ',Q:'Ｑ',R:'Ｒ',S:'Ｓ',T:'Ｔ',U:'Ｕ',V:'Ｖ',W:'Ｗ',X:'Ｘ',Y:'Ｙ',Z:'Ｚ'
+    }
+  };
+
+  function convertStr(str, type) {
+    var out = '', m = maps[type];
+    for (var i = 0; i < str.length; i++) {
+      var c = str[i];
+      out += m[c] ? m[c] : c;
+    }
+    return out;
+  }
 
   function copyText(val) {
     navigator.clipboard.writeText(val);
-    alert("📋 Copied Sticker: " + val);
+    alert("📋 Copied: " + val);
+  }
+
+  function genFonts() {
+    var txt = document.getElementById('cust-txt-in').value || 'Plant Pal';
+    var fBox = document.getElementById('fnt-box');
+    var out = [];
+    
+    // Live Font Selection Variant Toggles
+    var styles = [
+      { name: "Gothic Outline", val: convertStr(txt, 'gothic') },
+      { name: "Cursive Script", val: convertStr(txt, 'script') },
+      { name: "Spaced Retro", val: convertStr(txt, 'wide') }
+    ];
+
+    for (var j = 0; j < styles.length; j++) {
+      out.push('<div class="fnt-row" onclick="copyText(\''+styles[j].val+'\')"><span>'+styles[j].val+'</span><span style="color:#004d40; font-size:9px; font-weight:normal;">['+styles[j].name+'] click to copy</span></div>');
+    }
+    fBox.innerHTML = out.join('');
   }
 
   function updateStickers() {
-    var data = themeStickers[kind];
+    var listData = themeStickers[kind];
     var sBox = document.getElementById('stk-box');
-    var fBox = document.getElementById('fnt-box');
     var sOut = [];
-    for(var i=0; i<data.text.length; i++) {
-      sOut.push('<button class="stk-btn" onclick="copyText(\''+data.text[i]+'\')">'+data.text[i]+'</button>');
+    for(var i=0; i<listData.length; i++) {
+      sOut.push('<button class="stk-btn" onclick="copyText(\''+listData[i]+'\')">'+listData[i]+'</button>');
     }
     sBox.innerHTML = sOut.join('');
-    var fOut = [];
-    for(var j=0; j<data.styles.length; j++) {
-      fOut.push('<div class="fnt-row" onclick="copyText(\''+data.styles[j]+'\')"><span>'+data.styles[j]+'</span><span style="color:#aaa; font-size:9px;">click to copy</span></div>');
-    }
-    fBox.innerHTML = fOut.join('');
+    genFonts();
   }
 
   if(localStorage.getItem('p_hist')){try{historyLog=JSON.parse(localStorage.getItem('p_hist'));}catch(e){}}
@@ -204,7 +252,7 @@
 
   setInterval(function(){if(!on&&Date.now()-act>600000){sleep=true;msg();draw();}},10000);
   function tch(){act=Date.now();sleep=false;msg();}
-  function lvl(){return pts(0)>=9?3:pts>=6?2:pts>=3?1:0;}
+  function lvl(){return pts>=9?3:pts>=6?2:pts>=3?1:0;}
   
   function setMode(){
     var m=document.getElementById('tmode').value,b=document.getElementById('tmbx');
@@ -287,7 +335,7 @@
   }
   setInterval(function(){for(var i=0; i<pets.length;i++){var p=pets[i];if(Math.random()<0.2)p.tx=Math.random()*450;if(Math.abs(p.x-p.tx)>2){p.x+=p.tx>p.x?2:-2;p.dom.style.bottom=(Math.sin(p.x*0.1)*4+2)+'px';}p.dom.style.left=p.x+'px';}},80);
   function msg(){
-    var l=pts>=9?3:pts>=6?2:pts>=3?1:0,n=Math.max(0,9-pts),t="Needs "+n+" checks to fully grow!";
+    var l=pts|0?3:0,n=Math.max(0,9-pts),t="Needs "+n+" checks to fully grow!";
     if(lockGrowth)t="✨ Admiring growth! Reset prompt loading...";
     else if(sleep)t="Zzz... Pal is sleepy from neglect!";else if(l==1)t="Strong sprout! ("+n+" left)";else if(l==2)t="Thick and growing! ("+n+" left)";else if(l==3||pts>=9)t="Grand size! Unlocked its special pet!";
     document.getElementById('st').innerText=t;
