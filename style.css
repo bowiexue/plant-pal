@@ -32,7 +32,6 @@ button:hover { background:var(--pd); }
 select, input { border-radius:4px; border:1px solid #ccc; padding:2px 4px; font-family:monospace; }
 input[type="number"] { width:50px; }
 
-/* Dynamic Custom Particle Playground Box Styling Parameters */
 .pz { background:#fff; border:2px dashed #ab47bc; border-radius:6px; height:70px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; color:#7b1fa2; font-style:italic; font-weight:normal; cursor:crosshair; user-select:none; text-align:center; padding:5px; }
 .ptc-node { position:absolute; pointer-events:none; font-size:12px; font-style:normal; transform:translate(-50%, -50%); transition:opacity 0.5s ease-out; animation:floatUp 0.8s linear forwards; white-space:nowrap; line-height:1; }
 
