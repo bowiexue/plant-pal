@@ -10,11 +10,12 @@
     .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 12px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
     .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
     
+    /* Layout styling for a tight grid structure */
     .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; }
-    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; height: 100%; }
+    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
     
     .wide-widget { flex: 2; min-width: 340px; }
-    .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; }
+    .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 12px; }
     .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
     .plant-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
     .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--border-color); }
@@ -45,16 +46,13 @@
     .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
     .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
     
-    /* FIX: Added height 100% so the blue audio box stretches to fill the card gap */
-    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; flex: 1; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; }
     .mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
     .mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
-    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; height: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
+    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
     .history-item { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; }
-    .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
-    
-    /* FIX: Added height 100% and space-between so the hamster controls fill the card gap */
-    .widget-inner-grow { display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 10px; flex: 1; height: 100%; }
+    .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
+    .inner-box-nest { background: #fafafa; border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -132,79 +130,85 @@
         <div id="eco-desc" style="font-style: italic; font-size: 11px; margin-top: 2px;">Loading descriptions...</div>
       </div>
     </div>
-    <!-- BOX 2: PIXEL DWARF HAMSTER RUNNER -->
-    <div class="chunky-widget narrow-widget">
-      <div class="widget-header">
-        <span style="color: #03045e;">🐹 Hamster Runner Station</span>
-        <span id="hamster-status" style="font-size: 10px; font-weight: bold; color: #03045e; background: #e0f2fe; padding: 2px 6px; border-radius: 6px; border: 2px solid #03045e;">STATUS: IDLE</span>
-      </div>
-      
-      <div class="widget-inner-grow">
-        <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px; margin-top: auto; margin-bottom: auto;"></canvas>
-        <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px; margin-top: auto;">
-          <div style="font-weight: bold;">Chore Balance: <span id="chore-time" style="color: #03045e;">0 mins</span> / <span id="chore-target-display" style="color:#d62828;">15 mins</span></div>
-          <div class="toggle-row">
-            <span style="font-size:10px;">Run Goal:</span>
-            <select id="hamster-run-threshold" onchange="updateChoreTarget()" style="padding:2px; font-size:11px;">
-              <option value="5">5 mins</option>
-              <option value="15" selected>15 mins</option>
-              <option value="30">30 mins</option>
-              <option value="60">60 mins</option>
-            </select>
+    <!-- COLUMN 2 (NARROW COLUMN): HAMSTER WITH SANDBOX NESTED BELOW IT -->
+    <div class="narrow-widget">
+      <div class="chunky-widget" style="box-shadow: none; flex: 1;">
+        <div class="widget-header">
+          <span style="color: #03045e;">🐹 Hamster Runner Station</span>
+          <span id="hamster-status" style="font-size: 10px; font-weight: bold; color: #03045e; background: #e0f2fe; padding: 2px 6px; border-radius: 6px; border: 2px solid #03045e;">STATUS: IDLE</span>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+          <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px;"></canvas>
+          <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-weight: bold;">Chore Balance: <span id="chore-time" style="color: #03045e;">0 mins</span> / <span id="chore-target-display" style="color:#d62828;">15 mins</span></div>
+            <div class="toggle-row">
+              <span style="font-size:10px;">Run Goal:</span>
+              <select id="hamster-run-threshold" onchange="updateChoreTarget()" style="padding:2px; font-size:11px;">
+                <option value="5">5 mins</option>
+                <option value="15" selected>15 mins</option>
+                <option value="30">30 mins</option>
+                <option value="60">60 mins</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 4px;">
+              <span style="font-size:10px;">Log Session:</span>
+              <select id="chore-duration" style="max-width: 90px; padding: 2px; font-size:11px;">
+                <option value="5">5m</option>
+                <option value="15" selected>15m</option>
+                <option value="30">30m</option>
+                <option value="60">1h</option>
+              </select>
+            </div>
+            <button onclick="triggerChoreBoost()" style="background: #03045e; color: white; width: 100%;">🧹 Log Active Chore Time</button>
           </div>
-          <div style="display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 4px;">
-            <span style="font-size:10px;">Log Session:</span>
-            <select id="chore-duration" style="max-width: 90px; padding: 2px; font-size:11px;">
-              <option value="5">5m</option>
-              <option value="15" selected>15m</option>
-              <option value="30">30m</option>
-              <option value="60">1h</option>
-            </select>
+        </div>
+
+        <!-- MOVE TARGET FIX: Sandbox Area is now nested directly into the empty space below the Hamster -->
+        <div class="inner-box-nest">
+          <div style="font-weight: bold; color: #7b1fa2; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">✨ Sandbox Area</div>
+          <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff; cursor: crosshair;">
+            Hover for sparkles!<br>Click to hatch animals.
           </div>
-          <button onclick="triggerChoreBoost()" style="background: #03045e; color: white; width: 100%;">🧹 Log Active Chore Time</button>
         </div>
       </div>
     </div>
 
-    <!-- BOX 3: SOUNDSCAPE LAYER -->
-    <div class="chunky-widget narrow-widget">
-      <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
-      <div class="mu-box">
-        <div style="font-size: 11px; margin-bottom: 6px; text-align: center;">Select Audio Soundscape Base Layer:</div>
-        <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
-        <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
+    <!-- COLUMN 3 (NARROW COLUMN): AUDIO WITH LOG NESTED BELOW IT -->
+    <div class="narrow-widget">
+      <div class="chunky-widget" style="box-shadow: none; flex: 1;">
+        <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
+        <div class="mu-box">
+          <div style="font-size: 11px; margin-bottom: 6px;">Select Audio Soundscape Base Layer:</div>
+          <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
+          <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
+        </div>
+
+        <!-- MOVE TARGET FIX: Activity Log is now nested directly into the empty space below the Sound Mixer -->
+        <div class="inner-box-nest">
+          <div style="font-weight: bold; color: #475569; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; display: flex; justify-content: space-between;">
+            <span>📜 Activity Log</span>
+            <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:8px; padding:0px 2px; border-width:1px;">Reset</button>
+          </div>
+          <div id="workspace-history-box" style="padding: 4px; background: #fafafa; border: 1px dashed #94a3b8; border-radius: 8px; height: 100px; line-height: 1.3; font-size: 10px; color: #334155; overflow-y: auto;">
+            No milestones logged for this session yet.
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- BOX 4: STICKERS AND TEXT VARIANCE -->
-    <div class="chunky-widget wide-widget" style="min-width: 340px;">
+    <div class="chunky-widget wide-widget" style="min-width: 100%; margin-top: 10px;">
       <div class="widget-header"><span style="color: #e65100;">🔤 Font Variance Engine</span></div>
-      <div class="chunky-widget" style="background: #fff3e0; padding: 8px; border-width: 2px; box-shadow: none;">
-        <div style="font-weight: bold; color: #e65100;">✨ Theme Kaomojis Pack:</div>
-        <div class="stk-row" id="stk-box"></div>
-      </div>
-      <div class="chunky-widget" style="background: #e0f2f1; padding: 8px; border-width: 2px; box-shadow: none;">
-        <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="margin-bottom: 6px;">
-        <div class="fnt-col" id="fnt-box"></div>
-      </div>
-    </div>
-
-    <!-- BOX 5: SANDBOX PLAYGROUND -->
-    <div class="chunky-widget narrow-widget">
-      <div class="widget-header"><span style="color: #7b1fa2;">✨ Sandbox Area</span></div>
-      <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff; cursor: crosshair;">
-        Hover for sparkles!<br>Click to hatch animals.
-      </div>
-    </div>
-
-    <!-- BOX 6: HISTORIC NOTES ARCHIVE LEDGER -->
-    <div class="chunky-widget narrow-widget">
-      <div class="widget-header">
-        <span style="color: #475569;">📜 Activity Log</span>
-        <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:9px; padding:1px 4px; box-shadow:none; border-width:1px;">Reset</button>
-      </div>
-      <div id="workspace-history-box" style="padding: 6px; background: #fafafa; border: 2px dashed #94a3b8; border-radius: 8px; height: 100%; min-height: 120px; line-height: 1.4; font-size: 10px; color: #334155; overflow-y: auto;">
-        No milestones logged for this session yet.
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div class="chunky-widget" style="background: #fff3e0; padding: 8px; border-width: 2px; box-shadow: none; flex: 1; min-width: 260px;">
+          <div style="font-weight: bold; color: #e65100;">✨ Theme Kaomojis Pack:</div>
+          <div class="stk-row" id="stk-box"></div>
+        </div>
+        <div class="chunky-widget" style="background: #e0f2f1; padding: 8px; border-width: 2px; box-shadow: none; flex: 1; min-width: 260px;">
+          <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="margin-bottom: 6px;">
+          <div class="fnt-col" id="fnt-box"></div>
+        </div>
       </div>
     </div>
 
