@@ -28,12 +28,26 @@
         <div class="cv-wrap">
           <canvas id="cv" width="144" height="144"></canvas>
         </div>
-        <div class="side-ctrls">
+                <div class="side-ctrls">
           <div class="tm-box"><div id="tm" class="tm">25:00</div></div>
-          <div class="bt">
-            <button id="go" onclick="run()">Start</button>
-            <button onclick="reset()">Reset</button>
+          
+          <!-- NEW: SESSION MODE TYPE TOGGLE -->
+          <div style="display: flex; gap: 4px; margin-bottom: 2px;">
+            <button id="mode-focus" onclick="setTimerMode('focus')" style="flex:1; padding:2px; font-size:10px; background:#2d6a4f;">🎯 Focus</button>
+            <button id="mode-break" onclick="setTimerMode('break')" style="flex:1; padding:2px; font-size:10px; background:#475569;">☕ Break</button>
           </div>
+
+          <!-- NEW: TIMER MINUTES DURATION TOGGLE -->
+          <div style="display: flex; gap: 4px; margin-bottom: 6px;">
+            <button id="len-short" onclick="setTimerLength('short')" style="flex:1; padding:2px; font-size:10px; background:#475569;">⏱️ Short</button>
+            <button id="len-long" onclick="setTimerLength('long')" style="flex:1; padding:2px; font-size:10px; background:#52b788;">⏱️ Long</button>
+          </div>
+
+          <div class="bt">
+            <button id="go" onclick="run()" style="flex:1;">Start</button>
+            <button onclick="reset()" style="flex:1;">Reset</button>
+          </div>
+          
           <div style="display: flex; flex-direction: column; gap: 2px; margin-top: 4px;">
             <span style="font-size: 10px; font-weight: bold;">Target Seedling:</span>
             <select id="pt" onchange="chg()">
@@ -55,7 +69,7 @@
             </select>
           </div>
         </div>
-      </div>
+
 
       <div class="td">
         <div style="font-weight: bold; color: #2d6a4f; margin-bottom: 4px;">📝 Tasks Connected Checklist:</div>
