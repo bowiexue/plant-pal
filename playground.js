@@ -11,7 +11,7 @@ if (pz) {
 
   pz.addEventListener('mousedown', function(e) {
     var b = pz.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
-    var c = ["🐣", "🐱", "🐰", "🦊", "🐻", "🐼", "🐨"], r = c[Math.floor(Math.random() * c.length)];
+    var c = ["🐣", "🐱", "🐰", "🦊", "🐻", "🐼", "🐨", "🐢", '🐼', '🐑', '🐀', '🐈', '🐹', '🐧', '🐩', '🐇', '🐿️', '🦆'], r = c[Math.floor(Math.random() * c.length)];
     var p = document.createElement('div'); p.innerText = r; p.style.position = "absolute";
     p.style.left = (x - 8) + "px"; p.style.top = (y - 8) + "px"; p.style.fontSize = "14px"; p.style.pointerEvents = "none";
     pz.appendChild(p); if(typeof logHistory === 'function') logHistory("Hatched a custom " + r + " in Sandbox zone!");
