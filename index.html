@@ -126,5 +126,17 @@
   <script src="engine.js"></script>
   <script src="playground.js"></script>
   <script src="hamster.js"></script>
+
+  <!-- MASTER INITIALIZATION SCRIPT INJECTION -->
+  <script>
+    window.addEventListener('load', function() {
+      if (typeof ren === 'function') ren();
+      if (typeof show === 'function') show();
+      if (typeof updateStickers === 'function') updateStickers();
+      if (typeof draw === 'function') draw();
+      if (typeof msg === 'function') msg();
+      if (typeof initHamster === 'function') initHamster();
+    });
+  </script>
 </body>
 </html>
