@@ -1,9 +1,33 @@
+// ================= ENGINE CORE: PART 1 =================
 var cv = document.getElementById('cv'), cx = cv ? cv.getContext('2d') : null;
 var pts = parseInt(localStorage.getItem('sprout_pts')) || 0, sleep = false, act = Date.now();
 var time = 1500, mId = null, on = false;
 var list = JSON.parse(localStorage.getItem('sprout_tasks')) || [];
 var historyLog = JSON.parse(localStorage.getItem('sprout_history')) || [];
 var kind = localStorage.getItem('sprout_kind') || "sprout", pets = [], lockGrowth = false;
+
+var timerMode = "focus", timerLength = "long";
+
+function getTargetSeconds() {
+  if (timerMode === "focus") return (timerLength === "short") ? 900 : 1500;
+  return (timerLength === "short") ? 300 : 900;
+}
+
+function setTimerMode(m) {
+  if (on) return alert("Pause the running timer first!");
+  timerMode = m;
+  document.getElementById('mode-focus').style.background = (m === 'focus') ? '#2d6a4f' : '#475569';
+  document.getElementById('mode-break').style.background = (m === 'break') ? '#2d6a4f' : '#475569';
+  time = getTargetSeconds(); show();
+}
+
+function setTimerLength(l) {
+  if (on) return alert("Pause the running timer first!");
+  timerLength = l;
+  document.getElementById('len-short').style.background = (l === 'short') ? '#52b788' : '#475569';
+  document.getElementById('len-long').style.background = (l === 'long') ? '#52b788' : '#475569';
+  time = getTargetSeconds(); show();
+}
 
 function convertStr(str, type) {
   var out = '', m = maps[type]; if (!m) return str;
@@ -32,18 +56,25 @@ function updateStickers() {
 setInterval(function() { var cEl = document.getElementById('live-system-clock'); if (cEl) { var d = new Date(); cEl.innerText = d.toLocaleDateString() + " - " + d.toLocaleTimeString(); } }, 1000);
 function tch() { act = Date.now(); sleep = false; msg(); }
 
+// ================= ENGINE CORE: PART 2 =================
 function run() {
   tch(); var b = document.getElementById('go'); if (!b) return;
   if (on) { clearInterval(mId); on = false; b.innerText = "Start"; } else {
     on = true; b.innerText = "Pause";
     mId = setInterval(function() {
       if (time > 0) { time--; show(); } else {
-        reset(); pts += 3; saveState(); logHistory("Completed focus session! (+3 Points)"); alert("🎉 Focus session complete!"); tch(); draw(); checkWin();
+        reset(); 
+        if (timerMode === "focus") {
+          pts += 3; saveState(); logHistory("Completed focus session! (+3 Points)"); alert("🎉 Focus session complete!");
+        } else {
+          logHistory("Completed rest break session!"); alert("☕ Break over!");
+        }
+        tch(); draw(); checkWin();
       }
     }, 1000);
   }
 }
-function reset() { clearInterval(mId); on = false; time = 1500; var b = document.getElementById('go'); if (b) b.innerText = "Start"; show(); }
+function reset() { clearInterval(mId); on = false; time = getTargetSeconds(); var b = document.getElementById('go'); if (b) b.innerText = "Start"; show(); }
 function show() { var m = Math.floor(time / 60), s = time % 60, el = document.getElementById('tm'); if (el) el.innerText = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
 
 function add() { var i = document.getElementById('in'); if (!i) return; var v = i.value.trim(); if (!v) return; list.push({ t: v, d: false }); i.value = ''; saveState(); ren(); tch(); }
