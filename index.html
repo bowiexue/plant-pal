@@ -3,21 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <title>SproutOS Chunky Dashboard Workspace</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { --bg: #f4f9f4; --card-bg: #ffffff; --p: #52b788; --pd: #2d6a4f; --ac: #d8f3dc; --border-color: #222222; }
+    * { box-sizing: border-box; font-family: monospace; font-size: 12px; }
+    body { background: #f0f4f1; margin: 0; padding: 20px; }
+    .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 8px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
+    .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
+    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
+    .wide-widget { flex: 2; min-width: 340px; }
+    .narrow-widget { flex: 1; min-width: 280px; }
+    .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .plant-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--border-color); }
+    canvas { background: var(--ac); image-rendering: pixelated; }
+    .side-ctrls { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
+    .tm-box { background: #fafafa; padding: 8px; border-radius: 8px; border: 2px solid var(--border-color); text-align: center; }
+    .tm { font-size: 26px; font-weight: bold; color: var(--pd); }
+    .btn-grid { display: flex; gap: 6px; width: 100%; }
+    button { background: var(--p); color: #000; border: 2px solid var(--border-color); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; transition: transform 0.1s, box-shadow 0.1s; }
+    button:hover { background: var(--ac); transform: translate(1px, 1px); box-shadow: 1px 1px 0px #000; }
+    button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #000; }
+    .tgl-btn { background: #cbd5e1; color: #334155; }
+    .tgl-btn.active-focus { background: #2d6a4f !important; color: #fff !important; }
+    .tgl-btn.active-break { background: #475569 !important; color: #fff !important; }
+    .tgl-btn.active-len { background: #52b788 !important; color: #000 !important; }
+    .td { text-align: left; }
+    .rw { display: flex; gap: 6px; margin-bottom: 8px; }
+    input[type="text"], select { width: 100%; padding: 6px; border-radius: 8px; border: 2px solid var(--border-color); font-family: monospace; font-weight: bold; background: #fff; }
+    ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+    li { display: flex; align-items: center; justify-content: space-between; padding: 6px; background: #fafafa; border: 2px solid var(--border-color); border-radius: 8px; }
+    .dn span { text-decoration: line-through; color: #888; }
+    .dl { background: none; color: #ef4444; border: none; box-shadow: none; padding: 0 4px; cursor: pointer; }
+    .an-box { background: #fafafa; padding: 8px; border-radius: 12px; font-weight: bold; position: relative; border: 2px solid var(--border-color); height: 48px; overflow: hidden; }
+    .pt-c { position: absolute; bottom: 0; left: 0; width: 100%; height: 24px; }
+    .pet { position: absolute; font-size: 16px; bottom: 2px; transition: left 0.4s; }
+    .stk-row { display: flex; gap: 4px; flex-wrap: wrap; }
+    .stk-btn { background: #fff; border: 2px solid var(--border-color); color: #000; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
+    .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+    .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
+    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; }
+    .mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
+    .mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
+    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
+    .history-item { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; }
+    .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
+  </style>
 </head>
 <body>
 
-  <!-- LIVE SYSTEM TIME ENGINE STRIP -->
   <div class="meta-row">
-    <span>📍 Palo Alto Dashboard Node</span>
-    <span id="live-system-clock">12:00:00 PM</span>
+    <span>🌿 SproutOS Workspace Node</span>
+    <span id="live-system-clock">Loading System Clock...</span>
   </div>
 
   <div class="dashboard-title">🌿 SproutOS Personal Space Engine</div>
 
   <div class="dashboard-grid">
 
-    <!-- ================= BOX 1: UNIFIED PLANT GROWER & TASK LIST ================= -->
+    <!-- BOX 1: UNIFIED PLANT GROWER & TASK LIST -->
     <div class="chunky-widget wide-widget">
       <div class="widget-header">
         <span style="color: #2d6a4f;">🌿 Ecosystem Workspace Garden</span>
@@ -25,27 +69,23 @@
       </div>
 
       <div class="plant-row">
-        <div class="cv-wrap">
-          <canvas id="cv" width="144" height="144"></canvas>
-        </div>
-                <div class="side-ctrls">
+        <div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div>
+        <div class="side-ctrls">
           <div class="tm-box"><div id="tm" class="tm">25:00</div></div>
           
-          <!-- NEW: SESSION MODE TYPE TOGGLE -->
-          <div style="display: flex; gap: 4px; margin-bottom: 2px;">
-            <button id="mode-focus" onclick="setTimerMode('focus')" style="flex:1; padding:2px; font-size:10px; background:#2d6a4f;">🎯 Focus</button>
-            <button id="mode-break" onclick="setTimerMode('break')" style="flex:1; padding:2px; font-size:10px; background:#475569;">☕ Break</button>
+          <div class="btn-grid">
+            <button id="mode-focus" onclick="setTimerMode('focus')" class="tgl-btn active-focus" style="flex:1; padding:4px; font-size:10px;">🎯 Focus</button>
+            <button id="mode-break" onclick="setTimerMode('break')" class="tgl-btn" style="flex:1; padding:4px; font-size:10px;">☕ Break</button>
           </div>
 
-          <!-- NEW: TIMER MINUTES DURATION TOGGLE -->
-          <div style="display: flex; gap: 4px; margin-bottom: 6px;">
-            <button id="len-short" onclick="setTimerLength('short')" style="flex:1; padding:2px; font-size:10px; background:#475569;">⏱️ Short</button>
-            <button id="len-long" onclick="setTimerLength('long')" style="flex:1; padding:2px; font-size:10px; background:#52b788;">⏱️ Long</button>
+          <div class="btn-grid">
+            <button id="len-short" onclick="setTimerLength('short')" class="tgl-btn" style="flex:1; padding:4px; font-size:10px;">⏱️ Short</button>
+            <button id="len-long" onclick="setTimerLength('long')" class="tgl-btn active-len" style="flex:1; padding:4px; font-size:10px;">⏱️ Long</button>
           </div>
 
-          <div class="bt">
-            <button id="go" onclick="run()" style="flex:1;">Start</button>
-            <button onclick="reset()" style="flex:1;">Reset</button>
+          <div class="btn-grid" style="margin-top: 2px;">
+            <button id="go" onclick="run()" style="flex:1; background: #52b788;">Start</button>
+            <button onclick="reset()" style="flex:1; background: #e2e8f0;">Reset</button>
           </div>
           
           <div style="display: flex; flex-direction: column; gap: 2px; margin-top: 4px;">
@@ -60,29 +100,25 @@
               <option value="bamboo">🎍 Lucky Bamboo</option>
               <option value="bonsai">🌳 Miniature Bonsai</option>
               <option value="mushroom">🍄 Magic Shroom</option>
-              <option value="clover">🍀 Lucky 4-Leaf Clover</option>
+              <option value="clover">🍀 Lucky Clover</option>
               <option value="fern">🌿 Jungle Fern</option>
               <option value="maple">🍁 Autumn Maple</option>
               <option value="palm">🌴 Desert Palm</option>
               <option value="venus">🌱 Fly Trap</option>
-              <option value="berry">🍓 Wild Berry Bush</option>
+              <option value="berry">🍓 Wild Berry</option>
             </select>
           </div>
         </div>
-
-
+      </div>
       <div class="td">
         <div style="font-weight: bold; color: #2d6a4f; margin-bottom: 4px;">📝 Tasks Connected Checklist:</div>
         <div class="rw">
-          <input type="text" id="in" placeholder="Add an active task note..."><button onclick="add()">Add</button>
+          <input type="text" id="in" placeholder="Add a task note..."><button onclick="add()">Add</button>
         </div>
         <ul id="el"></ul>
       </div>
 
-      <div class="an-box">
-        🐾 Active Pet Growth Visitor Sanctuary:
-        <div id="an" class="pt-c"></div>
-      </div>
+      <div class="an-box">🐾 Active Sanctuary: <div id="an" class="pt-c"></div></div>
 
       <div class="chunky-widget" style="background: #eaf4f4; padding: 8px; border-width: 2px; box-shadow: none;">
         <div style="font-weight: bold; color: #164e63; font-size: 10px;">📖 Ecosystem Guide Notebook:</div>
@@ -90,7 +126,7 @@
       </div>
     </div>
 
-    <!-- ================= BOX 2: PIXEL DWARF HAMSTER RUNNER ================= -->
+    <!-- BOX 2: PIXEL DWARF HAMSTER RUNNER -->
     <div class="chunky-widget narrow-widget">
       <div class="widget-header">
         <span style="color: #03045e;">🐹 Hamster Runner Station</span>
@@ -99,52 +135,44 @@
       
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; flex: 1;">
         <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px;"></canvas>
-        
-        <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 6px;">
+        <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px;">
           <div style="font-weight: bold;">Chore Balance: <span id="chore-time" style="color: #03045e;">0 mins</span> / <span id="chore-target-display" style="color:#d62828;">15 mins</span></div>
-          
-          <!-- NEW RUN THRESHOLD DURATION TOGGLE SWITCH -->
           <div class="toggle-row">
-            <span>Goal needed to run:</span>
-            <select id="hamster-run-threshold" onchange="updateChoreTarget()" style="padding: 2px;">
+            <span style="font-size:10px;">Run Goal:</span>
+            <select id="hamster-run-threshold" onchange="updateChoreTarget()" style="padding:2px; font-size:11px;">
               <option value="5">5 mins</option>
               <option value="15" selected>15 mins</option>
               <option value="30">30 mins</option>
               <option value="60">60 mins</option>
             </select>
           </div>
-
-          <div style="display: flex; gap: 6px; align-items: center; justify-content: center; margin: 4px 0;">
-            <span>Add Session:</span>
-            <select id="chore-duration" style="max-width: 90px; padding: 2px;">
+          <div style="display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 4px;">
+            <span style="font-size:10px;">Log Session:</span>
+            <select id="chore-duration" style="max-width: 90px; padding: 2px; font-size:11px;">
               <option value="5">5m</option>
               <option value="15" selected>15m</option>
               <option value="30">30m</option>
               <option value="60">1h</option>
             </select>
           </div>
-          <button onclick="triggerChoreBoost()" style="background: #03045e; width: 100%;">🧹 Log Active Chore Time</button>
+          <button onclick="triggerChoreBoost()" style="background: #03045e; color: white; width: 100%;">🧹 Log Active Chore Time</button>
         </div>
       </div>
     </div>
 
-    <!-- ================= BOX 3: AMBIENT INSTRUMENT MODULATOR ================= -->
+    <!-- BOX 3: SOUNDSCAPE LAYER -->
     <div class="chunky-widget narrow-widget">
       <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
       <div class="mu-box">
         <div style="font-size: 11px; margin-bottom: 6px;">Select Audio Soundscape Base Layer:</div>
-        <select id="mtype">
-          <option value="chill">Vinyl Pad Matrix</option>
-          <option value="jazz">Melancholy Synthesis</option>
-          <option value="rain">Rainy Beats Layer</option>
-        </select>
+        <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
         <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
       </div>
     </div>
 
-    <!-- ================= BOX 4: FONTS & STICKER VAULT ================= -->
+    <!-- BOX 4: STICKERS AND TEXT VARIANCE -->
     <div class="chunky-widget wide-widget" style="min-width: 340px;">
-      <div class="widget-header"><span style="color: #e65100;">🔤 Font Engine Variance Engine</span></div>
+      <div class="widget-header"><span style="color: #e65100;">🔤 Font Variance Engine</span></div>
       <div class="chunky-widget" style="background: #fff3e0; padding: 8px; border-width: 2px; box-shadow: none;">
         <div style="font-weight: bold; color: #e65100;">✨ Theme Kaomojis Pack:</div>
         <div class="stk-row" id="stk-box"></div>
@@ -155,19 +183,19 @@
       </div>
     </div>
 
-    <!-- ================= BOX 5: TRAIL PLAYZONE SANDBOX ================= -->
+    <!-- BOX 5: SANDBOX PLAYGROUND -->
     <div class="chunky-widget wide-widget">
       <div class="widget-header"><span style="color: #7b1fa2;">✨ Interactive Sandbox Playground</span></div>
-      <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff;">
-        Move cursor over this box to drop sparkles! Click down to hatch an animal!
+      <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff; min-height: 110px; cursor: crosshair;">
+        Move cursor here for sparkly trails! Click to hatch animals!
       </div>
     </div>
 
-    <!-- ================= BOX 6: ACTIVE WORKSPACE HISTORY NOTEBOOK ================= -->
+    <!-- BOX 6: HISTORIC NOTES ARCHIVE LEDGER -->
     <div class="chunky-widget wide-widget" style="min-width: 100%;">
       <div class="widget-header">
         <span style="color: #475569;">📜 Strategic Workspace Activity History Notebook</span>
-        <button onclick="clearSavedData()" style="background:#ef4444; font-size:10px; padding:2px 6px; box-shadow:none; border-width:1px;">⚠️ Reset Storage</button>
+        <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:10px; padding:2px 6px; box-shadow:none; border-width:1px;">⚠️ Reset Storage</button>
       </div>
       <div id="workspace-history-box" style="padding: 10px; background: #fafafa; border: 2px dashed #94a3b8; border-radius: 10px; min-height: 90px; line-height: 1.5; font-size: 11px; color: #334155; max-height: 180px; overflow-y: auto;">
         No milestones logged for this session yet.
@@ -176,6 +204,9 @@
 
   </div>
 
-  <script src="dashboard-boot.js"></script>
+  <script src="database.js"></script>
+  <script src="engine.js"></script>
+  <script src="hamster.js"></script>
+  <script src="playground.js"></script>
 </body>
 </html>
