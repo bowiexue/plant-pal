@@ -5,6 +5,7 @@ function copyText(val){navigator.clipboard.writeText(val);alert("📋 Copied: "+
 
 function genFonts(){
   var txt=document.getElementById('cust-txt-in').value||'Plant Pal',fBox=document.getElementById('fnt-box'),pConfig=plantData[kind],out=[];
+  if(!pConfig||!pConfig.fonts) return;
   for(var j=0;j<pConfig.fonts.length;j++){
     var fType=pConfig.fonts[j].key,fName=pConfig.fonts[j].name,converted=convertStr(txt,fType);
     out.push('<div class="fnt-row" onclick="copyText(\''+converted+'\')"><span>'+converted+'</span><span style="color:#004d40; font-size:9px; font-weight:normal;">['+fName+'] copy</span></div>');
@@ -12,7 +13,8 @@ function genFonts(){
 }
 
 function updateStickers(){
-  var pConfig=plantData[kind];document.getElementById('eco-desc').innerText=pConfig.desc;
+  var pConfig=plantData[kind];if(!pConfig) return;
+  document.getElementById('eco-desc').innerText=pConfig.desc;
   var sBox=document.getElementById('stk-box'),sOut=[];
   for(var i=0;i<pConfig.kaomojis.length;i++){sOut.push('<button class="stk-btn" onclick="copyText(\''+pConfig.kaomojis[i]+'\')">'+pConfig.kaomojis[i]+'</button>');}
   sBox.innerHTML=sOut.join('');genFonts();
@@ -87,7 +89,7 @@ function draw(){
   else if(kind=="mushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
 }
 
-// FORCE LOAD ENGINE TRIGGERS IMMEDIATELY
-window.addEventListener('DOMContentLoaded', function() {
+// SAFE EXECUTION ORDER GATEWAY LOCK
+window.onload = function() {
   ren(); show(); updateStickers(); draw(); msg();
-});
+};
