@@ -180,7 +180,19 @@ li {
 
 /* Font Engine Containers */
 .stk-row { display: flex; gap: 4px; flex-wrap: wrap; }
-.stk-btn { background: #fff; border: 2px solid var(--border-color); padding: 4px 8px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+.stk-btn { 
+  background: #ffffff; 
+  border: 2px solid var(--border-color); 
+  color: #000000; /* Force bold black text color */
+  padding: 5px 10px; 
+  border-radius: 12px; 
+  cursor: pointer; 
+  font-weight: bold; 
+}
+.stk-btn:hover {
+  background: #f0f0f0;
+}
+
 .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; }
 .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
 
