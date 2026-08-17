@@ -2,53 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Plant Pal Master Hub</title>
+  <title>SproutOS Smartphone Deck</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      background: #f4f9f4;
-      font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .launch-box {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      text-align: center;
-      border: 2px solid #52b788;
-    }
-    .launch-btn {
-      background: #52b788;
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      font-size: 14px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: monospace;
-      box-shadow: 0 4px 0 #2d6a4f;
-      transition: all 0.1s ease;
-    }
-    .launch-btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 0px 0 #2d6a4f;
-    }
-    h3 { margin-top: 0; color: #2d6a4f; }
-    p { color: #555; font-size: 11px; margin-bottom: 20px; }
+    body { background:#f0f3f5; font-family:monospace; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+    .phone-container { width:360px; height:740px; background:#111; border:12px solid #222; border-radius:40px; box-shadow:0 12px 32px rgba(0,0,0,0.25); position:relative; overflow:hidden; display:flex; flex-direction:column; }
+    .phone-status-bar { height:24px; background:#000; color:#fff; font-size:10px; display:flex; justify-content:between; align-items:center; padding:0 20px; font-weight:bold; }
+    .phone-screen { flex:1; background:#f4f9f4; position:relative; display:flex; flex-direction:column; overflow-y:auto; padding:15px; }
+    .app-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:15px; margin-top:15px; }
+    .app-icon { background:#fff; border:2px solid #ccc; border-radius:16px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; text-align:center; padding:5px; box-shadow:0 3px 6px rgba(0,0,0,0.05); }
+    .app-icon:hover { background:#eaf4ea; transform:scale(1.03); }
+    .app-label { font-size:10px; margin-top:4px; color:#333; }
+    .app-page { display:none; flex-direction:column; gap:8px; height:100%; animation:fadeInOS 0.15s ease-out; }
+    @keyframes fadeInOS { from { opacity:0; transform:scale(0.97); } to { opacity:1; transform:scale(1); } }
+    .phone-home-bar { height:20px; background:#f4f9f4; display:flex; justify-content:center; align-items:center; cursor:pointer; padding-bottom:4px; }
+    .home-pill { width:100px; height:5px; background:#888; border-radius:10px; }
+    .home-pill:hover { background:#333; }
   </style>
 </head>
 <body>
-
-  <div class="launch-box">
-    <h3>SproutPal Pro Master Suite 🌿</h3>
-    <p>Launches your phone-widget desktop tracker sandbox into a dedicated standalone canvas page.</p>
-    <button class="launch-btn" onclick="location.href='dashboard.html'">🚀 Open Workspace Dashboard</button>
+  <div class="phone-container">
+    <div class="phone-status-bar">
+      <span id="os-clock">12:00 PM</span><span style="font-size:8px;">SproutOS 📶 🔋 100%</span>
+    </div>
+    <div class="phone-screen" id="screen-viewport">
+      <!-- SCREEN 0: HOME DESKTOP DECK -->
+      <div id="page-home" style="display:flex; flex-direction:column; gap:8px; width:100%;">
+        <div id="wdg" class="sl" style="background:#e8f1f5; border-color:#b0c4de;">
+          <div class="sl-row" style="font-weight:bold;"><span>Palo Alto, CA 📍</span><span id="wdg-temp">73°F</span></div>
+          <div class="sl-row"><span id="wdg-time">12:00:00 PM</span><span>☁️ Mostly Cloudy</span></div>
+        </div>
+        <div style="font-weight:bold; color:#2d6a4f; margin-top:5px;">📱 Open Workspace Apps:</div>
+        <div class="app-grid">
+          <div class="app-icon" onclick="openApp('page-hamster')" style="border-color:#03045e;"><span style="font-size:20px;">🐹</span><span class="app-label">Hamster</span></div>
+          <div class="app-icon" onclick="openApp('page-plant')" style="border-color:#52b788;"><span style="font-size:20px;">🌿</span><span class="app-label">Plant Pal</span></div>
+          <div class="app-icon" onclick="openApp('page-todo')" style="border-color:#a26967;"><span style="font-size:20px;">📝</span><span class="app-label">Tasks</span></div>
+          <div class="app-icon" onclick="openApp('page-audio')" style="border-color:#457b9d;"><span style="font-size:20px;">🎵</span><span class="app-label">Music</span></div>
+          <div class="app-icon" onclick="openApp('page-fonts')" style="border-color:#004d40;"><span style="font-size:20px;">🔤</span><span class="app-label">Fonts</span></div>
+          <div class="app-icon" onclick="openApp('page-playground')" style="border-color:#ab47bc;"><span style="font-size:20px;">✨</span><span class="app-label">Playzone</span></div>
+        </div>
+      </div>
+      <!-- SCREEN 1: HAMSTER WORKSPACE -->
+      <div id="page-hamster" class="app-page">
+        <div class="fat-widget" style="flex:1; justify-content:space-between;">
+          <div class="fat-header"><span style="font-weight:bold; color:#03045e;">🐹 Hamster Runner</span><span id="hamster-status" style="font-size:9px; color:#03045e; font-weight:bold;">STATUS: IDLE</span></div>
+          <div style="display:flex; flex-direction:column; gap:12px; align-items:center; flex:1; justify-content:center;">
+            <canvas id="hamsterCanvas" width="128" height="128"></canvas>
+            <div class="fat-info" style="text-align:center; width:100%;">
+              <div>Chores Active: <span id="chore-time" style="font-weight:bold; color:#03045e;">0 mins</span></div>
+              <div style="margin-top:8px; display:flex; gap:6px; align-items:center; justify-content:center;">
+                <span>Set:</span>
+                <select id="chore-duration"><option value="5">5m</option><option value="15" selected>15m</option><option value="30">30m</option><option value="60">1h</option></select>
+              </div>
+              <button onclick="triggerChoreBoost()" style="margin-top:10px; background:#03045e; width:85%;">🧹 Log Session</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SCREEN 2: PLANT BIO CANVAS -->
+      <div id="page-plant" class="app-page">
+        <div class="sl" style="text-align:center;"><div id="st" class="st">Loading...</div></div>
+        <div style="display:flex; justify-content:center; margin:5px 0;"><div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div></div>
+        <div class="side-ctrls">
+          <div id="tmbx" class="tm-box mode-focus"><div id="tm" class="tm">25:00</div></div>
+          <div class="bt"><button id="go" onclick="run()">Start</button><button onclick="reset()">Reset</button></div>
+        </div>
+        <div class="sl">
+          <div class="sl-row"><span>Plant:</span><select id="pt" onchange="chg()">
+            <option value="sprout">Thick Sprout</option><option value="cactus">Big Cactus</option><option value="flower">Sunflower</option><option value="orchid">Exotic Orchid</option>
+          </select></div>
+        </div>
+        <div class="sl" style="background:#eaf4f4; border-color:#cce3de; flex:1; overflow-y:auto;">
+          <div style="font-weight:bold; color:#164e63;">📖 Guide Report:</div><div id="eco-desc" style="font-style:italic; font-size:10px;">Loading...</div>
+        </div>
+      </div>
+      <!-- SCREEN 3: TO-DO TASK ENGINE -->
+      <div id="page-todo" class="app-page">
+        <div style="font-weight:bold; color:#2d6a4f;">📝 Tasks Checklist:</div>
+        <div class="td"><div class="rw"><input type="text" id="in" placeholder="Task..."><button onclick="add()">Add</button></div><ul id="el" style="max-height:220px;"></ul></div>
+        <div class="an-box" style="margin-top:auto; height:60px;">🐾 Visitor:<div id="an" class="pt-c"></div></div>
+      </div>
+      <!-- SCREEN 4: AUDIO PACK SYNTHESIZER -->
+      <div id="page-audio" class="app-page">
+        <div class="mu-box" style="flex:1; justify-content:center; display:flex; flex-direction:column; gap:15px;">
+          <div style="font-weight:bold; color:#fff; text-align:center;">🎵 Ambient Music Mixer</div>
+          <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
+          <button id="m" class="mu" onclick="tune()">🔊 Initialize Sound</button>
+        </div>
+      </div>
+      <!-- SCREEN 5: FONTS ENGINE -->
+      <div id="page-fonts" class="app-page">
+        <div class="sl" style="background:#fff3e0; border-color:#ffe0b2;"><div style="font-weight:bold; color:#e65100;">✨ Kaomojis:</div><div class="stk-row" id="stk-box"></div></div>
+        <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb; flex:1; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="font-weight:bold; color:#004d40;">🔤 Font Engine Dashboard:</div>
+          <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="margin-bottom:6px;">
+          <div class="fnt-col" id="fnt-box" style="flex:1; overflow-y:auto;"></div>
+        </div>
+      </div>
+      <!-- SCREEN 6: PLAYGROUND -->
+      <div id="page-playground" class="app-page">
+        <div style="font-weight:bold; color:#7b1fa2;">✨ Cursor Sandbox:</div>
+        <div id="playzone" class="pz" style="flex:1;">Move inside for trails & click!</div>
+      </div>
+    </div>
+    <div class="phone-home-bar" onclick="returnToHome()"><div class="home-pill"></div></div>
   </div>
-
+  <script src="database.js"></script><script src="audio.js"></script><script src="engine.js"></script><script src="playground.js"></script><script src="hamster.js"></script>
+  <script>
+    function openApp(id) {
+      document.getElementById('page-home').style.display = 'none';
+      var p = document.getElementsByClassName('app-page');
+      for (var i=0; i<p.length; i++) p[i].style.display = 'none';
+      document.getElementById(id).style.display = 'flex';
+      var v = document.getElementById('screen-viewport'), h = document.querySelector('.phone-home-bar');
+      v.style.background = id==='page-audio'?'#1d3557':id==='page-hamster'?'#f0f4f8':'#f4f9f4';
+      h.style.background = v.style.background;
+    }
+    function returnToHome() {
+      var p = document.getElementsByClassName('app-page');
+      for (var i=0; i<p.length; i++) p[i].style.display = 'none';
+      document.getElementById('page-home').style.display = 'flex';
+      document.getElementById('screen-viewport').style.background = '#f4f9f4';
+      document.querySelector('.phone-home-bar').style.background = '#f4f9f4';
+    }
+    setInterval(function() {
+      var d = new Date(); document.getElementById('os-clock').innerText = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }, 1000);
+    window.addEventListener('load', function() {
+      setTimeout(function() { if(typeof ren==='function'){ren();show();updateStickers();draw();msg();initHamster();} }, 150);
+    });
+  </script>
 </body>
 </html>
