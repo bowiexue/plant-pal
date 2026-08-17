@@ -1,43 +1,19 @@
-(function() {
-  var pz = document.getElementById('playzone');
-  if (!pz) return;
-
-  var trailGlitters = ["✨", "▫️", "▪️", "⭐", "▪️"];
-  var burstElements = ["🌸", "🐰", "⭐", "🍃", "✨", "🐼", "🦊", "🐸", "🦋", "🐿️"];
-
-  function spawnNode(x, y, char, type) {
-    var n = document.createElement('span');
-    n.className = 'ptc-node';
-    n.innerText = char;
-    n.style.left = x + 'px';
-    n.style.top = y + 'px';
-    
-    var mx = (Math.random() - 0.5) * (type === 'click' ? 120 : 30);
-    var my = (Math.random() - 0.5) * (type === 'click' ? 120 : 30) - (type === 'click' ? 40 : 15);
-    
-    n.style.setProperty('--mx', mx + 'px');
-    n.style.setProperty('--my', my + 'px');
-    
-    pz.appendChild(n);
-    setTimeout(function() { n.remove(); }, 800);
-  }
-
+var pz = document.getElementById('playzone');
+if (pz) {
   pz.addEventListener('mousemove', function(e) {
-    if (Math.random() > 0.15) return;
-    var rect = pz.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
-    var randomGlitter = trailGlitters[Math.floor(Math.random() * trailGlitters.length)];
-    spawnNode(x, y, randomGlitter, 'move');
+    var b = pz.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+    var s = document.createElement('div'); s.innerText = "✨"; s.style.position = "absolute";
+    s.style.left = x + "px"; s.style.top = y + "px"; s.style.fontSize = "10px"; s.style.pointerEvents = "none";
+    s.style.transition = "transform 0.5s, opacity 0.5s"; pz.appendChild(s);
+    setTimeout(function() { s.style.transform = "translateY(-15px) scale(0.5)"; s.style.opacity = "0"; }, 50);
+    setTimeout(function() { s.remove(); }, 500);
   });
 
   pz.addEventListener('mousedown', function(e) {
-    var rect = pz.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
-    for (var i = 0; i < 8; i++) {
-      var randomBurst = burstElements[Math.floor(Math.random() * burstElements.length)];
-      spawnNode(x, y, randomBurst, 'click');
-    }
+    var b = pz.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+    var c = ["🐣", "🐱", "🐰", "🦊", "🐻", "🐼", "🐨"], r = c[Math.floor(Math.random() * c.length)];
+    var p = document.createElement('div'); p.innerText = r; p.style.position = "absolute";
+    p.style.left = (x - 8) + "px"; p.style.top = (y - 8) + "px"; p.style.fontSize = "14px"; p.style.pointerEvents = "none";
+    pz.appendChild(p); if(typeof logHistory === 'function') logHistory("Hatched a custom " + r + " in Sandbox zone!");
   });
-})();
+}
