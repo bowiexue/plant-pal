@@ -1,145 +1,192 @@
-window.hamsterIsSad = false;
+:root { 
+  --bg: #f4f9f4; 
+  --card-bg: #ffffff;
+  --p: #52b788; 
+  --pd: #2d6a4f; 
+  --ac: #d8f3dc; 
+  --border-color: #222222;
+}
 
-(function() {
-  var canvas = document.getElementById('hamsterCanvas');
-  var ctx = canvas.getContext('2d');
-  
-  var choreMinutes = 0;
-  var idleTicks = 0;
-  var wheelRotation = 0;
-  var animationFrame = 0;
+* { 
+  box-sizing: border-box; 
+  font-family: monospace; 
+  font-size: 12px; 
+}
 
-  window.addEventListener('mousedown', function() { idleTicks = 0; });
-  window.addEventListener('mousemove', function() { idleTicks = 0; });
+body { 
+  background: #f0f4f1; 
+  margin: 0; 
+  padding: 20px;
+}
 
-  window.triggerChoreBoost = function() {
-    idleTicks = 0;
-    var pickedDuration = parseInt(document.getElementById('chore-duration').value || "15");
-    choreMinutes += pickedDuration;
-    if (choreMinutes > 60) choreMinutes = 60;
-    var el = document.getElementById('chore-time');
-    if(el) el.innerText = choreMinutes + " mins";
-  };
+/* Master Header Title Banner */
+.dashboard-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--pd);
+  margin-bottom: 20px;
+  border-bottom: 3px solid var(--border-color);
+  padding-bottom: 8px;
+}
 
-  function drawPixelBlock(x, y, w, h, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x * 8, y * 8, w * 8, h * 8);
-  }
+/* Responsive Desktop Masonry Flex Grid */
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
 
-  function renderWidget() {
-    if (!canvas || !ctx) return;
-    ctx.clearRect(0, 0, 128, 128);
-    animationFrame++;
+/* Heavy Chunky Widget Box Structure */
+.chunky-widget {
+  background: var(--card-bg);
+  border: 3px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-    var status = "IDLE";
-    if (choreMinutes >= 60) {
-      status = "RUNNING";
-      window.hamsterIsSad = false;
-    } else if (idleTicks > 15) {
-      status = "SAD";
-      window.hamsterIsSad = true;
-    } else {
-      window.hamsterIsSad = false;
-    }
-    
-    var statusEl = document.getElementById('hamster-status');
-    if(statusEl) statusEl.innerText = "STATUS: " + status;
+/* Size Configurations for Columns */
+.wide-widget { flex: 2; min-width: 320px; }
+.narrow-widget { flex: 1; min-width: 260px; }
 
-    drawPixelBlock(0, 15, 16, 1, "#ebd9cc");
+.widget-header {
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    var centerX = 64;
-    var centerY = 68;
-    var radius = 34;
+/* Combined Workspace Elements */
+.plant-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
 
-    if (status === "RUNNING") {
-      wheelRotation += 0.4;
-      
-      ctx.strokeStyle = "#03045e";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.lineTo(centerX + Math.cos(wheelRotation) * radius, centerY + Math.sin(wheelRotation) * radius);
-      ctx.moveTo(centerX, centerY);
-      ctx.lineTo(centerX - Math.cos(wheelRotation) * radius, centerY - Math.sin(wheelRotation) * radius);
-      ctx.stroke();
+.cv-wrap { 
+  width: 144px; 
+  height: 144px; 
+  background: var(--ac); 
+  border-radius: 12px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  border: 2px solid var(--border-color); 
+}
 
-      var bob = (animationFrame % 2) * 1;
-      var ox = 4; 
-      var oy = 7 + bob;
-      drawPixelBlock(ox+2, oy+2, 5, 4, "#d4a373");
-      drawPixelBlock(ox+3, oy+4, 4, 2, "#f4f1de");
-      drawPixelBlock(ox+7, oy+2, 2, 3, "#e9c46a");
-      drawPixelBlock(ox+2, oy+1, 1, 1, "#ffb5a7");
-      drawPixelBlock(ox+5, oy+1, 1, 1, "#ffb5a7"); 
-      drawPixelBlock(ox+8, oy+2, 1, 1, "#222222");
-      drawPixelBlock(ox+9, oy+3, 1, 1, "#ffccd5");
-      drawPixelBlock(ox+3, oy+6, 1, 1, "#e07a5f");
-      drawPixelBlock(ox+6, oy+6, 1, 1, "#e07a5f");
+canvas { 
+  background: var(--ac); 
+  image-rendering: pixelated; 
+}
 
-    } else if (status === "SAD") {
-      drawPixelBlock(4, 1, 8, 2, "#90e0ef");
-      drawPixelBlock(3, 2, 10, 1, "#00b4d8");
-      
-      if (animationFrame % 2 === 0) {
-        drawPixelBlock(4, 4, 1, 1, "#0077b6");
-        drawPixelBlock(7, 5, 1, 1, "#0077b6");
-        drawPixelBlock(10, 4, 1, 1, "#0077b6");
-      } else {
-        drawPixelBlock(5, 5, 1, 1, "#0077b6");
-        drawPixelBlock(8, 4, 1, 1, "#0077b6");
-        drawPixelBlock(11, 5, 1, 1, "#0077b6");
-      }
+.side-ctrls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-      ctx.strokeStyle = "#03045e";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.stroke();
+.tm-box {
+  background: #fafafa;
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  text-align: center;
+}
 
-      var ox = 5;
-      var oy = 8;
-      drawPixelBlock(ox+2, oy+2, 5, 4, "#b0a99f");
-      drawPixelBlock(ox+3, oy+4, 3, 2, "#ffffff");
-      drawPixelBlock(ox+1, oy+2, 1, 1, "#ffccd5");
-      drawPixelBlock(ox+4, oy+2, 1, 1, "#ffccd5");
-      drawPixelBlock(ox+5, oy+3, 1, 1, "#457b9d");
-      drawPixelBlock(ox+7, oy+4, 1, 1, "#ffccd5");
+.tm { 
+  font-size: 26px; 
+  font-weight: bold; 
+  color: var(--pd); 
+}
 
-    } else {
-      ctx.strokeStyle = "#03045e";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.stroke();
+.bt { 
+  display: flex; 
+  gap: 6px; 
+}
 
-      var breathe = Math.sin(animationFrame * 0.1) * 0.3;
-      var ox = 5;
-      var oy = 9;
-      drawPixelBlock(ox+2, oy+1, 5, 4 + breathe, "#e9c46a");
-      drawPixelBlock(ox+4, oy+3, 3, 2, "#fff3b0");
-      drawPixelBlock(ox+6, oy+2, 1, 1, "#222222");
-      drawPixelBlock(ox+1, oy+1, 1, 1, "#ffb5a7");
-      drawPixelBlock(ox+3, oy+0, 1, 1, "#ffb5a7");
-    }
-  }
+button { 
+  background: var(--p); 
+  color: #ffffff; 
+  border: 2px solid var(--border-color); 
+  padding: 6px 12px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-weight: bold; 
+  box-shadow: 2px 2px 0px #000;
+}
 
-  window.initHamster = function() {
-    setInterval(function() {
-      idleTicks++;
-      if (idleTicks > 20 && choreMinutes > 0) {
-        choreMinutes -= 1;
-        var timeEl = document.getElementById('chore-time');
-        if(timeEl) timeEl.innerText = choreMinutes + " mins";
-      }
-      renderWidget();
-      if (typeof msg === 'function') msg();
-    }, 1000);
+button:hover { 
+  background: var(--pd); 
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000;
+}
 
-    setInterval(renderWidget, 150);
-  };
-})();
+/* To-Do Checklist Framework */
+.td { text-align: left; }
+.rw { display: flex; gap: 6px; margin-bottom: 8px; }
+input[type="text"], select { 
+  flex: 1; 
+  padding: 6px; 
+  border-radius: 8px; 
+  border: 2px solid var(--border-color); 
+  font-family: monospace;
+}
+
+ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+}
+
+li { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 6px; 
+  background: #fafafa; 
+  border: 2px solid var(--border-color); 
+  border-radius: 8px; 
+}
+
+.dn span { text-decoration: line-through; color: #888; }
+.dl { background: none; color: #ef4444; border: none; box-shadow: none; padding: 0 4px; }
+.dl:hover { background: none; color: #b91c1c; }
+
+/* Animal Sandbox Strips */
+.an-box { 
+  background: #fafafa; 
+  padding: 8px; 
+  border-radius: 12px; 
+  font-weight: bold; 
+  position: relative; 
+  border: 2px solid var(--border-color); 
+  height: 48px;
+  overflow: hidden; 
+}
+
+.pt-c { position: absolute; bottom: 0; left: 0; width: 100%; height: 24px; }
+.pet { position: absolute; font-size: 16px; bottom: 2px; transition: left 0.4s; }
+
+/* Font Engine Containers */
+.stk-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.stk-btn { background: #fff; border: 2px solid var(--border-color); padding: 4px 8px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+.fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; }
+.fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
+
+/* Special Content Audio Panels */
+.mu-box { background: #457b9d; border: 3px solid var(--border-color); border-radius: 16px; padding: 14px; color: white; }
+.mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
+.mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
+
+.pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
