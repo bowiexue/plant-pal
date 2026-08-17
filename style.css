@@ -1,15 +1,16 @@
 :root { --bg:#f4f9f4; --c:#fff; --p:#52b788; --pd:#2d6a4f; --ac:#d8f3dc; --t:#2f3e46; }
 * { box-sizing:border-box; font-family:monospace; font-size:11px; }
-body { background:var(--bg); color:var(--t); display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+body { background:var(--bg); color:var(--t); display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; padding:20px; }
 
 .bx { background:var(--c); padding:15px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.1); width:620px; display:flex; flex-direction:column; gap:8px; }
 .mid-row { display:flex; gap:15px; align-items:center; justify-content:space-between; width:100%; }
-.cv-wrap { width:180px; height:180px; background:var(--ac); border-radius:8px; display:flex; justify-content:center; align-items:center; }
+.cv-wrap { width:180px; height:180px; background:var(--ac); border-radius:8px; display:flex; justify-content:center; align-items:center; position:relative; }
 
-.fat-widget { background:#fbf5f0; border:2px solid #e3d5ca; border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:6px; box-shadow:inset 0 1px 3px rgba(0,0,0,0.05); }
-.fat-header { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ebd9cc; padding-bottom:4px; }
+/* Phone Home-Screen Style Custom App Widget Frame Settings */
+.fat-widget { background:#f0f4f8; border:2px solid #03045e; border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:6px; box-shadow:inset 0 1px 3px rgba(0,0,0,0.05); }
+.fat-header { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #b2c2d2; padding-bottom:4px; }
 .fat-info { flex:1; display:flex; flex-direction:column; justify-content:center; text-align:left; }
-#hamsterCanvas { background:#fff; border-radius:10px; border:1px solid #ebd9cc; image-rendering:pixelated; width:128px; height:128px; }
+#hamsterCanvas { background:#fff; border-radius:10px; border:1px solid #b2c2d2; image-rendering:pixelated; width:128px; height:128px; }
 
 .side-ctrls { display:flex; flex-direction:column; gap:8px; flex:1; }
 .stk-row { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
