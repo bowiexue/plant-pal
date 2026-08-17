@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- PHONE APP STYLE CHUNKY FAT RECTANGLE CUSTOM WIDGET -->
+    <!-- PHONE APP STYLE CHUNKY FAT RECTANGLE WIDGET -->
     <div class="fat-widget">
       <div class="fat-header">
         <span style="font-weight:bold; color:#5c3d2e;">🐹 Hamster Wheel Tracker</span>
@@ -28,8 +28,19 @@
         <canvas id="hamsterCanvas" width="128" height="128"></canvas>
         <div class="fat-info">
           <div>Chores Active: <span id="chore-time" style="font-weight:bold; color:#a26967;">0 mins</span></div>
-          <div style="font-size:9px; color:#777; margin-top:4px;">Work 1 hour to spin wheel! Idle tracks tab neglect.</div>
-          <button id="chore-btn" onclick="triggerChoreBoost()" style="margin-top:6px; background:#a26967; font-size:10px; padding:4px 8px;">🧹 Do 15m Chores</button>
+          
+          <!-- NEW TIME PICKER DROPDOWN TOGGLE -->
+          <div style="margin-top:4px; display:flex; gap:4px; align-items:center;">
+            <span>Add:</span>
+            <select id="chore-duration" style="font-size:10px; padding:1px;">
+              <option value="5">5 mins</option>
+              <option value="15" selected>15 mins</option>
+              <option value="30">30 mins</option>
+              <option value="60">1 hour</option>
+            </select>
+          </div>
+          
+          <button id="chore-btn" onclick="triggerChoreBoost()" style="margin-top:6px; background:#a26967; font-size:10px; padding:4px 8px;">🧹 Log Chore Session</button>
         </div>
       </div>
     </div>
@@ -127,7 +138,6 @@
   <script src="playground.js"></script>
   <script src="hamster.js"></script>
 
-  <!-- MASTER INITIALIZATION SCRIPT INJECTION -->
   <script>
     window.addEventListener('load', function() {
       if (typeof ren === 'function') ren();
