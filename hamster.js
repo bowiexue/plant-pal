@@ -14,11 +14,11 @@ window.hamsterIsSad = false;
 
   window.triggerChoreBoost = function() {
     idleTicks = 0;
-    // Reads custom chosen duration value toggle choice
     var pickedDuration = parseInt(document.getElementById('chore-duration').value || "15");
     choreMinutes += pickedDuration;
     if (choreMinutes > 60) choreMinutes = 60;
-    document.getElementById('chore-time').innerText = choreMinutes + " mins";
+    var el = document.getElementById('chore-time');
+    if(el) el.innerText = choreMinutes + " mins";
   };
 
   function drawPixelBlock(x, y, w, h, color) {
@@ -37,7 +37,7 @@ window.hamsterIsSad = false;
       window.hamsterIsSad = false;
     } else if (idleTicks > 15) {
       status = "SAD";
-      window.hamsterIsSad = true; // Communicates state link over to main engine drawing functions
+      window.hamsterIsSad = true;
     } else {
       window.hamsterIsSad = false;
     }
@@ -47,7 +47,6 @@ window.hamsterIsSad = false;
 
     drawPixelBlock(0, 15, 16, 1, "#ebd9cc");
 
-    // WHEEL CONFIGURATION: Shifted lower center axis alignment to anchor the hamster beautifully
     var centerX = 64;
     var centerY = 68;
     var radius = 34;
@@ -55,7 +54,6 @@ window.hamsterIsSad = false;
     if (status === "RUNNING") {
       wheelRotation += 0.4;
       
-      // DARK BLUE SPINNING WHEEL RIM BOUNDS
       ctx.strokeStyle = "#03045e";
       ctx.lineWidth = 4;
       ctx.beginPath();
@@ -70,7 +68,6 @@ window.hamsterIsSad = false;
       ctx.lineTo(centerX - Math.cos(wheelRotation) * radius, centerY - Math.sin(wheelRotation) * radius);
       ctx.stroke();
 
-      // PERFECTLY ALIGNED RUNNING HAMSTER CENTERED INNER LAYER TRACK
       var bob = (animationFrame % 2) * 1;
       var ox = 4; 
       var oy = 7 + bob;
@@ -85,7 +82,6 @@ window.hamsterIsSad = false;
       drawPixelBlock(ox+6, oy+6, 1, 1, "#e07a5f");
 
     } else if (status === "SAD") {
-      // RAIN CLOUD
       drawPixelBlock(4, 1, 8, 2, "#90e0ef");
       drawPixelBlock(3, 2, 10, 1, "#00b4d8");
       
@@ -99,14 +95,12 @@ window.hamsterIsSad = false;
         drawPixelBlock(11, 5, 1, 1, "#0077b6");
       }
 
-      // FIXED STATIONARY DARK BLUE REJECTED TRACK RIM
       ctx.strokeStyle = "#03045e";
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.stroke();
 
-      // SLUMPED INSIDE BED CENTER BOUNDS
       var ox = 5;
       var oy = 8;
       drawPixelBlock(ox+2, oy+2, 5, 4, "#b0a99f");
@@ -117,7 +111,6 @@ window.hamsterIsSad = false;
       drawPixelBlock(ox+7, oy+4, 1, 1, "#ffccd5");
 
     } else {
-      // COZY IDLE STANDARD BACKGROUND
       ctx.strokeStyle = "#03045e";
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -144,7 +137,6 @@ window.hamsterIsSad = false;
         if(timeEl) timeEl.innerText = choreMinutes + " mins";
       }
       renderWidget();
-      // Forces main plant engine script text status alerts to match linked states
       if (typeof msg === 'function') msg();
     }, 1000);
 
