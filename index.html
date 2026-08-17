@@ -1,244 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SproutOS Consolidated Workspace Dashboard</title>
+  <meta charset="UTF-8"><title>SproutOS Dashboard</title>
   <style>
-    :root { --bg: #f4f9f4; --card-bg: #ffffff; --p: #52b788; --pd: #2d6a4f; --ac: #d8f3dc; --border-color: #222222; }
+    :root { --card-bg: #fff; --p: #52b788; --pd: #2d6a4f; --ac: #d8f3dc; --border: 3px solid #222; }
     * { box-sizing: border-box; font-family: monospace; font-size: 12px; }
     body { background: #f0f4f1; margin: 0; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
-    .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 12px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
-    .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
-    
-    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; flex: 1; margin-bottom: 20px; }
-    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
-    
-    .wide-widget { flex: 2; min-width: 340px; display: flex; flex-direction: column; }
+    .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px; border-radius: 12px; border: var(--border); margin-bottom: 16px; }
+    .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: var(--border); padding-bottom: 8px; }
+    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+    .chunky-widget { background: var(--card-bg); border: var(--border); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
+    .wide-widget { flex: 2; min-width: 340px; }
     .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
-    .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid #222; padding-bottom: 6px; display: flex; justify-content: space-between; }
     .plant-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-    .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--border-color); }
+    .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid #222; }
     canvas { background: var(--ac); image-rendering: pixelated; }
     .side-ctrls { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
-    .tm-box { background: #fafafa; padding: 8px; border-radius: 8px; border: 2px solid var(--border-color); text-align: center; }
+    .tm-box { background: #fafafa; padding: 8px; border-radius: 8px; border: 2px solid #222; text-align: center; }
     .tm { font-size: 26px; font-weight: bold; color: var(--pd); }
     .btn-grid { display: flex; gap: 6px; width: 100%; }
-    button { background: var(--p); color: #000; border: 2px solid var(--border-color); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; transition: transform 0.1s, box-shadow 0.1s; }
-    button:hover { background: var(--ac); transform: translate(1px, 1px); box-shadow: 1px 1px 0px #000; }
-    button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #000; }
+    button { background: var(--p); border: 2px solid #222; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
     .tgl-btn { background: #cbd5e1; color: #334155; }
     .tgl-btn.active-focus { background: #2d6a4f !important; color: #fff !important; }
     .tgl-btn.active-break { background: #475569 !important; color: #fff !important; }
     .tgl-btn.active-len { background: #52b788 !important; color: #000 !important; }
-    .td { text-align: left; }
     .rw { display: flex; gap: 6px; margin-bottom: 8px; }
-    input[type="text"], select { width: 100%; padding: 6px; border-radius: 8px; border: 2px solid var(--border-color); font-family: monospace; font-weight: bold; background: #fff; }
+    input[type="text"], select { width: 100%; padding: 6px; border-radius: 8px; border: 2px solid #222; font-weight: bold; }
     ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
-    li { display: flex; align-items: center; justify-content: space-between; padding: 6px; background: #fafafa; border: 2px solid var(--border-color); border-radius: 8px; word-break: break-word; }
+    li { display: flex; align-items: center; justify-content: space-between; padding: 6px; background: #fafafa; border: 2px solid #222; border-radius: 8px; word-break: break-word; }
     .dn span { text-decoration: line-through; color: #888; }
-    .dl { background: none; color: #ef4444; border: none; box-shadow: none; padding: 0 4px; cursor: pointer; }
-    .an-box { background: #fafafa; padding: 8px; border-radius: 12px; font-weight: bold; position: relative; border: 2px solid var(--border-color); height: 48px; overflow: hidden; }
+    .dl { background: none; color: #ef4444; border: none; padding: 0 4px; cursor: pointer; }
+    .an-box { background: #fafafa; padding: 8px; border-radius: 12px; font-weight: bold; position: relative; border: 2px solid #222; height: 48px; overflow: hidden; }
     .pt-c { position: absolute; bottom: 0; left: 0; width: 100%; height: 24px; }
     .pet { position: absolute; font-size: 16px; bottom: 2px; transition: left 0.4s; }
-    
-    /* OVERFLOW CONTAINMENT CORES: Traps expanding sticker boxes and wrapping descriptions safely */
-    .stk-row { display: flex; gap: 6px; flex-wrap: wrap; max-height: 140px; overflow-y: auto; padding-right: 4px; }
-    .stk-btn { background: #fff; border: 2px solid var(--border-color); color: #000; padding: 6px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
+    .stk-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 0; max-height: 140px; overflow-y: auto; }
+    .stk-btn { background: #fff; border: 2px solid #222; padding: 6px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
     .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
-    .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; word-break: break-all; }
-    
-    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; }
-    .mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
-    .mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
-    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 110px; flex: 1; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
-    
-    /* TEXT BREAK REPAIRS: Enforces automatic word wrapping for all historical status items */
+    .fnt-row { display: flex; justify-content: space-between; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid #222; font-weight: bold; cursor: pointer; word-break: break-all; }
+    .mu-box { background: #457b9d; border: 2px solid #222; border-radius: 12px; padding: 14px; color: #fff; }
+    .mu-box select { background: #1d3557; color: #fff; margin-bottom: 8px; }
+    .mu { background: #1d3557; width: 100%; color: #fff; border: 2px solid #222; }
+    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 110px; flex: 1; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; }
     .history-item { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; word-break: break-word; white-space: normal; }
     .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
-    .inner-box-nest { background: #fafafa; border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; flex: 1; }
-    
-    /* NOTEBOOK TEXT REPAIRS: Makes sure large paragraphs wrap inside the garden info layout */
-    #eco-desc { font-style: italic; font-size: 11px; margin-top: 2px; word-break: break-word; white-space: normal; line-height: 1.4; }
+    .inner-box-nest { background: #fafafa; border: 2px solid #222; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; flex: 1; }
+    #eco-desc { font-style: italic; font-size: 11px; word-break: break-word; white-space: normal; }
   </style>
 </head>
 <body>
-  <div class="meta-row">
-    <span>🌿 SproutOS Workspace Node</span>
-    <span id="live-system-clock">Loading System Clock...</span>
-  </div>
-
-  <div class="dashboard-title">🌿 SproutOS Personal Space Engine</div>
-
+  <div class="meta-row"><span>🌿 SproutOS Node</span><span id="live-system-clock">00:00:00</span></div>
+  <div class="dashboard-title">🌿 Personal Space Engine</div>
   <div class="dashboard-grid">
-
-    <!-- BOX 1: UNIFIED PLANT GROWER & TASK LIST -->
+    <!-- CORES CONTAINER -->
     <div class="chunky-widget wide-widget">
-      <div class="widget-header">
-        <span style="color: #2d6a4f;">🌿 Ecosystem Workspace Garden</span>
-        <span id="st" style="font-size: 11px; font-weight: bold;">Loading...</span>
-      </div>
-
+      <div class="widget-header"><span style="color: #2d6a4f;">🌿 Garden Matrix</span><span id="st">Loading...</span></div>
       <div class="plant-row">
         <div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div>
         <div class="side-ctrls">
           <div class="tm-box"><div id="tm" class="tm">25:00</div></div>
-          
           <div class="btn-grid">
             <button id="mode-focus" onclick="setTimerMode('focus')" class="tgl-btn active-focus" style="flex:1; padding:4px; font-size:10px;">🎯 Focus</button>
             <button id="mode-break" onclick="setTimerMode('break')" class="tgl-btn" style="flex:1; padding:4px; font-size:10px;">☕ Break</button>
           </div>
-
           <div class="btn-grid">
             <button id="len-short" onclick="setTimerLength('short')" class="tgl-btn" style="flex:1; padding:4px; font-size:10px;">⏱️ Short</button>
             <button id="len-long" onclick="setTimerLength('long')" class="tgl-btn active-len" style="flex:1; padding:4px; font-size:10px;">⏱️ Long</button>
           </div>
-
-          <div class="btn-grid" style="margin-top: 2px;">
-            <button id="go" onclick="run()" style="flex:1; background: #52b788;">Start</button>
-            <button onclick="reset()" style="flex:1; background: #e2e8f0;">Reset</button>
-          </div>
-          
-          <div style="display: flex; flex-direction: column; gap: 2px; margin-top: 4px;">
-            <span style="font-size: 10px; font-weight: bold;">Target Seedling:</span>
-            <select id="pt" onchange="chg()">
-              <option value="sprout">🌿 Thick Sprout</option>
-              <option value="cactus">🌵 Big Cactus</option>
-              <option value="flower">🌻 Sunflower</option>
-              <option value="orchid">🌸 Exotic Orchid</option>
-              <option value="rose">🌹 Crimson Rose</option>
-              <option value="tulip">🌷 Spring Tulip</option>
-              <option value="bamboo">🎍 Lucky Bamboo</option>
-              <option value="bonsai">🌳 Miniature Bonsai</option>
-              <option value="mushroom">🍄 Magic Shroom</option>
-              <option value="clover">🍀 Lucky Clover</option>
-              <option value="fern">🌿 Jungle Fern</option>
-              <option value="maple">🍁 Autumn Maple</option>
-              <option value="palm">🌴 Desert Palm</option>
-              <option value="venus">🌱 Fly Trap</option>
-              <option value="berry">🍓 Wild Berry</option>
-            </select>
-          </div>
+          <div class="btn-grid"><button id="go" onclick="run()" style="flex:1; background:#52b788;">Start</button><button onclick="reset()" style="flex:1; background:#e2e8f0;">Reset</button></div>
+          <select id="pt" onchange="chg()" style="margin-top:4px;">
+            <option value="sprout">🌿 Sprout</option><option value="cactus">🌵 Cactus</option><option value="flower">🌻 Sunflower</option>
+          </select>
         </div>
       </div>
-
-      <div class="td">
-        <div style="font-weight: bold; color: #2d6a4f; margin-bottom: 4px;">📝 Tasks Connected Checklist:</div>
-        <div class="rw">
-          <input type="text" id="in" placeholder="Add a task note..." onkeydown="if(event.key === 'Enter') add()"><button onclick="add()">Add</button>
-        </div>
+      <div style="margin-top:8px;">
+        <div class="rw"><input type="text" id="in" placeholder="Task..." onkeydown="if(event.key==='Enter')add()"><button onclick="add()">Add</button></div>
         <ul id="el"></ul>
       </div>
-
-      <div class="an-box">🐾 Active Sanctuary: <div id="an" class="pt-c"></div></div>
-
-      <div class="chunky-widget" style="background: #eaf4f4; padding: 8px; border-width: 2px; box-shadow: none;">
-        <div style="font-weight: bold; color: #164e63; font-size: 10px;">📖 Ecosystem Guide Notebook:</div>
-        <div id="eco-desc">Loading descriptions...</div>
-      </div>
+      <div class="an-box">🐾 Sanctuary: <div id="an" class="pt-c"></div></div>
+      <div class="chunky-widget" style="background:#eaf4f4; padding:8px; box-shadow:none; border-width:2px;"><div id="eco-desc">Loading...</div></div>
     </div>
-
-    <!-- COLUMN 2: HAMSTER WITH SANDBOX STRETCHED INSIDE -->
+    <!-- SIDE PANEL -->
     <div class="narrow-widget">
-      <div class="chunky-widget" style="box-shadow: none; flex: 1;">
-        <div class="widget-header">
-          <span style="color: #03045e;">🐹 Hamster Runner Station</span>
-          <span id="hamster-status" style="font-size: 10px; font-weight: bold; color: #03045e; background: #e0f2fe; padding: 2px 6px; border-radius: 6px; border: 2px solid #03045e;">STATUS: IDLE</span>
+      <div class="chunky-widget" style="box-shadow:none; flex:1;">
+        <div class="widget-header"><span style="color:#03045e;">🐹 Hamster Wheel</span><span id="hamster-status">IDLE</span></div>
+        <canvas id="hamsterCanvas" width="128" height="128" style="border:2px solid #222; border-radius:12px; margin:0 auto;"></canvas>
+        <div style="text-align:center;">
+          <div style="font-weight:bold;">Chore: <span id="chore-time">0m</span> / <span id="chore-target-display">15m</span></div>
+          <button onclick="triggerChoreBoost()" style="background:#03045e; color:#fff; width:100%; margin-top:4px;">🧹 Log 15m Chore</button>
         </div>
-        
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
-          <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px;"></canvas>
-          <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px;">
-            <div style="font-weight: bold;">Chore Balance: <span id="chore-time" style="color: #03045e;">0 mins</span> / <span id="chore-target-display" style="color:#d62828;">15 mins</span></div>
-            <div class="toggle-row">
-              <span style="font-size:10px;">Run Goal:</span>
-              <select id="hamster-run-threshold" onchange="updateChoreTarget()" style="padding:2px; font-size:11px;">
-                <option value="5">5 mins</option>
-                <option value="15" selected>15 mins</option>
-                <option value="30">30 mins</option>
-                <option value="60">60 mins</option>
-              </select>
-            </div>
-            <div style="display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 4px;">
-              <span style="font-size:10px;">Log Session:</span>
-              <select id="chore-duration" style="max-width: 90px; padding: 2px; font-size:11px;">
-                <option value="5">5m</option>
-                <option value="15" selected>15m</option>
-                <option value="30">30m</option>
-                <option value="60">1h</option>
-              </select>
-            </div>
-            <button onclick="triggerChoreBoost()" style="background: #03045e; color: white; width: 100%;">🧹 Log Active Chore Time</button>
-          </div>
-        </div>
-
         <div class="inner-box-nest">
-          <div style="font-weight: bold; color: #7b1fa2; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">✨ Sandbox Area</div>
-          <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff; cursor: crosshair;">
-            Hover for sparkles!<br>Click to hatch animals.
-          </div>
+          <div id="playzone" class="pz">Hover for sparkles! Click to hatch.</div>
         </div>
       </div>
     </div>
-<!-- COLUMN 3: AUDIO WITH ENLARGED ACTIVITY LOG CHASSIS -->
+    <!-- SYSTEM MONITOR -->
     <div class="narrow-widget">
-      <div class="chunky-widget" style="box-shadow: none; flex: 1;">
-        <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
+      <div class="chunky-widget" style="box-shadow:none; flex:1;">
+        <div class="widget-header"><span style="color:#1d3557;">🎵 Audio Core</span></div>
         <div class="mu-box">
-          <div style="font-size: 11px; margin-bottom: 6px;">Select Audio Soundscape Base Layer:</div>
-          <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
-          <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
+          <select id="mtype"><option value="chill">Vinyl</option><option value="jazz">Melancholy</option></select>
+          <button id="m" class="mu" onclick="tune()">🔊 Start Audio</button>
         </div>
-
-        <div class="inner-box-nest" style="min-height: 250px;">
-          <div style="font-weight: bold; color: #475569; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; display: flex; justify-content: space-between;">
-            <span>📜 Activity Log</span>
-            <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:8px; padding:0px 2px; border-width:1px;">Reset</button>
-          </div>
-          <div id="workspace-history-box" style="padding: 6px; background: #fafafa; border: 1px dashed #94a3b8; border-radius: 8px; flex: 1; height: 210px; line-height: 1.4; font-size: 11px; color: #334155; overflow-y: scroll;">
-            No milestones logged for this session yet.
-          </div>
+        <div class="inner-box-nest" style="min-height:160px;">
+          <div id="workspace-history-box" style="height:130px; overflow-y:scroll;"></div>
         </div>
       </div>
     </div>
-
-    <!-- BOX 4: STICKERS AND TEXT VARIANCE -->
-    <div class="chunky-widget wide-widget" style="min-width: 100%; margin-top: 10px;">
-      <div class="widget-header"><span style="color: #e65100;">🔤 Font Variance Engine</span></div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <div class="chunky-widget" style="background: #fff3e0; padding: 8px; border-width: 2px; box-shadow: none; flex: 1; min-width: 260px;">
-          <div style="font-weight: bold; color: #e65100;">✨ Theme Kaomojis Pack:</div>
-          <div class="stk-row" id="stk-box"></div>
-        </div>
-        <div class="chunky-widget" style="background: #e0f2f1; padding: 8px; border-width: 2px; box-shadow: none; flex: 1; min-width: 260px;">
-          <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="margin-bottom: 6px;">
+    <!-- TRANSFORMER ROW -->
+    <div class="chunky-widget wide-widget" style="min-width:100%;">
+      <div class="widget-header"><span style="color:#e65100;">🔤 Font Engine</span></div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; width:100%;">
+        <div class="chunky-widget" style="background:#fff3e0; box-shadow:none; flex:1; min-width:240px;"><div class="stk-row" id="stk-box"></div></div>
+        <div class="chunky-widget" style="background:#e0f2f1; box-shadow:none; flex:1; min-width:240px;">
+          <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()">
           <div class="fnt-col" id="fnt-box"></div>
         </div>
       </div>
     </div>
-
   </div>
-
-  <script>
-    // ================= INTEGRATED SYSTEM DATABASE =================
-    var plantPets = { sprout: "🐛", cactus: "🦎", flower: "🦋", orchid: "🐝", rose: "🐞", tulip: "🐌", bamboo: "🐼", bonsai: "🦉", mushroom: "🦔", clover: "🐇", fern: "🐸", maple: "🐿️", palm: "🦜", venus: "🐱", berry: "🦝" };
-    var maps = {
-      f1: {"A":"𝔸","B":"𝔹","C":"ℂ","D":"𝔻","E":"𝔼","F":"𝔽","G":"𝔾","H":"ℍ","I":"𝕀","J":"𝕁","K":"𝕂","L":"𝕃","M":"𝕄","N":"ℕ","O":"𝕆","P":"ℙ","Q":"ℚ","R":"ℝ","S":"𝕊","T":"𝕋","U":"𝕌","V":"𝕍","W":"𝕎","X":"𝕏","Y":"𝕐","Z":"ℤ","a":"𝕒","b":"𝕓","c":"𝕔","d":"𝕕","e":"𝕖","f":"𝕗","g":"𝕘","h":"𝕙","i":"𝕚","j":"𝕛","k":"𝕜","l":"𝕝","m":"𝕞","n":"𝕩","o":"𝕠","p":"𝕡","q":"𝕢","r":"𝕣","s":"𝕤","t":"𝕥","u":"𝕦","v":"𝕧","w":"𝕨","x":"𝕩","y":"𝕪","z":"𝕫"},
-      f2: {"A":"𝔄","B":"𝔅","C":"  ","D":"𝔇","E":"𝔈","F":"𝔉","G":"𝔊","H":"ℌ","I":"ℑ","J":"𝔍","K":"𝔎","L":"𝔏","M":"𝔐","N":"𝔑","O":"𝔒","P":"𝔓","Q":"𝔔","R":"ℜ","S":"𝔖","T":"𝔗","U":"𝔘","V":"𝔙","W":"𝔚","X":"𝔛","Y":"𝔜","Z":"ℨ","a":"𝔞","b":"𝔟","c":"𝔠","d":"𝔡","e":"𝔢","f":"𝔣","g":"𝔤","h":"𝔥","i":"𝔦","j":"𝔧","k":"𝔨","l":"𝔩","m":"𝔪","n":"𝔫","o":"𝔬","p":"𝔭","q":"𝔮","r":"𝔯","s":"𝔰","t":"𝔱","u":"𝔲","v":"𝔳","w":"𝔴","x":"𝔵","y":"𝔶","z":"𝔷"},
-      f3: {"A":"𝓿","B":"𝓑","C":"𝓒","D":"𝓓","E":"𝓔","F":"𝓕","G":"𝓖","H":"𝓗","I":"𝓘","J":"𝓙","K":"𝓚","L":"𝓛","M":"𝓜","N":"𝓝","O":"𝓞","P":"𝓟","Q":"𝓠","R":"𝓡","S":"𝓢","T":"𝓣","U":"𝓤","V":"𝓥","W":"𝓦","X":"𝓿","Y":"𝓨","Z":"𝓩","a":"𝓪","b":"𝓫","c":"𝓬","d":"𝓭","e":"𝓮","f":"𝓯","g":"𝓰","h":"𝓱","i":"𝓲","j":"𝓳","k":"𝓴","l":"𝓵","m":"𝓶","n":"𝓷","o":"𝓸","p":"𝓹","q":"𝓦","r":"𝓻","s":"𝓼","t":"𝕥","u":"𝓾","v":"𝓿","w":"𝔀","x":"𝔁","y":"𝔂","z":"𝔃"}
-    };
-    var plantData = {
-      sprout: { desc: "The basic green seedling represents the humble beginnings of organic life. It breaks through soft soil using its tiny primary cotyledons to absorb ambient sunshine. This delicate sprout requires highly regular watering schedules and gentle warmth to build structural roots before it transitions into advanced architectural growth phases.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🌱","(•‿•)🌱","(˘³˘)🌿","(o^▽^o)","(✧ω✧)","(◕‿◕)","(っ˘ω˘ς)","( ´▽` )","(◍•ᴗ•◍)","(〃^▽^〃)","( ˙꒳˙ )","(๑˃̵ᴗ˂̵)","(◠‿◠)","(*'▽'*)","(っ.❛ ᴗ ❛.)っ","(•◡•)"] },
-      cactus: { desc: "An incredibly resilient arid desert organism built to endure severe drought and extreme heat fluctuations. Its thick succulent stem is engineered for massive internal water preservation, while its external defense network of sharp protective needles minimizes moisture evaporation. It serves as a reminder that life can thrive in the harshest environments.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🌵","(•̀⤙•́)🌵","(`^´)","(ง •̀_•́)ง","(ಠ_ಠ)","(⁎˃⌊˂⁎)","(•̀_•́)","(￣^￣)","( ` ω ´ )","(⇀_⇀)","(ง'̀-'́)ง","(ง°ل͜°)ง","(•ิ_•ิ)","(¬_¬)","(¯_¯)","(^‿^🌵)"] },
-      flower: { desc: "A bright heliotropic sunflower designed to seek out and follow radiant light streams across the sky. Its massive cheerful golden crown acts as an open ecological hub for visiting local pollinators. This fast-growing flower thrives when placed under direct noon sun exposure, pumping nutrients upward through its thick fibrous stalk.", fonts: [{key:"f1",name:"Double"},{key:"f3",name:"Script"}], kaomojis: ["🌻","(◕‿◕✿)","(✨‿✨)","(✿◠‿◠)","(💖‿💖)","(⺣◡⺣)","(人•͈ᴗ•͈)","(〃▽〃)","(☆▽☆)","(*^ω^*)","(≧◡≦)","(🌸◠‿◠)","(っ🎀‿🎀)っ","(〃^▽^〃)","(o◕‿◕o)","(˶ˆ꒳ˆ˵)"] },
-      orchid: { desc: "A highly complex, elegant purple orchid flower that populates humid tropical tree canopies. It grows natively as an epiphyte, meaning it anchors its specialized root clusters securely onto mossy bark surfaces to absorb atmospheric moisture rather than feeding directly from dirt ground. It requires careful drainage filtering to prevent over-saturation.", fonts: [{key:"f2",name:"Gothic"},{key:"f3",name:"Script"}], kaomojis: ["🌸","(☯‿☯)","(✧_✧)","(✷‿✷)","(❦‿❦)","(ꏿ﹏ꏿ)","(⚆_⚆)","(•‿•✿)","( ✿ ▽ ✿ )","(◕‿◕)","(*^.^*)","(〃‿〃)","(•‿•)","(^▽^)","(◕‿◕✿)","(◠‿◠✿)"] },
-      rose: { desc: "A stunning perennial rose stem packed with layers of deeply aromatic ruby petals. Its elegant visual beauty is balanced by rows of sharp, curved protective thorns running down its wood-like stalk to deter hungry herbivores. It is a slow-blooming plant that requires rich organic soil mix and seasonal pruning to flourish beautifully.", fonts: [{key:"f1",name:"Double"},{key:"f3",name:"Script"}], kaomojis: ["🌹","(❤‿❤)","(｡♥‿♥｡)","(♡ω♡*)","(✿ ♡‿♡)","(′▽`〃)♡","(づ￣ ³￣)づ","(♥ω♥*)","(๑˘ᵕ˘)","(ღ˘⌣˘ღ)","(◌^▽^◌)","(✿❦‿❦)","(•‾⌣‾•)","(๑♡⌓♡๑)","(灬º‿º灬)","( 〃▽〃)"] },
-      tulip: { desc: "A smooth bulb-grown spring tulip displaying neat, symmetrical pastel flower bells. It signals the cyclical end of long winter frost by quickly shooting bright lime-green blades up through chilly, damp meadows. This delicate looking flower prefers cool morning mist and thrives inside loose, sandy soil mixes.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🌷","(˘ᵕ˘)✿","(ˊᵕˋ)","(𓂂ᵕ𓂂)","(｡•ㅅ•｡)","(๑•᎑•๑)","( ˙▿˙ )","( ˶ˆ꒳ˆ˵ )","( ˊᵕˋ )♡","(„• ֊ •„)","(。U ω U。)","(๑ᵔ⤙ᵔ๑)","(* ´ ` *)","(ˆ▿ˆc)","(⌒‿⌒)","(•‿•🌷)"] },
-      bamboo: { desc: "An incredible woody grass structure built with hollow, segmented reed columns that can rocket skyward at extreme speeds. Its expansive underground rhizome root system weaves a dense network beneath the floor, anchoring entire riverbeds against sliding mud. It stands as a timeless historical symbol of flexibility, strength, and continuous upward progress.", fonts: [{key:"f2",name:"Gothic"},{key:"f3",name:"Script"}], kaomojis: ["🎍","(•ᴥ•)","🐼","(꜆˶ᵔᵕᵔ˶)꜆","(•⚇•)","(◕ܫ◕)","(✧ܫ✧)","(ᵔᴥᵔ)","(•̀⤙•́)🐼","(=^･ω･^=)","🐾","(^._.^)","(𓃠)","(⌒‿⌒)","(*^ω^*)","(•‿•🎍)"] },
-      bonsai: { desc: "An ancient decorative miniature tree art piece cultivated meticulously over decades of patient container pruning. By carefully styling its branches with structural wires and regulating root bounds, the grower replicates the magnificent posture of an old cliffside forest giant inside a shallow desktop dish.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🌳","(─‿─)","(˘_˘)","(◡_◡)","(๑˘ᵕ˘)","( •_•)","(˘◡˘)","(●´ω｀●)","(◍‿◍)","(✯◡✯)","(•ิ_•ิ)","(ˊᵕˋ)","(𓆏)","(^‿^✿)","(˘▽˘)","(◍•ᴗ•◍)"] },
-      mushroom: { desc: "A mysterious fungal spore network consisting of deep hidden mycelial threads running through damp floor decay. Its visible umbrella cap springs up overnight in shady spaces to distribute spores across the wind. This plant plays an important role in cleaning up forest waste and turning it back into rich, reusable earth nutrients.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🍄","(🥴)","(🤪)","(✧ω✧)","(★ω★)","(⊙_⊙)","(ʘ‿ʘ)","(ꏿ_ꏿ)","(🤯)","(ʘ╻ʘ)","(◎﹏◎)","(〃￣ω￣〃)","(★﹃ ★)","( 😵‍💫 )","(◍•ᴗ•◍)","(^‿^🍄)"] },
-      clover: { desc: "A creeping patch-forming ground cover weed carrying rare lucky four-leaflet mutations mixed among dense green blankets. Clovers gather nitrogen from open air layers and feed it directly down into surrounding dirt pockets, automatically healing worn soil zones and nourishing neighbor weeds naturally.", fonts: [{key:"f1",name:"Double"},{key:"f3",name:"Script"}], kaomojis: ["🍀","(🤑)","(✧▽✧)","(💰‿💰)","(🌟‿🌟)","(⭐⭐)","(🎯)","(💎‿💎)","(🎩)","(  ✨ )","(∩^o^)⊃━☆","(っ🔥‿🔥)っ","(✧ω✧)","(☆▽☆)","(o^ ^o)","(💵💵)"] },
-      fern: { desc: "An old-world non-flowering frond specimen dating back to primitive history systems. It replicates using microscopic spore pockets lined under its lace leaves rather than utilizing modern floral seed methods. It demands full shadow coverage and heavy daily water misting to keep its wild woodland plumes from drying out.", fonts: [{key:"f2",name:"Gothic"},{key:"f3",name:"Script"}], kaomojis: ["🌿","(•〰•)","(ᵔᴥᵔ)","(•ᴥ•)","(•‿•)","(•ิ_•ิ)","(◡‿◡)","(＾◡＾)","(〃‿〃)","(─‿─)","(✧ω✧)","(o^▽^o)","(っ˘ω˘ς)","( ´▽ )","(◍•ᴗ•◍)","(〃^▽^〃)"] }, 
-      maple: { desc: "A beautiful mountain maple tree leaf cluster showing intricate five-pointed branch designs. As autumn seasons settle over the workspace grid, its internal sap sugar turns its leafy crowns from flat summer forest green into blazing shades of orange and deep purple. It thrives inside open air zones with cold cyclic changes.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🍁","(🍂)","(☕)","(🧣)","(˘ᵕ˘)","( 🍵 )","(｡◕‿◕｡)","(っ˘ڡ˘ς)","( ´ρ)","(●´ω｀●)","( ′～′)","(◌^▽^◌)","( ´∀`)","( 🍁 ‿ 🍁 )","( ☕ _ ☕ )","(╹◡╹)"] },
-      palm: { desc: "A highly resilient coastal palm tree built with flexible, stringy trunk layers that bend safely during fierce coastal storm winds without cracking. Its long crown fronds allow sea gales to flow cleanly through them, making it a great specimen for warm, sunny sandbox layout configurations.", fonts: [{key:"f1",name:"Double"},{key:"f3",name:"Script"}], kaomojis: ["🌴","(🕶️)","(🏄)","(🥥)","(🍍)","(🍹)","🏖️","☀️","(🌴‿🌴)","(😎)","(🏖️_🏖️)","(˵^◡^˵)","(•‿•)","(〃▽〃)","(☆▽☆)","(^ω^)"] },
-      venus: { desc: "An incredible carnivorous fly trap mutation equipped with active, sensitive terminal leaf pads. The interior trap walls are loaded with fine hair triggers that snap the green lobes shut within fractions of a second when touched by passing bugs. It relies on digesting these insects to collect nutrients that are missing from its swampy home soil.", fonts: [{key:"f2",name:"Gothic"},{key:"f3",name:"Script"}], kaomojis: ["🌱","(🐱)","(🐾)","(=^･ω･^=)","(•̀⤙•́)","(•⤙•)","(˵^v^˵)","(ㅇvㅇ)","(▼v▼)","(˘‿˘)","(ᵔvᵔ)","(•v•)","( 🐱 _ 🐱 )","(✧v✧)","(o^v^o)","(•‿•🌱)"] },
-      berry: { desc: "A prickly wild vine crowded with sweet forest berries that grow in bunches along sunny thicket edges. Its tiny summer blossoms turn into bright clusters of fruit over time, providing sugary fuel for woodland creatures. This crawling vine grows best when given a wooden garden trellis to climb.", fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}], kaomojis: ["🍓","(🍇)","(🍒)","(🍰)","(っ˘ڡ˘ς)","(〃^▽^〃)","(๑>◡<๑)","(≧ڡ≦)","(￣▽￣)","(o^ ^o)","(っ﹒︠ᴗ﹒︡)っ","(〃▽〃)","( ˙▿˙ )","( ˶ˆ꒳ˆ˵ )","( 🍓 ‿ 🍓 )","(🍓‿🍓)"] }};// ================= INTEGRATED MECHANICS ENGINE =================var tmLeft = 1500, tmInt = null, tmRunning = false, tmMode = 'focus', tmLen = 'long';var curStage = 0; const totalStages = 9;var hamX = 64, hamDir = 1, hamRunning = false;var choreLogged = 0, choreTarget = 15;var AC = null, osc1 = null, osc2 = null, gainN = null, soundTuning = false;window.onload = function() {chg(); genFonts(); setupHamster(); setupSandbox(); setupClock(); setupStickers();ren(); draw(); logMilestone("SproutOS Engine cores initialized completely inside unified single-page layout.");};function setupClock() {setInterval(() => {var d = new Date();document.getElementById('live-system-clock').innerText = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});}, 1000);}function chg() {var p = document.getElementById('pt').value;document.getElementById('eco-desc').innerText = plantData[p].desc;var an = document.getElementById('an'); an.innerHTML = '';var pet = document.createElement('span'); pet.className = 'pet'; pet.id = 'pet-anim'; pet.innerText = plantPets[p];an.appendChild(pet); animatePet(); setupStickers();}function setupStickers() {var p = document.getElementById('pt').value;var box = document.getElementById('stk-box'); box.innerHTML = '';plantData[p].kaomojis.forEach(k => {var btn = document.createElement('button'); btn.className = 'stk-btn'; btn.innerText = k;btn.onclick = () => {var inp = document.getElementById('cust-txt-in'); inp.value += " " + k; genFonts();logMilestone("Appended sticker unit " + k + " to transformer register.");};box.appendChild(btn);});}function animatePet() {var p = document.getElementById('pet-anim'); if(!p) return;var left = 10; var dir = 1;setInterval(() => {left += dir * 8; if(left > 220) dir = -1; if(left < 10) dir = 1;p.style.left = left + 'px';}, 600);}function setTimerMode(m) {tmMode = m; document.getElementById('mode-focus').classList.toggle('active-focus', m==='focus');document.getElementById('mode-break').classList.toggle('active-break', m==='break'); updateTimerDefaults();}function setTimerLength(l) {tmLen = l; document.getElementById('len-short').classList.toggle('active-len', l==='short');document.getElementById('len-long').classList.toggle('active-len', l==='long'); updateTimerDefaults();}function updateTimerDefaults() {if(tmMode === 'focus') tmLeft = (tmLen === 'long') ? 1500 : 600;else tmLeft = (tmLen === 'long') ? 300 : 120;fmt();}function fmt() {var m = Math.floor(tmLeft/60), s = tmLeft%60;document.getElementById('tm').innerText = (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}function run() {var btn = document.getElementById('go');if(tmRunning) { clearInterval(tmInt); tmRunning = false; btn.innerText = "Start"; hamRunning = false; toggleAudioCore(false); }else {tmRunning = true; btn.innerText = "Pause"; hamRunning = true; toggleAudioCore(soundTuning);tmInt = setInterval(() => {if(tmLeft > 0) { tmLeft--; fmt(); }else { clearInterval(tmInt); tmRunning = false; btn.innerText = "Start"; hamRunning = false; toggleAudioCore(false); logMilestone("Timer phase reached termination target."); }}, 1000);}}function reset() { clearInterval(tmInt); tmRunning = false; document.getElementById('go').innerText = "Start"; hamRunning = false; toggleAudioCore(false); updateTimerDefaults(); }function add() {var val = document.getElementById('in').value.trim(); if(!val) return;var list = JSON.parse(localStorage.getItem('todo_items') || '[]');list.push({text: val, done: false}); localStorage.setItem('todo_items', JSON.stringify(list));document.getElementById('in').value = ''; ren();}function ren() {var list = JSON.parse(localStorage.getItem('todo_items') || '[]');var el = document.getElementById('el'); el.innerHTML = '';list.forEach((item, idx) => {var li = document.createElement('li'); if(item.done) li.className = 'dn';var chk = document.createElement('input'); chk.type = 'checkbox'; chk.checked = item.done;chk.onchange = () => toggleTaskState(idx);var s = document.createElement('span'); s.innerText = " " + item.text;var del = document.createElement('button'); del.className = 'dl'; del.innerText = '✖';del.onclick = () => { list.splice(idx, 1); localStorage.setItem('todo_items', JSON.stringify(list)); ren(); };li.appendChild(chk); li.appendChild(s); li.appendChild(del); el.appendChild(li);});document.getElementById('st').innerText = "PROGRESS: " + curStage + "/" + totalStages;}function toggleTaskState(idx) {var list = JSON.parse(localStorage.getItem('todo_items') || '[]'); if(!list[idx]) return;list[idx].done = !list[idx].done; localStorage.setItem('todo_items', JSON.stringify(list));if(list[idx].done) {if(curStage < totalStages) { curStage++; logMilestone("Completed item logged. Stage updated: " + curStage + "/" + totalStages); }draw();setTimeout(() => {var fresh = JSON.parse(localStorage.getItem('todo_items') || '[]');if(fresh[idx] && fresh[idx].done) { fresh.splice(idx, 1); localStorage.setItem('todo_items', JSON.stringify(fresh)); ren(); }}, 7000);} else { if(curStage > 0) curStage--; draw(); }ren();}function draw() {var canvas = document.getElementById('cv'); var ctx = canvas.getContext('2d');ctx.clearRect(0,0,144,144); ctx.fillStyle = "#2d6a4f";ctx.fillRect(52, 130 - (curStage * 8), 40, curStage * 8);}function setupHamster() {var canvas = document.getElementById('hamsterCanvas'); var ctx = canvas.getContext('2d');setInterval(() => {ctx.clearRect(0,0,128,128); ctx.strokeStyle = "#222"; ctx.lineWidth = 4;ctx.beginPath(); ctx.arc(64,64,48,0,Math.PI*2); ctx.stroke();if(hamRunning) { hamX += hamDir * 4; if(hamX > 90 || hamX < 38) hamDir *= -1; }ctx.fillStyle = "#b58282"; ctx.fillRect(hamX, 85, 18, 12);document.getElementById('hamster-status').innerText = hamRunning ? "STATUS: RUNNING" : "STATUS: IDLE";}, 150);}function updateChoreTarget() { choreTarget = parseInt(document.getElementById('hamster-run-threshold').value); document.getElementById('chore-target-display').innerText = choreTarget + " mins"; }function triggerChoreBoost() {var amount = parseInt(document.getElementById('chore-duration').value); choreLogged += amount;document.getElementById('chore-time').innerText = choreLogged + " mins";logMilestone("Logged a " + amount + " minute operational cleanup interval.");}function setupSandbox() {var pz = document.getElementById('playzone');pz.onmousemove = (e) => {var s = document.createElement('span'); s.innerText = "✨"; s.style.position = 'absolute';s.style.left = (e.clientX - pz.getBoundingClientRect().left) + 'px'; s.style.top = (e.clientY - pz.getBoundingClientRect().top) + 'px';s.style.fontSize = '10px'; pz.appendChild(s); setTimeout(() => s.remove(), 400);};pz.onclick = () => {var beasts = ["🐹","🐰","🦊","🐻","🐨","🐿️"]; var b = beasts[Math.floor(Math.random()*beasts.length)];logMilestone("Hatched a custom " + b + " in Sandbox zone!");};}function genFonts() {var val = document.getElementById('cust-txt-in').value; var box = document.getElementById('fnt-box'); box.innerHTML = '';['f1','f2','f3'].forEach(fKey => {var str = val.split('').map(c => maps[fKey][c] || c).join('');var r = document.createElement('div'); r.className = 'fnt-row'; r.innerText = str;r.onclick = () => { navigator.clipboard.writeText(str); logMilestone("Copied font layout token to buffer."); };box.appendChild(r);});}function tune() {soundTuning = !soundTuning; var btn = document.getElementById('m');if(soundTuning) { btn.innerText = "⏸️ Halt Audio Core"; btn.style.background = "#e63946"; toggleAudioCore(tmRunning); }else { btn.innerText = "🔊 Initialize Audio Core"; btn.style.background = "#1d3557"; toggleAudioCore(false); }}function toggleAudioCore(on) {if(!on) { if(osc1) { osc1.stop(); osc2.stop(); osc1=null; osc2=null; } return; }if(osc1) return; if(!AC) AC = new (window.AudioContext || window.webkitAudioContext)();osc1 = AC.createOscillator(); osc2 = AC.createOscillator(); gainN = AC.createGain();var type = document.getElementById('mtype').value;if(type==='chill') { osc1.frequency.setValueAtTime(120, AC.currentTime); osc2.frequency.setValueAtTime(124, AC.currentTime); }else if(type==='jazz') { osc1.frequency.setValueAtTime(180, AC.currentTime); osc2.frequency.setValueAtTime(185, AC.currentTime); }else { osc1.frequency.setValueAtTime(80, AC.currentTime); osc2.frequency.setValueAtTime(82, AC.currentTime); }gainN.gain.setValueAtTime(0.15, AC.currentTime); osc1.connect(gainN); osc2.connect(gainN); gainN.connect(AC.destination);osc1.start(); osc2.start();}function clearSavedData() { localStorage.removeItem('todo_items'); curStage = 0; choreLogged = 0; document.getElementById('chore-time').innerText = "0 mins"; ren(); draw(); document.getElementById('workspace-history-box').innerHTML = ''; logMilestone("System storage registers hard reset."); }function logMilestone(m) {var box = document.getElementById('workspace-history-box'); if(!box) return;var n = new Date(); var ts = n.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});var e = document.createElement('div'); e.className = "history-item"; e.innerHTML = "["+ts+"] "+m;box.appendChild(e); box.scrollTop = box.scrollHeight;}
+  <script src="database.js"></script><script src="engine.js"></script>
+</body>
+</html>
