@@ -6,16 +6,16 @@
   <style>
     :root { --bg: #f4f9f4; --card-bg: #ffffff; --p: #52b788; --pd: #2d6a4f; --ac: #d8f3dc; --border-color: #222222; }
     * { box-sizing: border-box; font-family: monospace; font-size: 12px; }
-    body { background: #f0f4f1; margin: 0; padding: 20px; }
+    body { background: #f0f4f1; margin: 0; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
     .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 12px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
     .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
     
-    /* Layout styling for a tight grid structure */
-    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; }
+    /* Grid layout styling configured to stretch to the bottom window edge */
+    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; flex: 1; margin-bottom: 20px; }
     .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
     
-    .wide-widget { flex: 2; min-width: 340px; }
-    .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 12px; }
+    .wide-widget { flex: 2; min-width: 340px; display: flex; flex-direction: column; }
+    .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
     .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
     .plant-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
     .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--border-color); }
@@ -41,18 +41,18 @@
     .an-box { background: #fafafa; padding: 8px; border-radius: 12px; font-weight: bold; position: relative; border: 2px solid var(--border-color); height: 48px; overflow: hidden; }
     .pt-c { position: absolute; bottom: 0; left: 0; width: 100%; height: 24px; }
     .pet { position: absolute; font-size: 16px; bottom: 2px; transition: left 0.4s; }
-    .stk-row { display: flex; gap: 4px; flex-wrap: wrap; }
-    .stk-btn { background: #fff; border: 2px solid var(--border-color); color: #000; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
+    .stk-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .stk-btn { background: #fff; border: 2px solid var(--border-color); color: #000; padding: 6px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
     .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
     .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
     
     .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; }
     .mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
     .mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
-    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
+    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 110px; flex: 1; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
     .history-item { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; }
     .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
-    .inner-box-nest { background: #fafafa; border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; margin-top: 4px; }
+    .inner-box-nest { background: #fafafa; border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; flex: 1; }
   </style>
 </head>
 <body>
@@ -130,7 +130,7 @@
         <div id="eco-desc" style="font-style: italic; font-size: 11px; margin-top: 2px;">Loading descriptions...</div>
       </div>
     </div>
-    <!-- COLUMN 2 (NARROW COLUMN): HAMSTER WITH SANDBOX NESTED BELOW IT -->
+    <!-- COLUMN 2: HAMSTER WITH SANDBOX STRETCHED INSIDE -->
     <div class="narrow-widget">
       <div class="chunky-widget" style="box-shadow: none; flex: 1;">
         <div class="widget-header">
@@ -164,7 +164,6 @@
           </div>
         </div>
 
-        <!-- MOVE TARGET FIX: Sandbox Area is now nested directly into the empty space below the Hamster -->
         <div class="inner-box-nest">
           <div style="font-weight: bold; color: #7b1fa2; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">✨ Sandbox Area</div>
           <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff; cursor: crosshair;">
@@ -174,7 +173,7 @@
       </div>
     </div>
 
-    <!-- COLUMN 3 (NARROW COLUMN): AUDIO WITH LOG NESTED BELOW IT -->
+    <!-- COLUMN 3: AUDIO WITH LOG STRETCHED INSIDE -->
     <div class="narrow-widget">
       <div class="chunky-widget" style="box-shadow: none; flex: 1;">
         <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
@@ -184,13 +183,12 @@
           <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
         </div>
 
-        <!-- MOVE TARGET FIX: Activity Log is now nested directly into the empty space below the Sound Mixer -->
         <div class="inner-box-nest">
           <div style="font-weight: bold; color: #475569; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; display: flex; justify-content: space-between;">
             <span>📜 Activity Log</span>
             <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:8px; padding:0px 2px; border-width:1px;">Reset</button>
           </div>
-          <div id="workspace-history-box" style="padding: 4px; background: #fafafa; border: 1px dashed #94a3b8; border-radius: 8px; height: 100px; line-height: 1.3; font-size: 10px; color: #334155; overflow-y: auto;">
+          <div id="workspace-history-box" style="padding: 4px; background: #fafafa; border: 1px dashed #94a3b8; border-radius: 8px; flex: 1; min-height: 100px; line-height: 1.3; font-size: 10px; color: #334155; overflow-y: auto;">
             No milestones logged for this session yet.
           </div>
         </div>
