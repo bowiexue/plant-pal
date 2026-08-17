@@ -18,6 +18,22 @@
       </div>
     </div>
 
+    <!-- NEW PHONE STYLE CHUNKY FAT RECTANGLE APP WIDGET BED -->
+    <div class="fat-widget">
+      <div class="fat-header">
+        <span style="font-weight:bold; color:#5c3d2e;">🐹 Hamster Wheel Tracker</span>
+        <span id="hamster-status" style="font-size:9px; color:#8b5a2b; font-weight:bold;">STATUS: IDLE</span>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; justify-content:center;">
+        <canvas id="hamsterCanvas" width="128" height="128"></canvas>
+        <div class="fat-info">
+          <div>Chores Active: <span id="chore-time" style="font-weight:bold; color:#a26967;">0 mins</span></div>
+          <div style="font-size:9px; color:#777; margin-top:4px;">Work 1 hour to spin wheel! Idle tracks tab neglect.</div>
+          <button id="chore-btn" onclick="triggerChoreBoost()" style="margin-top:6px; background:#a26967; font-size:10px; padding:4px 8px;">🧹 Do 15m Chores</button>
+        </div>
+      </div>
+    </div>
+
     <div class="mid-row">
       <div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div>
       <div class="side-ctrls">
@@ -87,16 +103,7 @@
       <div class="rw"><input type="text" id="in" placeholder="Task..."><button onclick="add()">Add</button></div>
       <ul id="el"></ul>
     </div>
-    
-    <div class="td" style="border-top:1px dashed #aaa;">
-      <div style="display:flex; justify-content:space-between;">
-        <span style="color:#666;">📜 Completed History Log:</span>
-        <button onclick="clearHist()" style="background:#ff6b6b; font-size:9px; padding:1px 5px;">Clear</button>
-      </div>
-      <ul id="hist-log" style="max-height:45px; opacity:0.8;"></ul>
-    </div>
 
-    <!-- Playground boundary deck shelf slot -->
     <div class="sl" style="background:#f3e5f5; border-color:#e1bee7;">
       <div style="font-weight:bold; color:#4a148c;">✨ Tiny Custom Cursor Playground:</div>
       <div id="playzone" class="pz">Move inside for glitter trails & click for floating stars + animals!</div>
@@ -117,7 +124,8 @@
   <script src="database.js"></script>
   <script src="audio.js"></script>
   <script src="engine.js"></script>
-  <!-- NEW SEPARATE SCRIPT INJECTION FILE -->
   <script src="playground.js"></script>
+  <!-- INTRODUCE THE SEPARATE APP WIDGET LOGIC ENGINE -->
+  <script src="hamster.js"></script>
 </body>
 </html>
