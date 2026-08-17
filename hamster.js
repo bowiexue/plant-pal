@@ -3,11 +3,10 @@
   var ctx = canvas.getContext('2d');
   
   var choreMinutes = 0;
-  var idleTicks = 0; // Tracks seconds elapsed with zero user dashboard actions
+  var idleTicks = 0;
   var wheelRotation = 0;
   var animationFrame = 0;
 
-  // Listen for activity clicks to reset the idle countdown loops
   window.addEventListener('mousedown', function() { idleTicks = 0; });
   window.addEventListener('mousemove', function() { idleTicks = 0; });
 
@@ -35,93 +34,104 @@
     }
     document.getElementById('hamster-status').innerText = "STATUS: " + status;
 
-    // Draw the pixel background grass line
-    drawPixelBlock(0, 15, 16, 1, "#e6ccb2");
+    // Bed ground soil shelf line
+    drawPixelBlock(0, 15, 16, 1, "#ebd9cc");
 
     if (status === "RUNNING") {
-      // 1. RUNNING FRAME STATE
-      wheelRotation += 0.3;
+      wheelRotation += 0.4;
       
-      // Draw spinning metal wire wheel arcs manually using structural lines
-      ctx.strokeStyle = "#9c89b8";
+      // Wire wheel rim circle outer loop track
+      ctx.strokeStyle = "#b388ff";
       ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.arc(64, 72, 32, 0, Math.PI * 2);
+      ctx.arc(64, 72, 34, 0, Math.PI * 2);
       ctx.stroke();
       
-      // Draw spokes moving inside the wheel center
+      // Spinner wheel wire core beams
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(64, 72);
-      ctx.lineTo(64 + Math.cos(wheelRotation) * 32, 72 + Math.sin(wheelRotation) * 32);
+      ctx.lineTo(64 + Math.cos(wheelRotation) * 34, 72 + Math.sin(wheelRotation) * 34);
       ctx.moveTo(64, 72);
-      ctx.lineTo(64 - Math.cos(wheelRotation) * 32, 72 - Math.sin(wheelRotation) * 32);
+      ctx.lineTo(64 - Math.cos(wheelRotation) * 34, 72 - Math.sin(wheelRotation) * 34);
       ctx.stroke();
 
-      // Render running hamster body offset bobbing
+      // BOBBING HIGH-SPEED RUNNING DWARF HAMSTER MODEL
       var bob = (animationFrame % 2) * 1;
-      drawPixelBlock(6, 8 + bob, 4, 3, "#dda15e"); // Body torso
-      drawPixelBlock(9, 7 + bob, 2, 2, "#fefae0"); // Head snout
-      drawPixelBlock(5, 10 + bob, 1, 1, "#bc6c25"); // Back leg
-      drawPixelBlock(9, 10 + bob, 1, 1, "#bc6c25"); // Front leg
-      drawPixelBlock(10, 8 + bob, 1, 1, "#000000"); // Beady eye
+      var ox = 4; 
+      var oy = 7 + bob;
+
+      drawPixelBlock(ox+2, oy+2, 5, 4, "#d4a373"); // Golden coat fur
+      drawPixelBlock(ox+3, oy+4, 4, 2, "#f4f1de"); // Creamy white belly fur
+      drawPixelBlock(ox+7, oy+2, 2, 3, "#e9c46a"); // Plump head cheeks
+      drawPixelBlock(ox+2, oy+1, 1, 1, "#ffb5a7"); // Pink ears
+      drawPixelBlock(ox+5, oy+1, 1, 1, "#ffb5a7"); 
+      drawPixelBlock(ox+8, oy+2, 1, 1, "#222222"); // Black beady eye
+      drawPixelBlock(ox+9, oy+3, 1, 1, "#ffccd5"); // Cute button pink nose
+      drawPixelBlock(ox+3, oy+6, 1, 1, "#e07a5f"); // Little running paws feet stubs
+      drawPixelBlock(ox+6, oy+6, 1, 1, "#e07a5f");
 
     } else if (status === "SAD") {
-      // 2. IDLE NEGLIGENT TAB REJECTION STATE
-      // Render sad blue grey rainy sky cloud hovering over the hamster's spot
-      drawPixelBlock(5, 1, 6, 2, "#bde0fe");
-      drawPixelBlock(4, 2, 8, 1, "#bde0fe");
+      // HOVERING DARK GREY PIXEL STORM CLOUD
+      drawPixelBlock(4, 1, 8, 2, "#90e0ef");
+      drawPixelBlock(3, 2, 10, 1, "#00b4d8");
       
-      // Animating procedural pixel teardrop rain down streams
+      // Dropping rain particle nodes
       if (animationFrame % 2 === 0) {
-        drawPixelBlock(5, 4, 1, 1, "#a2d2ff");
-        drawPixelBlock(8, 6, 1, 1, "#a2d2ff");
-        drawPixelBlock(10, 5, 1, 1, "#a2d2ff");
+        drawPixelBlock(4, 4, 1, 1, "#0077b6");
+        drawPixelBlock(7, 5, 1, 1, "#0077b6");
+        drawPixelBlock(10, 4, 1, 1, "#0077b6");
       } else {
-        drawPixelBlock(6, 5, 1, 1, "#a2d2ff");
-        drawPixelBlock(7, 4, 1, 1, "#a2d2ff");
-        drawPixelBlock(9, 7, 1, 1, "#a2d2ff");
+        drawPixelBlock(5, 5, 1, 1, "#0077b6");
+        drawPixelBlock(8, 4, 1, 1, "#0077b6");
+        drawPixelBlock(11, 5, 1, 1, "#0077b6");
       }
 
-      // Draw standard stationary wheel background lines
-      ctx.strokeStyle = "#b0c4de";
+      // Dormant idle wheel frame
+      ctx.strokeStyle = "#cfd8dc";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(64, 72, 32, 0, Math.PI * 2);
+      ctx.arc(64, 72, 34, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Render sad sitting down slumped hamster body lines
-      drawPixelBlock(6, 10, 4, 4, "#cdb4db"); // Slumped body torso
-      drawPixelBlock(7, 9, 3, 2, "#cdb4db");  // Drooped head snout
-      drawPixelBlock(8, 10, 1, 1, "#222222"); // Crying eye look dot
-      drawPixelBlock(5, 12, 1, 1, "#9b5de5"); // Tucked foot stub
+      // SLUMPED OVER CRYING SITTING HAMSTER MODEL
+      var ox = 5;
+      var oy = 9;
+      drawPixelBlock(ox+2, oy+2, 5, 4, "#b0a99f"); // Grey coat sad fur tint
+      drawPixelBlock(ox+3, oy+4, 3, 2, "#ffffff"); // Chubby tear-soaked cheeks
+      drawPixelBlock(ox+1, oy+2, 1, 1, "#ffccd5"); // Floppy ears drooped down
+      drawPixelBlock(ox+4, oy+2, 1, 1, "#ffccd5");
+      drawPixelBlock(ox+5, oy+3, 1, 1, "#457b9d"); // Shimmering blue crying tear eye dot
+      drawPixelBlock(ox+7, oy+4, 1, 1, "#ffccd5"); // Drooped button nose spot
 
     } else {
-      // 3. BASELINE COZY DEFAULT IDLE STATE
-      // Draw standard resting grey wheel bounds ring outline structure
-      ctx.strokeStyle = "#ccd5ae";
+      // BASELINE STANDBY COZY COMFORT STATE
+      ctx.strokeStyle = "#e2eafc";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(64, 72, 32, 0, Math.PI * 2);
+      ctx.arc(64, 72, 34, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Render standard sleeping curled body blocks
-      var breathe = Math.sin(animationFrame * 0.1) * 0.4;
-      drawPixelBlock(6, 11, 4, 3 + breathe, "#e9c46a"); // Resting body mass block
-      drawPixelBlock(5, 10, 2, 2, "#f4a261"); // Rounded head ear block
+      // COZY SLEEPING HAMSTER BALLED UP
+      var breathe = Math.sin(animationFrame * 0.1) * 0.3;
+      var ox = 5;
+      var oy = 10;
+      drawPixelBlock(ox+2, oy+1, 5, 4 + breathe, "#e9c46a"); // Healthy fluffy tan body
+      drawPixelBlock(ox+4, oy+3, 3, 2, "#fff3b0"); // Soft cream belly strip
+      drawPixelBlock(ox+6, oy+2, 1, 1, "#222222"); // Contented sleeping shut slit eye
+      drawPixelBlock(ox+1, oy+1, 1, 1, "#ffb5a7"); // Twitching cute sleeping ears
+      drawPixelBlock(ox+3, oy+0, 1, 1, "#ffb5a7");
     }
   }
 
-  // Monitor status counters over ongoing minute timeline interval updates
   setInterval(function() {
     idleTicks++;
     if (idleTicks > 20 && choreMinutes > 0) {
-      choreMinutes -= 1; // Slowly drains chore credits away over pure radio silence periods
+      choreMinutes -= 1;
       document.getElementById('chore-time').innerText = choreMinutes + " mins";
     }
     renderWidget();
   }, 1000);
 
-  // High refresh-rate smooth drawing animation pipeline handler loops
   setInterval(renderWidget, 150);
 })();
