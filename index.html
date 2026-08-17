@@ -1,124 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><title>SproutOS Dashboard</title>
+  <meta charset="UTF-8">
+  <title>SproutOS Chunky Dashboard Workspace</title>
   <style>
-    :root { --card-bg: #fff; --p: #52b788; --pd: #2d6a4f; --ac: #d8f3dc; --border: 3px solid #222; }
+    :root { --bg: #f4f9f4; --card-bg: #ffffff; --p: #52b788; --pd: #2d6a4f; --ac: #d8f3dc; --border-color: #222222; }
     * { box-sizing: border-box; font-family: monospace; font-size: 12px; }
-    body { background: #f0f4f1; margin: 0; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
-    .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px; border-radius: 12px; border: var(--border); margin-bottom: 16px; }
-    .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: var(--border); padding-bottom: 8px; }
-    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; }
-    .chunky-widget { background: var(--card-bg); border: var(--border); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
+    body { background: #f0f4f1; margin: 0; padding: 20px; }
+    .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 8px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
+    .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
+    .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
     .wide-widget { flex: 2; min-width: 340px; }
-    .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
-    .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid #222; padding-bottom: 6px; display: flex; justify-content: space-between; }
+    .narrow-widget { flex: 1; min-width: 280px; }
+    .widget-header { font-size: 14px; font-weight: bold; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
     .plant-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-    .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid #222; }
+    .cv-wrap { width: 144px; height: 144px; background: var(--ac); border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--border-color); }
     canvas { background: var(--ac); image-rendering: pixelated; }
     .side-ctrls { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
-    .tm-box { background: #fafafa; padding: 8px; border-radius: 8px; border: 2px solid #222; text-align: center; }
+    .tm-box { background: #fafafa; padding: 8px; border-radius: 8px; border: 2px solid var(--border-color); text-align: center; }
     .tm { font-size: 26px; font-weight: bold; color: var(--pd); }
     .btn-grid { display: flex; gap: 6px; width: 100%; }
-    button { background: var(--p); border: 2px solid #222; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
+    button { background: var(--p); color: #000; border: 2px solid var(--border-color); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; transition: transform 0.1s, box-shadow 0.1s; }
+    button:hover { background: var(--ac); transform: translate(1px, 1px); box-shadow: 1px 1px 0px #000; }
+    button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #000; }
     .tgl-btn { background: #cbd5e1; color: #334155; }
     .tgl-btn.active-focus { background: #2d6a4f !important; color: #fff !important; }
     .tgl-btn.active-break { background: #475569 !important; color: #fff !important; }
     .tgl-btn.active-len { background: #52b788 !important; color: #000 !important; }
+    .td { text-align: left; }
     .rw { display: flex; gap: 6px; margin-bottom: 8px; }
-    input[type="text"], select { width: 100%; padding: 6px; border-radius: 8px; border: 2px solid #222; font-weight: bold; }
+    input[type="text"], select { width: 100%; padding: 6px; border-radius: 8px; border: 2px solid var(--border-color); font-family: monospace; font-weight: bold; background: #fff; }
     ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
-    li { display: flex; align-items: center; justify-content: space-between; padding: 6px; background: #fafafa; border: 2px solid #222; border-radius: 8px; word-break: break-word; }
+    li { display: flex; align-items: center; justify-content: space-between; padding: 6px; background: #fafafa; border: 2px solid var(--border-color); border-radius: 8px; }
     .dn span { text-decoration: line-through; color: #888; }
-    .dl { background: none; color: #ef4444; border: none; padding: 0 4px; cursor: pointer; }
-    .an-box { background: #fafafa; padding: 8px; border-radius: 12px; font-weight: bold; position: relative; border: 2px solid #222; height: 48px; overflow: hidden; }
+    .dl { background: none; color: #ef4444; border: none; box-shadow: none; padding: 0 4px; cursor: pointer; }
+    .an-box { background: #fafafa; padding: 8px; border-radius: 12px; font-weight: bold; position: relative; border: 2px solid var(--border-color); height: 48px; overflow: hidden; }
     .pt-c { position: absolute; bottom: 0; left: 0; width: 100%; height: 24px; }
     .pet { position: absolute; font-size: 16px; bottom: 2px; transition: left 0.4s; }
-    .stk-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 0; max-height: 140px; overflow-y: auto; }
-    .stk-btn { background: #fff; border: 2px solid #222; padding: 6px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
-    .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
-    .fnt-row { display: flex; justify-content: space-between; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid #222; font-weight: bold; cursor: pointer; word-break: break-all; }
-    .mu-box { background: #457b9d; border: 2px solid #222; border-radius: 12px; padding: 14px; color: #fff; }
-    .mu-box select { background: #1d3557; color: #fff; margin-bottom: 8px; }
-    .mu { background: #1d3557; width: 100%; color: #fff; border: 2px solid #222; }
-    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 110px; flex: 1; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; }
-    .history-item { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; word-break: break-word; white-space: normal; }
+    .stk-row { display: flex; gap: 4px; flex-wrap: wrap; }
+    .stk-btn { background: #fff; border: 2px solid var(--border-color); color: #000; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
+    .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+    .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
+    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; }
+    .mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
+    .mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
+    .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
+    .history-item { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; }
     .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
-    .inner-box-nest { background: #fafafa; border: 2px solid #222; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; flex: 1; }
-    #eco-desc { font-style: italic; font-size: 11px; word-break: break-word; white-space: normal; }
   </style>
 </head>
 <body>
-  <div class="meta-row"><span>🌿 SproutOS Node</span><span id="live-system-clock">00:00:00</span></div>
-  <div class="dashboard-title">🌿 Personal Space Engine</div>
+
+  <div class="meta-row">
+    <span>🌿 SproutOS Workspace Node</span>
+    <span id="live-system-clock">Loading System Clock...</span>
+  </div>
+
+  <div class="dashboard-title">🌿 SproutOS Personal Space Engine</div>
+
   <div class="dashboard-grid">
-    <!-- CORES CONTAINER -->
+
+    <!-- BOX 1: UNIFIED PLANT GROWER & TASK LIST -->
     <div class="chunky-widget wide-widget">
-      <div class="widget-header"><span style="color: #2d6a4f;">🌿 Garden Matrix</span><span id="st">Loading...</span></div>
+      <div class="widget-header">
+        <span style="color: #2d6a4f;">🌿 Ecosystem Workspace Garden</span>
+        <span id="st" style="font-size: 11px; font-weight: bold;">Loading...</span>
+      </div>
+
       <div class="plant-row">
         <div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div>
         <div class="side-ctrls">
           <div class="tm-box"><div id="tm" class="tm">25:00</div></div>
+          
           <div class="btn-grid">
             <button id="mode-focus" onclick="setTimerMode('focus')" class="tgl-btn active-focus" style="flex:1; padding:4px; font-size:10px;">🎯 Focus</button>
             <button id="mode-break" onclick="setTimerMode('break')" class="tgl-btn" style="flex:1; padding:4px; font-size:10px;">☕ Break</button>
           </div>
+
           <div class="btn-grid">
             <button id="len-short" onclick="setTimerLength('short')" class="tgl-btn" style="flex:1; padding:4px; font-size:10px;">⏱️ Short</button>
             <button id="len-long" onclick="setTimerLength('long')" class="tgl-btn active-len" style="flex:1; padding:4px; font-size:10px;">⏱️ Long</button>
           </div>
-          <div class="btn-grid"><button id="go" onclick="run()" style="flex:1; background:#52b788;">Start</button><button onclick="reset()" style="flex:1; background:#e2e8f0;">Reset</button></div>
-          <select id="pt" onchange="chg()" style="margin-top:4px;">
-            <option value="sprout">🌿 Sprout</option><option value="cactus">🌵 Cactus</option><option value="flower">🌻 Sunflower</option>
-          </select>
+
+          <div class="btn-grid" style="margin-top: 2px;">
+            <button id="go" onclick="run()" style="flex:1; background: #52b788;">Start</button>
+            <button onclick="reset()" style="flex:1; background: #e2e8f0;">Reset</button>
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 2px; margin-top: 4px;">
+            <span style="font-size: 10px; font-weight: bold;">Target Seedling:</span>
+            <select id="pt" onchange="chg()">
+              <option value="sprout">🌿 Thick Sprout</option>
+              <option value="cactus">🌵 Big Cactus</option>
+              <option value="flower">🌻 Sunflower</option>
+              <option value="orchid">🌸 Exotic Orchid</option>
+              <option value="rose">🌹 Crimson Rose</option>
+              <option value="tulip">🌷 Spring Tulip</option>
+              <option value="bamboo">🎍 Lucky Bamboo</option>
+              <option value="bonsai">🌳 Miniature Bonsai</option>
+              <option value="mushroom">🍄 Magic Shroom</option>
+              <option value="clover">🍀 Lucky Clover</option>
+              <option value="fern">🌿 Jungle Fern</option>
+              <option value="maple">🍁 Autumn Maple</option>
+              <option value="palm">🌴 Desert Palm</option>
+              <option value="venus">🌱 Fly Trap</option>
+              <option value="berry">🍓 Wild Berry</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div style="margin-top:8px;">
-        <div class="rw"><input type="text" id="in" placeholder="Task..." onkeydown="if(event.key==='Enter')add()"><button onclick="add()">Add</button></div>
+      <div class="td">
+        <div style="font-weight: bold; color: #2d6a4f; margin-bottom: 4px;">📝 Tasks Connected Checklist:</div>
+        <div class="rw">
+          <input type="text" id="in" placeholder="Add a task note..."><button onclick="add()">Add</button>
+        </div>
         <ul id="el"></ul>
       </div>
-      <div class="an-box">🐾 Sanctuary: <div id="an" class="pt-c"></div></div>
-      <div class="chunky-widget" style="background:#eaf4f4; padding:8px; box-shadow:none; border-width:2px;"><div id="eco-desc">Loading...</div></div>
+
+      <div class="an-box">🐾 Active Sanctuary: <div id="an" class="pt-c"></div></div>
+
+      <div class="chunky-widget" style="background: #eaf4f4; padding: 8px; border-width: 2px; box-shadow: none;">
+        <div style="font-weight: bold; color: #164e63; font-size: 10px;">📖 Ecosystem Guide Notebook:</div>
+        <div id="eco-desc" style="font-style: italic; font-size: 11px; margin-top: 2px;">Loading descriptions...</div>
+      </div>
     </div>
-    <!-- SIDE PANEL -->
-    <div class="narrow-widget">
-      <div class="chunky-widget" style="box-shadow:none; flex:1;">
-        <div class="widget-header"><span style="color:#03045e;">🐹 Hamster Wheel</span><span id="hamster-status">IDLE</span></div>
-        <canvas id="hamsterCanvas" width="128" height="128" style="border:2px solid #222; border-radius:12px; margin:0 auto;"></canvas>
-        <div style="text-align:center;">
-          <div style="font-weight:bold;">Chore: <span id="chore-time">0m</span> / <span id="chore-target-display">15m</span></div>
-          <button onclick="triggerChoreBoost()" style="background:#03045e; color:#fff; width:100%; margin-top:4px;">🧹 Log 15m Chore</button>
-        </div>
-        <div class="inner-box-nest">
-          <div id="playzone" class="pz">Hover for sparkles! Click to hatch.</div>
+
+    <!-- BOX 2: PIXEL DWARF HAMSTER RUNNER -->
+    <div class="chunky-widget narrow-widget">
+      <div class="widget-header">
+        <span style="color: #03045e;">🐹 Hamster Runner Station</span>
+        <span id="hamster-status" style="font-size: 10px; font-weight: bold; color: #03045e; background: #e0f2fe; padding: 2px 6px; border-radius: 6px; border: 2px solid #03045e;">STATUS: IDLE</span>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; flex: 1;">
+        <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px;"></canvas>
+        <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-weight: bold;">Chore Balance: <span id="chore-time" style="color: #03045e;">0 mins</span> / <span id="chore-target-display" style="color:#d62828;">15 mins</span></div>
+          <div class="toggle-row">
+            <span style="font-size:10px;">Run Goal:</span>
+            <select id="hamster-run-threshold" onchange="updateChoreTarget()" style="padding:2px; font-size:11px;">
+              <option value="5">5 mins</option>
+              <option value="15" selected>15 mins</option>
+              <option value="30">30 mins</option>
+              <option value="60">60 mins</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 4px;">
+            <span style="font-size:10px;">Log Session:</span>
+            <select id="chore-duration" style="max-width: 90px; padding: 2px; font-size:11px;">
+              <option value="5">5m</option>
+              <option value="15" selected>15m</option>
+              <option value="30">30m</option>
+              <option value="60">1h</option>
+            </select>
+          </div>
+          <button onclick="triggerChoreBoost()" style="background: #03045e; color: white; width: 100%;">🧹 Log Active Chore Time</button>
         </div>
       </div>
     </div>
-    <!-- SYSTEM MONITOR -->
-    <div class="narrow-widget">
-      <div class="chunky-widget" style="box-shadow:none; flex:1;">
-        <div class="widget-header"><span style="color:#1d3557;">🎵 Audio Core</span></div>
-        <div class="mu-box">
-          <select id="mtype"><option value="chill">Vinyl</option><option value="jazz">Melancholy</option></select>
-          <button id="m" class="mu" onclick="tune()">🔊 Start Audio</button>
-        </div>
-        <div class="inner-box-nest" style="min-height:160px;">
-          <div id="workspace-history-box" style="height:130px; overflow-y:scroll;"></div>
-        </div>
+
+    <!-- BOX 3: SOUNDSCAPE LAYER -->
+    <div class="chunky-widget narrow-widget">
+      <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
+      <div class="mu-box">
+        <div style="font-size: 11px; margin-bottom: 6px;">Select Audio Soundscape Base Layer:</div>
+        <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
+        <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
       </div>
     </div>
-    <!-- TRANSFORMER ROW -->
-    <div class="chunky-widget wide-widget" style="min-width:100%;">
-      <div class="widget-header"><span style="color:#e65100;">🔤 Font Engine</span></div>
-      <div style="display:flex; gap:16px; flex-wrap:wrap; width:100%;">
-        <div class="chunky-widget" style="background:#fff3e0; box-shadow:none; flex:1; min-width:240px;"><div class="stk-row" id="stk-box"></div></div>
-        <div class="chunky-widget" style="background:#e0f2f1; box-shadow:none; flex:1; min-width:240px;">
-          <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()">
-          <div class="fnt-col" id="fnt-box"></div>
-        </div>
+
+    <!-- BOX 4: STICKERS AND TEXT VARIANCE -->
+    <div class="chunky-widget wide-widget" style="min-width: 340px;">
+      <div class="widget-header"><span style="color: #e65100;">🔤 Font Variance Engine</span></div>
+      <div class="chunky-widget" style="background: #fff3e0; padding: 8px; border-width: 2px; box-shadow: none;">
+        <div style="font-weight: bold; color: #e65100;">✨ Theme Kaomojis Pack:</div>
+        <div class="stk-row" id="stk-box"></div>
+      </div>
+      <div class="chunky-widget" style="background: #e0f2f1; padding: 8px; border-width: 2px; box-shadow: none;">
+        <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="margin-bottom: 6px;">
+        <div class="fnt-col" id="fnt-box"></div>
       </div>
     </div>
+
+    <!-- BOX 5: SANDBOX PLAYGROUND -->
+    <div class="chunky-widget wide-widget">
+      <div class="widget-header"><span style="color: #7b1fa2;">✨ Interactive Sandbox Playground</span></div>
+      <div id="playzone" class="pz" style="position: relative; overflow: hidden; background: #fff; min-height: 110px; cursor: crosshair;">
+        Move cursor here for sparkly trails! Click to hatch animals!
+      </div>
+    </div>
+
+    <!-- BOX 6: HISTORIC NOTES ARCHIVE LEDGER -->
+    <div class="chunky-widget wide-widget" style="min-width: 100%;">
+      <div class="widget-header">
+        <span style="color: #475569;">📜 Strategic Workspace Activity History Notebook</span>
+        <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:10px; padding:2px 6px; box-shadow:none; border-width:1px;">⚠️ Reset Storage</button>
+      </div>
+      <div id="workspace-history-box" style="padding: 10px; background: #fafafa; border: 2px dashed #94a3b8; border-radius: 10px; min-height: 90px; line-height: 1.5; font-size: 11px; color: #334155; max-height: 180px; overflow-y: auto;">
+        No milestones logged for this session yet.
+      </div>
+    </div>
+
   </div>
-  <script src="database.js"></script><script src="engine.js"></script>
+
+  <script src="database.js"></script>
+  <script src="engine.js"></script>
+  <script src="hamster.js"></script>
+  <script src="playground.js"></script>
 </body>
 </html>
