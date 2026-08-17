@@ -87,4 +87,7 @@ function draw(){
   else if(kind=="mushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
 }
 
-ren(); show(); updateStickers(); draw(); msg();
+// FORCE LOAD ENGINE TRIGGERS IMMEDIATELY
+window.addEventListener('DOMContentLoaded', function() {
+  ren(); show(); updateStickers(); draw(); msg();
+});
