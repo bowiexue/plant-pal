@@ -4,14 +4,33 @@ var cx = cv ? cv.getContext('2d') : null;
 var pts = 0;
 var sleep = false;
 var act = Date.now();
-var time = 1500; // 25 minutes in seconds
+var time = 1500; 
 var mId = null;
 var on = false;
 var list = [];
-var historyLog = [];
+var historyLog = []; // Stores your completed milestones
 var kind = "sprout";
 var pets = [];
 var lockGrowth = false;
+
+// Theme-matching unique reward items linked to each plant profile
+var plantRewards = {
+  sprout: "🐛 Little Caterpillar",
+  cactus: "🦎 Desert Gecko",
+  flower: "🦋 Monarch Butterfly",
+  orchid: "Hummingbird",
+  rose: "🐞 Red Ladybug",
+  tulip: "🐝 Honey Bee",
+  bamboo: "🐼 Baby Panda",
+  bonsai: "🧘 Tiny Zen Stone",
+  mushroom: "🧚 Woodland Fairy",
+  clover: "🌈 Mini Leprechaun Hat",
+  fern: "🐸 Tree Frog",
+  maple: "🐿️ Red Squirrel",
+  palm: "🦩 Pink Flamingo",
+  venus: "🪰 Golden Fly",
+  berry: "🦔 Woodland Hedgehog"
+};
 
 // Converts normal text into different fonts using database mappings
 function convertStr(str, type) {
@@ -27,22 +46,18 @@ function convertStr(str, type) {
   return out;
 }
 
-// Universal copy-to-clipboard messenger helper
 function copyText(val) {
   navigator.clipboard.writeText(val);
   alert("📋 Copied text to clipboard: " + val);
 }
 
-// Refreshes the customized typography variants inside the font panel box
 function genFonts() {
   var tInput = document.getElementById('cust-txt-in');
   var fBox = document.getElementById('fnt-box');
   var pConfig = plantData[kind];
   var out = [];
-  
   if (!tInput || !fBox || !pConfig || !pConfig.fonts) return;
   var txt = tInput.value || 'Plant Pal';
-  
   for (var j = 0; j < pConfig.fonts.length; j++) {
     var fType = pConfig.fonts[j].key;
     var fName = pConfig.fonts[j].name;
@@ -52,16 +67,13 @@ function genFonts() {
   fBox.innerHTML = out.join('');
 }
 
-// Updates the description text blocks and character stickers array
 function updateStickers() {
   var pConfig = plantData[kind];
   var sBox = document.getElementById('stk-box');
   var out = [];
-  
   if (!pConfig || !sBox) return;
   var descEl = document.getElementById('eco-desc');
   if (descEl) descEl.innerText = pConfig.desc;
-  
   for (var i = 0; i < pConfig.kaomojis.length; i++) {
     out.push('<button class="stk-btn" onclick="copyText(\'' + pConfig.kaomojis[i] + '\')">' + pConfig.kaomojis[i] + '</button>');
   }
@@ -69,28 +81,24 @@ function updateStickers() {
   genFonts();
 }
 
-// Local system sleep timers tracking loops
 setInterval(function() {
-  if (!on && Date.now() - act > 600000) { // 10 minutes inactive
+  if (!on && Date.now() - act > 600000) {
     sleep = true;
     msg();
     draw();
   }
 }, 10000);
 
-// Resets internal inactivity sleep timer counters on user click interactions
 function tch() {
   act = Date.now();
   sleep = false;
   msg();
 }
 
-// Clock controls for running and pausing the workspace focus stopwatch
 function run() {
   tch();
   var b = document.getElementById('go');
   if (!b) return;
-  
   if (on) {
     clearInterval(mId);
     on = false;
@@ -104,7 +112,8 @@ function run() {
         show();
       } else {
         reset();
-        pts += 3; // Give points for complete focus sessions
+        pts += 3;
+        logHistory("Completed a 25-minute Deep Focus Session!");
         alert("🎉 Focus session complete! Your plant absorbed the focus energy!");
         tch();
         draw();
@@ -114,7 +123,6 @@ function run() {
   }
 }
 
-// Resets stopwatch back to baseline 25 minute marks
 function reset() {
   clearInterval(mId);
   on = false;
@@ -124,7 +132,6 @@ function reset() {
   show();
 }
 
-// Formats clock digital readouts
 function show() {
   var m = Math.floor(time / 60);
   var s = time % 60;
@@ -132,7 +139,6 @@ function show() {
   if (el) el.innerText = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
 }
 
-// Appends user strings onto active task checklists
 function add() {
   var i = document.getElementById('in');
   if (!i) return;
@@ -144,13 +150,15 @@ function add() {
   tch();
 }
 
-// Toggles checkboxes and safely changes growth point counters without breaking
+// Fixed checklist node: Triggers real-time growth state point updates
 window.hF = function(el) {
   if (lockGrowth) return;
   var x = parseInt(el.getAttribute('data-i'));
   list[x].d = !list[x].d;
+  
   if (list[x].d) {
     pts++;
+    logHistory("Checked off task: " + list[x].t);
   } else {
     if (pts > 0) pts--;
   }
@@ -160,7 +168,6 @@ window.hF = function(el) {
   checkWin();
 };
 
-// Removes task entries out of tracking memory lists completely
 window.hR = function(el) {
   if (lockGrowth) return;
   var x = parseInt(el.getAttribute('data-i'));
@@ -171,7 +178,22 @@ window.hR = function(el) {
   draw();
 };
 
-// Re-renders and updates lists cleanly into the layout container block
+// Formats your completed logs down into the dashboard notebook view
+function logHistory(message) {
+  var timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  historyLog.unshift("[" + timestamp + "] " + message);
+  
+  var hContainer = document.getElementById('an');
+  if (hContainer) {
+    var out = [];
+    for (var i = 0; i < Math.min(3, historyLog.length); i++) {
+      out.push('<div style="font-size:10px; color:#555; padding:1px 0;">' + historyLog[i] + '</div>');
+    }
+    // Keeps the scrolling logs neat inside the container box frame
+    hContainer.innerHTML = '<div style="padding:2px; line-height:1.2;">' + out.join('') + '</div>';
+  }
+}
+
 function ren() {
   var out = [];
   for (var i = 0; i < list.length; i++) {
@@ -185,7 +207,6 @@ function ren() {
   msg();
 }
 
-// Swaps out target plant types and triggers new pixel drawings
 function chg() {
   if (lockGrowth) return;
   var el = document.getElementById('pt');
@@ -195,87 +216,52 @@ function chg() {
   draw();
 }
 
-// Checks growth levels to drop tiny animated wandering animals onto your screen
+// Drops unique custom biological ecosystem rewards onto the dashboard
 function checkWin() {
-  var currentAnimal = plantPets[kind] || "🐾";
+  var specializedReward = plantRewards[kind] || "🎁 Special Item";
   if (pts && pts % 9 === 0 && !lockGrowth) {
     lockGrowth = true;
-    var e = document.createElement('div');
-    e.className = 'pet';
-    e.innerText = currentAnimal;
-    e.style.left = Math.random() * 220 + 'px';
-    
-    var anEl = document.getElementById('an');
-    if (anEl) anEl.appendChild(e);
-    
-    pets.push({ dom: e, x: parseFloat(e.style.left), tx: parseFloat(e.style.left) });
+    logHistory("🌟 UNLOCKED REWARD: " + specializedReward);
     
     setTimeout(function() {
-      alert("🎉 Full growth unlocked! A wild friendly " + currentAnimal + " has wandered into your workspace!");
+      alert("🎉 Full Growth Unlocked!\n\nYour hard work grew a perfect specimen and attracted a unique reward: " + specializedReward + "!");
       lockGrowth = false;
       ren();
       draw();
-    }, 1000);
+    }, 400);
   }
 }
 
-// Wandering creature walking loop animations
-setInterval(function() {
-  for (var i = 0; i < pets.length; i++) {
-    var p = pets[i];
-    if (Math.random() < 0.2) p.tx = Math.random() * 220;
-    if (Math.abs(p.x - p.tx) > 2) {
-      p.x += p.tx > p.x ? 2 : -2;
-      p.dom.style.bottom = (Math.sin(p.x * 0.1) * 3 + 2) + 'px';
-    }
-    p.dom.style.left = p.x + 'px';
-  }
-}, 80);
-
-// Decides what text status update gets displayed based on checks count numbers
 function msg() {
   var n = Math.max(0, 9 - pts);
   var t = "Needs " + n + " checked tasks to fully grow!";
   var stEl = document.getElementById('st');
-  
   if (lockGrowth) t = "✨ Growth unlocked!";
   else if (sleep || window.hamsterIsSad) t = "Zzz... Your Pal fell asleep!";
   else if (pts >= 6) t = "Thick and flourishing!";
   else if (pts >= 3) t = "Strong healthy sprout!";
-  
   if (stEl) stEl.innerText = t;
 }
 
-// Fast pixel rendering math drawing helper
 function pxl(x, y, w, h, c) {
   if (!cx) return;
   cx.fillStyle = c;
   cx.fillRect(x * 9, y * 9, w * 9, h * 9);
 }
 
-// Renders the standalone micro 8-bit retro art graphics onto the canvas 
-// Renders the standalone micro 8-bit retro art graphics onto the canvas 
 function draw() {
   if (!cx) return;
   cx.clearRect(0, 0, 144, 144);
-  
-  // Base dirt and clay flower pot bricks layer
   pxl(4, 13, 8, 1, "#c2c5cc");
   pxl(4, 14, 8, 1, "#8d99ae");
   pxl(5, 12, 6, 1, '#4a3728');
-  
-  // Sleep graphic override state layers
   if (sleep || window.hamsterIsSad) {
     pxl(7, 10, 2, 2, '#52b788');
     pxl(9, 2, 4, 1, "#90e0ef");
     pxl(8, 3, 6, 1, "#00b4d8");
     return;
   }
-  
-  // Shared base seedling sprout trunk stems
-  pxl(7, 10, 2, 2, '#52b788'); 
-  
-  // Custom unique pixel arts depending on what dropdown item is selected
+  pxl(7, 10, 2, 2, '#52b788');
   if (kind === "sprout") {
     if (pts >= 3) { pxl(5, 9, 2, 1, '#74c69d'); pxl(9, 9, 2, 1, '#74c69d'); }
     if (pts >= 6) { pxl(7, 5, 2, 5, '#2d6a4f'); pxl(4, 6, 3, 1, '#74c69d'); }
