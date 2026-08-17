@@ -53,7 +53,7 @@ Object.assign(plantData, {
   bonsai: {
     desc: "An ancient decorative miniature tree art piece cultivated meticulously over decades of patient container pruning. By carefully styling its branches with structural wires and regulating root bounds, the grower replicates the magnificent posture of an old cliffside forest giant inside a shallow desktop dish.",
     fonts: [{key:"f1",name:"Double"},{key:"f2",name:"Gothic"}],
-    kaomojis: ["🌳","(─‿─)","(˘_˘)","(◡_◡)","(๑˘ᵕ˘)","( •_•)","(˘◡˘)","(●´ω｀●)","('‿')","(💤)","(◍‿◍)","(✯◡✯)","(^ ^)","(•ิ_•ิ)","(ˊᵕˋ)","(𓆏)"]
+    kaomojis: ["🌳","(─‿─)","(˘_˘)","(◡_◡)","(๑˘ᵕ˘)","( •_•)","(˘◡˘)","(●´ω｀●)","(^‿^)","(💤)","(◍‿◍)","(✯◡✯)","(^ ^)","(•ิ_•ิ)","(ˊᵕˋ)","(𓆏)"]
   },
   mushroom: {
     desc: "A mysterious fungal spore network consisting of deep hidden mycelial threads running through damp floor decay. Its visible umbrella cap springs up overnight in shady spaces to distribute spores across the wind. This plant plays an important role in cleaning up forest waste and turning it back into rich, reusable earth nutrients.",
@@ -78,12 +78,12 @@ Object.assign(plantData, {
   palm: {
     desc: "A highly resilient coastal palm tree built with flexible, stringy trunk layers that bend safely during fierce coastal storm winds without cracking. Its long crown fronds allow sea gales to flow cleanly through them, making it a great specimen for warm, sunny sandbox layout configurations.",
     fonts: [{key:"f1",name:"Double"},{key:"f3",name:"Script"}],
-    kaomojis: ["🌴","(🕶️)","(🏄)","(🥥)","(🍍)","(🍹)","(𓆉)","(🏖️)","(🦈)","(🌊)","☀️","(🌴‿🌴)","(😎)","(🏖️_🏖️)","(𓆝)","(𓆟)"]
+    kaomojis: ["🌴","> x <","(-.-)","(🥥)","(🍍)","(🍹)","(𓆉)","(^x^)","(🦈)","(🌊)","☀️","(🌴‿🌴)","(😎)","(🏖️_🏖️)","(𓆝)","(𓆟)"]
   },
   venus: {
     desc: "An incredible carnivorous fly trap mutation equipped with active, sensitive terminal leaf pads. The interior trap walls are loaded with fine hair triggers that snap the green lobes shut within fractions of a second when touched by passing bugs. It relies on digesting these insects to collect nutrients that are missing from its swampy home soil.",
     fonts: [{key:"f2",name:"Gothic"},{key:"f3",name:"Script"}],
-    kaomojis: ["🌱","(🐱)","(🐾)","(=^･ω･^=)","(•̀⤙•́)","(•⤙•)","(˵^v^˵)","(ㅇvㅇ)","(▼v▼)","('‿')","(ᵔvᵔ)","(•v•)","( 🐱 _ 🐱 )","(^.^)","(✧v✧)","(o^v^o)"]
+    kaomojis: ["🌱","(🐱)","(🐾)","(=^･ω･^=)","(•̀⤙•́)","(•⤙•)","(˵^v^˵)","(ㅇvㅇ)","(▼v▼)","(^‿^)","(ᵔvᵔ)","(•v•)","( 🐱 _ 🐱 )","(^.^)","(✧v✧)","(o^v^o)"]
   },
   berry: {
     desc: "A prickly wild vine crowded with sweet forest berries that grow in bunches along sunny thicket edges. Its tiny summer blossoms turn into bright clusters of fruit over time, providing sugary fuel for woodland creatures. This crawling vine grows best when given a wooden garden trellis to climb.",
