@@ -1,4 +1,3 @@
-// Master state storage variables
 var cv = document.getElementById('cv');
 var cx = cv ? cv.getContext('2d') : null;
 var pts = 0;
@@ -8,31 +7,11 @@ var time = 1500;
 var mId = null;
 var on = false;
 var list = [];
-var historyLog = []; // Stores your completed milestones
+var historyLog = [];
 var kind = "sprout";
 var pets = [];
 var lockGrowth = false;
 
-// Theme-matching unique reward items linked to each plant profile
-var plantRewards = {
-  sprout: "🐛 Little Caterpillar",
-  cactus: "🦎 Desert Gecko",
-  flower: "🦋 Monarch Butterfly",
-  orchid: "Hummingbird",
-  rose: "🐞 Red Ladybug",
-  tulip: "🐝 Honey Bee",
-  bamboo: "🐼 Baby Panda",
-  bonsai: "🧘 Tiny Zen Stone",
-  mushroom: "🧚 Woodland Fairy",
-  clover: "🌈 Mini Leprechaun Hat",
-  fern: "🐸 Tree Frog",
-  maple: "🐿️ Red Squirrel",
-  palm: "🦩 Pink Flamingo",
-  venus: "🪰 Golden Fly",
-  berry: "🦔 Woodland Hedgehog"
-};
-
-// Converts normal text into different fonts using database mappings
 function convertStr(str, type) {
   var out = '', m = maps[type];
   if (!m) return str;
@@ -62,7 +41,7 @@ function genFonts() {
     var fType = pConfig.fonts[j].key;
     var fName = pConfig.fonts[j].name;
     var converted = convertStr(txt, fType);
-    out.push('<div class="fnt-row" onclick="copyText(\'' + converted + '\')"><span>' + converted + '</span><span style="color:#004d40; font-size:9px; font-weight:normal;">[' + fName + '] copy</span></div>');
+    out.push('<div class="fnt-row" onclick="copyText(\'' + converted + '\')"><span>' + converted + '</span><span style="color:#004d40; font-size:9px;">[' + fName + '] copy</span></div>');
   }
   fBox.innerHTML = out.join('');
 }
@@ -72,8 +51,10 @@ function updateStickers() {
   var sBox = document.getElementById('stk-box');
   var out = [];
   if (!pConfig || !sBox) return;
+  
   var descEl = document.getElementById('eco-desc');
   if (descEl) descEl.innerText = pConfig.desc;
+  
   for (var i = 0; i < pConfig.kaomojis.length; i++) {
     out.push('<button class="stk-btn" onclick="copyText(\'' + pConfig.kaomojis[i] + '\')">' + pConfig.kaomojis[i] + '</button>');
   }
@@ -113,7 +94,7 @@ function run() {
       } else {
         reset();
         pts += 3;
-        logHistory("Completed a 25-minute Deep Focus Session!");
+        logHistory("Completed a 25-minute Deep Focus Session! (+3 Growth Points)");
         alert("🎉 Focus session complete! Your plant absorbed the focus energy!");
         tch();
         draw();
@@ -150,15 +131,13 @@ function add() {
   tch();
 }
 
-// Fixed checklist node: Triggers real-time growth state point updates
 window.hF = function(el) {
   if (lockGrowth) return;
   var x = parseInt(el.getAttribute('data-i'));
   list[x].d = !list[x].d;
-  
   if (list[x].d) {
     pts++;
-    logHistory("Checked off task: " + list[x].t);
+    logHistory("Completed task check: \"" + list[x].t + "\"");
   } else {
     if (pts > 0) pts--;
   }
@@ -178,19 +157,18 @@ window.hR = function(el) {
   draw();
 };
 
-// Formats your completed logs down into the dashboard notebook view
+// Beautiful workspace activity ledger logging console engine 
 function logHistory(message) {
-  var timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  var timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   historyLog.unshift("[" + timestamp + "] " + message);
   
-  var hContainer = document.getElementById('an');
-  if (hContainer) {
+  var hBox = document.getElementById('workspace-history-box');
+  if (hBox) {
     var out = [];
-    for (var i = 0; i < Math.min(3, historyLog.length); i++) {
-      out.push('<div style="font-size:10px; color:#555; padding:1px 0;">' + historyLog[i] + '</div>');
+    for (var i = 0; i < Math.min(5, historyLog.length); i++) {
+      out.push('<div style="margin-bottom:2px; font-weight:bold; color:#475569;">' + historyLog[i] + '</div>');
     }
-    // Keeps the scrolling logs neat inside the container box frame
-    hContainer.innerHTML = '<div style="padding:2px; line-height:1.2;">' + out.join('') + '</div>';
+    hBox.innerHTML = out.join('');
   }
 }
 
@@ -216,27 +194,53 @@ function chg() {
   draw();
 }
 
-// Drops unique custom biological ecosystem rewards onto the dashboard
+// Drops unique matching fauna rewards and pauses for exactly 7 seconds before unlocking selection resets
 function checkWin() {
-  var specializedReward = plantRewards[kind] || "🎁 Special Item";
+  var activeAnimal = plantPets[kind] || "🐾";
   if (pts && pts % 9 === 0 && !lockGrowth) {
     lockGrowth = true;
-    logHistory("🌟 UNLOCKED REWARD: " + specializedReward);
+    logHistory("🌟 REWARD MILESTONE: Attracted a local environment " + activeAnimal);
     
+    // Spawns wandering biological elements directly into the active viewport canvas box
+    var e = document.createElement('div');
+    e.className = 'pet';
+    e.innerText = activeAnimal;
+    e.style.left = Math.random() * 220 + 'px';
+    var anEl = document.getElementById('an');
+    if (anEl) anEl.appendChild(e);
+    pets.push({ dom: e, x: parseFloat(e.style.left), tx: parseFloat(e.style.left) });
+    
+    msg();
+    
+    // Deliberate 7 second notification lock window block 
     setTimeout(function() {
-      alert("🎉 Full Growth Unlocked!\n\nYour hard work grew a perfect specimen and attracted a unique reward: " + specializedReward + "!");
+      alert("🎉 Full Ecosystem Level Reached!\n\nYour consistent checklist focus attracted a rare themed partner item: " + activeAnimal + "!");
       lockGrowth = false;
+      pts = 0; // Seamlessly clear point meters to let next ecosystem cycles flourish
       ren();
       draw();
-    }, 400);
+    }, 7000);
   }
 }
+
+// Wandering creature walking animation tickers
+setInterval(function() {
+  for (var i = 0; i < pets.length; i++) {
+    var p = pets[i];
+    if (Math.random() < 0.2) p.tx = Math.random() * 220;
+    if (Math.abs(p.x - p.tx) > 2) {
+      p.x += p.tx > p.x ? 2 : -2;
+      p.dom.style.bottom = (Math.sin(p.x * 0.1) * 3 + 2) + 'px';
+    }
+    p.dom.style.left = p.x + 'px';
+  }
+}, 80);
 
 function msg() {
   var n = Math.max(0, 9 - pts);
   var t = "Needs " + n + " checked tasks to fully grow!";
   var stEl = document.getElementById('st');
-  if (lockGrowth) t = "✨ Growth unlocked!";
+  if (lockGrowth) t = "✨ Growth unlocked! Loading next flora tier in 7s...";
   else if (sleep || window.hamsterIsSad) t = "Zzz... Your Pal fell asleep!";
   else if (pts >= 6) t = "Thick and flourishing!";
   else if (pts >= 3) t = "Strong healthy sprout!";
