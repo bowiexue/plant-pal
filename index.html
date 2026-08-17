@@ -10,9 +10,8 @@
     .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 12px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
     .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
     
-    /* Grid layout styling configured to stretch to the bottom window edge */
     .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; flex: 1; margin-bottom: 20px; }
-    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; }
+    .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; height: 100%; }
     
     .wide-widget { flex: 2; min-width: 340px; display: flex; flex-direction: column; }
     .narrow-widget { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
@@ -115,10 +114,11 @@
         </div>
       </div>
 
+      <!-- KEYBOARD INTERCEPT: Added a simple onkeydown check for the Return/Enter key -->
       <div class="td">
         <div style="font-weight: bold; color: #2d6a4f; margin-bottom: 4px;">📝 Tasks Connected Checklist:</div>
         <div class="rw">
-          <input type="text" id="in" placeholder="Add a task note..."><button onclick="add()">Add</button>
+          <input type="text" id="in" placeholder="Add a task note..." onkeydown="if(event.key === 'Enter') add()"><button onclick="add()">Add</button>
         </div>
         <ul id="el"></ul>
       </div>
@@ -183,12 +183,13 @@
           <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
         </div>
 
+        <!-- SCROLL FIX: Added max-height: 140px and overflow-y: scroll to handle scrolling up and down -->
         <div class="inner-box-nest">
           <div style="font-weight: bold; color: #475569; margin-bottom: 4px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; display: flex; justify-content: space-between;">
             <span>📜 Activity Log</span>
             <button onclick="clearSavedData()" style="background:#ef4444; color:white; font-size:8px; padding:0px 2px; border-width:1px;">Reset</button>
           </div>
-          <div id="workspace-history-box" style="padding: 4px; background: #fafafa; border: 1px dashed #94a3b8; border-radius: 8px; flex: 1; min-height: 100px; line-height: 1.3; font-size: 10px; color: #334155; overflow-y: auto;">
+          <div id="workspace-history-box" style="padding: 4px; background: #fafafa; border: 1px dashed #94a3b8; border-radius: 8px; flex: 1; max-height: 140px; line-height: 1.3; font-size: 10px; color: #334155; overflow-y: scroll;">
             No milestones logged for this session yet.
           </div>
         </div>
