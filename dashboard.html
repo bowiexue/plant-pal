@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SproutPal Standalone Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bx">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h4 style="margin:0;">SproutPal Pro Master 🌿</h4>
+      <button onclick="location.href='index.html'" style="background:#555; font-size:10px; padding:3px 6px;">⬅ Return Hub</button>
+    </div>
+    
+    <div id="wdg" class="sl" style="background:#e8f1f5; border-color:#b0c4de;">
+      <div class="sl-row" style="font-weight:bold;">
+        <span>Palo Alto, CA 📍</span><span id="wdg-temp">73°F</span>
+      </div>
+      <div class="sl-row">
+        <span id="wdg-time">12:00:00 PM</span><span>☁ Mostly Cloudy</span>
+      </div>
+    </div>
+
+    <!-- PHONE APP STYLE CHUNKY FAT RECTANGLE CUSTOM WIDGET -->
+    <div class="fat-widget">
+      <div class="fat-header">
+        <span style="font-weight:bold; color:#03045e;">🐹 Hamster Wheel Tracker</span>
+        <span id="hamster-status" style="font-size:9px; color:#03045e; font-weight:bold;">STATUS: IDLE</span>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; justify-content:center;">
+        <canvas id="hamsterCanvas" width="128" height="128"></canvas>
+        <div class="fat-info">
+          <div>Chores Active: <span id="chore-time" style="font-weight:bold; color:#a26967;">0 mins</span></div>
+          
+          <div style="margin-top:4px; display:flex; gap:4px; align-items:center;">
+            <span>Add Session:</span>
+            <select id="chore-duration" style="font-size:10px; padding:1px;">
+              <option value="5">5 mins</option>
+              <option value="15" selected>15 mins</option>
+              <option value="30">30 mins</option>
+              <option value="60">1 hour</option>
+            </select>
+          </div>
+          
+          <button id="chore-btn" onclick="triggerChoreBoost()" style="margin-top:6px; background:#03045e; font-size:10px; padding:4px 8px;">🧹 Log Chore Session</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mid-row">
+      <div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div>
+      <div class="side-ctrls">
+        <div id="st" class="st"></div>
+        <div id="tmbx" class="tm-box mode-focus"><div id="tm" class="tm">25:00</div></div>
+        <div class="bt">
+          <button id="go" onclick="run()">Start</button>
+          <button onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl" style="background:#eaf4f4; border-color:#cce3de;">
+      <div style="font-weight:bold; color:#164e63;">📖 Ecosystem Field Guide Report:</div>
+      <div id="eco-desc" style="font-style:italic;">Loading...</div>
+    </div>
+
+    <div class="mu-box">
+      <div style="display:flex; justify-content:space-between; color:#fff;">
+        <span>Mood Synth Pack:</span>
+        <select id="mtype">
+          <option value="chill">Vinyl Pad</option>
+          <option value="jazz">Melancholy</option>
+          <option value="rain">Rainy Beats</option>
+          <option value="cosmic">Space Drone</option>
+          <option value="retro">Chiptune</option>
+          <option value="lofi">Ambient Lo-Fi</option>
+          <option value="synth">Lofi Synthwave</option>
+          <option value="classic">Neo-Classical piano</option>
+        </select>
+      </div>
+      <button id="m" class="mu" onclick="tune()">🎵 Synthesize Music</button>
+    </div>
+
+    <div class="sl">
+      <div class="sl-row">
+        <span>Plant:</span>
+        <select id="pt" onchange="chg()">
+          <option value="sprout">Thick Sprout</option>
+          <option value="cactus">Big Cactus</option>
+          <option value="flower">Sunflower</option>
+          <option value="orchid">Exotic Orchid</option>
+          <option value="sakura">Sakura Bonsai</option>
+          <option value="fern">Cozy Fern</option>
+          <option value="bamboo">Lucky Bamboo</option>
+          <option value="rose">Crimson Rose</option>
+          <option value="maple">Mini Maple</option>
+          <option value="mushroom">Shroom Patch</option>
+        </select>
+      </div>
+      <div class="sl-row">
+        <span>Mode:</span>
+        <select id="tmode" onchange="setMode()">
+          <option value="focus">Focus Session</option>
+          <option value="break">Break Time</option>
+        </select>
+      </div>
+      <div class="sl-row">
+        <span>Custom Mins:</span>
+        <input type="number" id="cust" value="25" min="1" max="180" onchange="applyCustomTime()">
+      </div>
+    </div>
+    
+    <div class="an-box">🐾 Visitor:<div id="an" class="pt-c"></div></div>
+    
+    <div class="td">
+      <div class="rw"><input type="text" id="in" placeholder="Task..."><button onclick="add()">Add</button></div>
+      <ul id="el"></ul>
+    </div>
+
+    <div class="sl" style="background:#f3e5f5; border-color:#e1bee7;">
+      <div style="font-weight:bold; color:#4a148c;">✨ Tiny Custom Cursor Playground:</div>
+      <div id="playzone" class="pz">Move inside for glitter trails & click for floating stars + animals!</div>
+    </div>
+
+    <div class="sl" style="background:#fff3e0; border-color:#ffe0b2; margin-top:4px;">
+      <div style="font-weight:bold; color:#e65100;">✨ Expanded Theme Kaomojis:</div>
+      <div class="stk-row" id="stk-box"></div>
+    </div>
+
+    <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb;">
+      <div style="font-weight:bold; color:#004d40;">🔤 Custom Font Variance Engine:</div>
+      <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="width:100%;">
+      <div class="fnt-col" id="fnt-box"></div>
+    </div>
+  </div>
+
+  <!-- LOAD APPLICATION CODE COMPONENTS IN AN UNBROKEN CHAIN -->
+  <script src="database.js"></script>
+  <script src="audio.js"></script>
+  <script src="engine.js"></script>
+  <script src="playground.js"></script>
+  <script src="hamster.js"></script>
+
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof ren === 'function') ren();
+        if (typeof show === 'function') show();
+        if (typeof updateStickers === 'function') updateStickers();
+        if (typeof draw === 'function') draw();
+        if (typeof msg === 'function') msg();
+        if (typeof initHamster === 'function') initHamster();
+      }, 100);
+    });
+  </script>
+</body>
+</html>
