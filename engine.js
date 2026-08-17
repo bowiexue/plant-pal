@@ -254,6 +254,7 @@ function pxl(x, y, w, h, c) {
 }
 
 // Renders the standalone micro 8-bit retro art graphics onto the canvas 
+// Renders the standalone micro 8-bit retro art graphics onto the canvas 
 function draw() {
   if (!cx) return;
   cx.clearRect(0, 0, 144, 144);
@@ -271,9 +272,10 @@ function draw() {
     return;
   }
   
-  // Branch paths according to active selected option dropdown hooks
-  pxl(7, 10, 2, 2, '#52b788'); // Stage 1 Stem
+  // Shared base seedling sprout trunk stems
+  pxl(7, 10, 2, 2, '#52b788'); 
   
+  // Custom unique pixel arts depending on what dropdown item is selected
   if (kind === "sprout") {
     if (pts >= 3) { pxl(5, 9, 2, 1, '#74c69d'); pxl(9, 9, 2, 1, '#74c69d'); }
     if (pts >= 6) { pxl(7, 5, 2, 5, '#2d6a4f'); pxl(4, 6, 3, 1, '#74c69d'); }
@@ -286,5 +288,38 @@ function draw() {
   } else if (kind === "orchid") {
     if (pts >= 3) { pxl(6, 8, 4, 2, '#7209b7'); }
     if (pts >= 6) { pxl(4, 5, 8, 3, '#b5179e'); pxl(7, 4, 2, 1, '#f72585'); }
+  } else if (kind === "rose") {
+    if (pts >= 3) { pxl(6, 9, 4, 1, '#2d6a4f'); }
+    if (pts >= 6) { pxl(6, 5, 4, 4, '#e63946'); pxl(7, 4, 2, 1, '#d62828'); }
+  } else if (kind === "tulip") {
+    if (pts >= 3) { pxl(7, 8, 2, 2, '#40916c'); }
+    if (pts >= 6) { pxl(6, 5, 4, 3, '#ffb703'); pxl(7, 4, 2, 1, '#fb8500'); }
+  } else if (kind === "bamboo") {
+    if (pts >= 3) { pxl(7, 7, 2, 3, '#74c69d'); }
+    if (pts >= 6) { pxl(7, 3, 2, 4, '#52b788'); pxl(9, 4, 2, 1, '#74c69d'); }
+  } else if (kind === "bonsai") {
+    if (pts >= 3) { pxl(5, 9, 6, 1, '#5c677d'); }
+    if (pts >= 6) { pxl(4, 6, 8, 3, '#2d6a4f'); pxl(6, 7, 4, 3, '#74c69d'); }
+  } else if (kind === "mushroom") {
+    if (pts >= 3) { pxl(7, 9, 2, 1, '#f1faee'); }
+    if (pts >= 6) { pxl(5, 6, 6, 3, '#e63946'); pxl(6, 7, 1, 1, '#fff'); pxl(9, 6, 1, 1, '#fff'); }
+  } else if (kind === "clover") {
+    if (pts >= 3) { pxl(6, 9, 4, 1, '#74c69d'); }
+    if (pts >= 6) { pxl(5, 7, 3, 2, '#40916c'); pxl(8, 7, 3, 2, '#40916c'); }
+  } else if (kind === "fern") {
+    if (pts >= 3) { pxl(5, 9, 6, 1, '#40916c'); }
+    if (pts >= 6) { pxl(3, 7, 10, 2, '#2d6a4f'); pxl(4, 5, 8, 2, '#74c69d'); }
+  } else if (kind === "maple") {
+    if (pts >= 3) { pxl(7, 8, 2, 2, '#b7094c'); }
+    if (pts >= 6) { pxl(5, 4, 6, 4, '#a01a58'); pxl(6, 3, 4, 1, '#f72585'); }
+  } else if (kind === "palm") {
+    if (pts >= 3) { pxl(7, 6, 2, 4, '#8338ec'); }
+    if (pts >= 6) { pxl(4, 4, 8, 2, '#3a86c8'); pxl(2, 5, 2, 1, '#3a86c8'); }
+  } else if (kind === "venus") {
+    if (pts >= 3) { pxl(6, 9, 4, 1, '#40916c'); }
+    if (pts >= 6) { pxl(5, 6, 6, 3, '#38b000'); pxl(6, 7, 4, 1, '#ffccd5'); }
+  } else if (kind === "berry") {
+    if (pts >= 3) { pxl(6, 8, 4, 2, '#52b788'); }
+    if (pts >= 6) { pxl(5, 5, 6, 3, '#2d6a4f'); pxl(6, 6, 1, 1, '#e63946'); pxl(9, 5, 1, 1, '#e63946'); }
   }
 }
