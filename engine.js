@@ -1,6 +1,14 @@
 var cv=document.getElementById('cv'),cx=cv.getContext('2d'),pts=0,sleep=false,act=Date.now(),time=1500,mId=null,on=false,list=[],historyLog=[],kind="sprout",pets=[],lockGrowth=false;
 
-function convertStr(str,type){var out='',m=maps[type];for(var i=0;i<str.length;i++){var c=str[i];out+= (m&&m[c])?m[c]:c;}return out;}
+// Safety code filter to strip broken tags out of database dictionaries
+function convertStr(str,type){
+  var out='',m=maps[type];if(!m)return str;
+  for(var i=0;i<str.length;i++){
+    var c=str[i],mapped=m[c];
+    if(mapped && mapped.indexOf('<')!==-1){mapped=mapped.replace(/<[^>]*>/g,'');}
+    out+= mapped?mapped:c;
+  }return out;
+}
 function copyText(val){navigator.clipboard.writeText(val);alert("📋 Copied: "+val);}
 
 function genFonts(){
@@ -69,13 +77,22 @@ function checkWin(){
 setInterval(function(){for(var i=0;i<pets.length;i++){var p=pets[i];if(Math.random()<0.2)p.tx=Math.random()*450;if(Math.abs(p.x-p.tx)>2){p.x+=p.tx>p.x?2:-2;p.dom.style.bottom=(Math.sin(p.x*0.1)*4+2)+'px';}p.dom.style.left=p.x+'px';}},80);
 function msg(){
   var l=pts>=9?3:pts>=6?2:pts>=3?1:0,n=Math.max(0,9-pts),t="Needs "+n+" checks to grow!";
-  if(lockGrowth)t="✨ Growth unlocked!";else if(sleep)t="Zzz... Pal is sleepy!";else if(l==1)t="Strong sprout!";else if(l==2)t="Thick and growing!";else if(l==3||pts>=9)t="Grand size!";
+  if(lockGrowth)t="✨ Growth unlocked!";else if(sleep||window.hamsterIsSad)t="Zzz... Pal is sleepy!";else if(l==1)t="Strong sprout!";else if(l==2)t="Thick and growing!";else if(l==3||pts>=9)t="Grand size!";
   document.getElementById('st').innerText=t;
 }
 function pxl(x,y,w,h,c){cx.fillStyle=c;cx.fillRect(x*9,y*9,w*9,h*9);}
 function draw(){
   cx.clearRect(0,0,144,144);var l=pts>=9?3:pts>=6?2:pts>=3?1:0;pxl(4,13,8,1,"#c2c5cc");pxl(4,14,8,1,"#8d99ae");pxl(5,12,6,1,'#4a3728');
-  if(sleep){pxl(7,10,2,2,'#52b788');cx.fillStyle=(kind=="orchid"||kind=="maple")?'#fff':'#2f3e46';cx.font="12px monospace";cx.fillText("z Z",100,40);return;}
+  
+  // If hamster is sad, force plant canvas to display the dark cloud + sleep frame
+  if(sleep || window.hamsterIsSad){
+    pxl(7,10,2,2,'#52b788');
+    cx.fillStyle=(kind=="orchid"||kind=="maple")?'#fff':'#2f3e46';
+    cx.font="12px monospace";cx.fillText("z Z",100,40);
+    // Draw small pixel rain cloud inside plant zone
+    pxl(9,2,4,1,"#90e0ef");pxl(8,3,6,1,"#00b4d8");
+    return;
+  }
   var k=kind;
   if(k=="sprout"){if(l>0||lockGrowth){pxl(7,10,2,2,'#52b788');}if(l>1||lockGrowth){pxl(7,8,2,2,'#52b788');pxl(5,9,2,1,'#74c69d');pxl(9,9,2,1,'#74c69d');}if(l>2||lockGrowth){pxl(7,5,2,3,'#52b788');pxl(4,7,3,1,'#74c69d');}}
   else if(k=="cactus"){if(l>0||lockGrowth){pxl(7,10,2,2,'#2d6a4f');}if(l>1||lockGrowth){pxl(6,8,4,2,'#2d6a4f');pxl(5,9,1,2,'#40916c');}if(l>2||lockGrowth){pxl(7,5,2,3,'#2d6a4f');pxl(9,6,1,2,'#40916c');}}
