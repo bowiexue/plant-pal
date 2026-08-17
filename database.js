@@ -10,19 +10,79 @@ var plantPets = {
 };
 
 var plantData = {
-  sprout: { desc: "Thick green sprouts fix vital nitrogen directly into your farming soil beds.", kaomojis: ["🌱(•◡•)🌱", "🌿(🧱_🧱)"], fonts: [{key:"bubbly", name:"Bubble Sprout"}] },
-  cactus: { desc: "Desert structures store precious moisture reservoirs beneath dangerous survival needles.", kaomojis: ["🌵(O_O)🌵", "🌵(•_•)"], fonts: [{key:"goth", name:"Spiky Goth"}] },
-  flower: { desc: "Sunflowers dynamically track summer path coordinates to maximize energetic intake arrays.", kaomojis: ["🌻(^◡^)", "🌻(🌻_🌻)"], fonts: [{key:"cute", name:"Petal Style"}] },
-  orchid: { desc: "Exotic aerial roots capture raw atmospheric humidity inside rich tropical biomes.", kaomojis: ["🌸(◕‿◕)", "🌸(◌_◌)"], fonts: [{key:"cute", name:"Mystic Bloom"}] },
-  rose: { desc: "Crimson petals release sweet aromatic notes guarded by tiny structural protection thorns.", kaomojis: ["🌹(˘‿˘)", "🌹(•_•)"], fonts: [{key:"goth", name:"Gothic Rose"}] },
-  tulip: { desc: "Spring bulbs track morning temperature variances to open pristine geometric cups.", kaomojis: ["🌷(ᵔ◡ᵔ)", "🌷(°_°)"], fonts: [{key:"bubbly", name:"Tulip Pop"}] },
-  bamboo: { desc: "Segmented stalks transfer clean forest water supplies rapidly along giant grid colonies.", kaomojis: ["🎋(•‿•)", "🎍(⚙️_⚙️)"], fonts: [{key:"cute", name:"Zen Grid"}] },
-  bonsai: { desc: "Miniature root branches reflect decades of specialized master shaping care records.", kaomojis: ["🌳(⛩️_⛩️)", "🌳(˘ᵕ˘)"], fonts: [{key:"goth", name:"Ancient Core"}] },
-  mushroom: { desc: "Fungal spore nodes spread underground network messaging protocols beneath damp soil layers.", kaomojis: ["🍄(🍄_🍄)", "🍄(o_o)"], fonts: [{key:"bubbly", name:"Shroom Pop"}] },
-  clover: { desc: "Rare four-leaf variances contain special bio-luminescent cellular anomaly structures.", kaomojis: ["🍀(💎_💎)", "🍀(◠‿◠)"], fonts: [{key:"cute", name:"Lucky Stamp"}] },
-  fern: { desc: "Prehistoric shade fronds unfurl complex mathematical fractal branches along wet canopy floors.", kaomojis: ["🌿(👁️_👁️)", "🌿(•◡•)"], fonts: [{key:"goth", name:"Jungle Code"}] },
-  maple: { desc: "Autumn deciduous structures convert stored starches into sugary energetic syrup deposits.", kaomojis: ["🍁(🍁_🍁)", "🍁(˘◡˘)"], fonts: [{key:"bubbly", name:"Amber Node"}] },
-  palm: { desc: "Oasis canopy trees weather extreme coastal barometric storm shifts with flexible fibers.", kaomojis: ["🌴(😎)", "🌴(🏝️)"], fonts: [{key:"cute", name:"Tropic Grid"}] },
-  venus: { desc: "Sensory trigger hairs compute immediate mechanical movement limits to trap active bugs.", kaomojis: ["🌱(💥_💥)", "🌱(◣_◢)"], fonts: [{key:"goth", name:"Trap Engine"}] },
-  berry: { desc: "Wild thickets produce highly concentrated antioxidant berry nodes along boundary fences.", kaomojis: ["🍓(🍭_🍭)", "🍓(ᵔᵕᵔ)"], fonts: [{key:"bubbly", name:"Berry Bubble"}] }
+  sprout: { 
+    desc: "Thick green sprouts fix vital nitrogen directly into your farming soil beds.", 
+    kaomojis: ["🌱(•◡•)🌱", "🌿(🧱_🧱)", "🌱(🪐_🪐)🌱", "🌱(˘ᵕ˘)🌱"], 
+    fonts: [{key:"bubbly", name:"Bubble Sprout"}] 
+  },
+  cactus: { 
+    desc: "Desert structures store precious moisture reservoirs beneath dangerous survival needles.", 
+    kaomojis: ["🌵(O_O)🌵", "🌵(•_•)", "🌵(◣_◢)🌵", "🌵(╥﹏╥)🌵"], 
+    fonts: [{key:"goth", name:"Spiky Goth"}] 
+  },
+  flower: { 
+    desc: "Sunflowers dynamically track summer path coordinates to maximize energetic intake arrays.", 
+    kaomojis: ["🌻(^◡^)", "🌻(🌻_🌻)", "🌻(☀️_☀️)🌻", "🌻(🕶️_🕶️)"], 
+    fonts: [{key:"cute", name:"Petal Style"}] 
+  },
+  orchid: { 
+    desc: "Exotic aerial roots capture raw atmospheric humidity inside rich tropical biomes.", 
+    kaomojis: ["🌸(◕‿◕)", "🌸(◌_◌)", "🌸(🍧_🍧)🌸", "🌸(💎_💎)"], 
+    fonts: [{key:"cute", name:"Mystic Bloom"}] 
+  },
+  rose: { 
+    desc: "Crimson petals release sweet aromatic notes guarded by tiny structural protection thorns.", 
+    kaomojis: ["🌹(˘‿˘)", "🌹(•_•)", "🌹(🖤_🖤)🌹", "🌹(⚔️_⚔️)"], 
+    fonts: [{key:"goth", name:"Gothic Rose"}] 
+  },
+  tulip: { 
+    desc: "Spring bulbs track morning temperature variances to open pristine geometric cups.", 
+    kaomojis: ["🌷(ᵔ◡ᵔ)", "🌷(°_°)", "🌷(🎈_🎈)🌷", "🌷(🧁_🧁)"], 
+    fonts: [{key:"bubbly", name:"Tulip Pop"}] 
+  },
+  bamboo: { 
+    desc: "Segmented stalks transfer clean forest water supplies rapidly along giant grid colonies.", 
+    kaomojis: ["🎋(•‿•)", "🎍(⚙️_⚙️)", "🎋(🧘_🧘)🎋", "🎍(🎋_🎋)"], 
+    fonts: [{key:"cute", name:"Zen Grid"}] 
+  },
+  bonsai: { 
+    desc: "Miniature root branches reflect decades of specialized master shaping care records.", 
+    kaomojis: ["🌳(⛩️_⛩️)", "🌳(˘ᵕ˘)", "🌳(⏳_⏳)🌳", "🌳(👑_👑)"], 
+    fonts: [{key:"goth", name:"Ancient Core"}] 
+  },
+  mushroom: { 
+    desc: "Fungal spore nodes spread underground network messaging protocols beneath damp soil layers.", 
+    kaomojis: ["🍄(🍄_🍄)", "🍄(o_o)", "🍄(✨_✨)🍄", "🍄(🧪_🧪)"], 
+    fonts: [{key:"bubbly", name:"Shroom Pop"}] 
+  },
+  clover: { 
+    desc: "Rare four-leaf variances contain special bio-luminescent cellular anomaly structures.", 
+    kaomojis: ["🍀(💎_💎)", "🍀(◠‿形象)", "🍀(⭐_⭐)🍀", "🍀(🎰_🎰)"], 
+    fonts: [{key:"cute", name:"Lucky Stamp"}] 
+  },
+  fern: { 
+    desc: "Prehistoric shade fronds unfurl complex mathematical fractal branches along wet canopy floors.", 
+    kaomojis: ["🌿(👁️_👁️)", "🌿(•◡•)", "🌿(🦖_🦖)🌿", "🌿(🧭_🧭)"], 
+    fonts: [{key:"goth", name:"Jungle Code"}] 
+  },
+  maple: { 
+    desc: "Autumn deciduous structures convert stored starches into sugary energetic syrup deposits.", 
+    kaomojis: ["🍁(🍁_🍁)", "🍁(˘◡˘)", "🍁(☕_☕)🍁", "🍁(🥞_🥞)"], 
+    fonts: [{key:"bubbly", name:"Amber Node"}] 
+  },
+  palm: { 
+    desc: "Oasis canopy trees weather extreme coastal barometric storm shifts with flexible fibers.", 
+    kaomojis: ["🌴(😎)", "🌴(🏝️)", "🌴(🍹_🍹)🌴", "🌴(☀️_☀️)"], 
+    fonts: [{key:"cute", name:"Tropic Grid"}] 
+  },
+  venus: { 
+    desc: "Sensory trigger hairs compute immediate mechanical movement limits to trap active bugs.", 
+    kaomojis: ["🌱(💥_💥)", "🌱(◣_◢)", "🌱(👹_👹)🌱", "🌱(🩸_🩸)"], 
+    fonts: [{key:"goth", name:"Trap Engine"}] 
+  },
+  berry: { 
+    desc: "Wild thickets produce highly concentrated antioxidant berry nodes along boundary fences.", 
+    kaomojis: ["🍓(🍭_🍭)", "🍓(ᵔᵕᵔ)", "🍓(🥧_🥧)🍓", "🍓(🧺_🧺)"], 
+    fonts: [{key:"bubbly", name:"Berry Bubble"}] 
+  }
 };
