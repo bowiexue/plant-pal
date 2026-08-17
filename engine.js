@@ -88,8 +88,3 @@ function draw(){
   else if(k=="maple"){if(l>0||lockGrowth){pxl(7,10,2,2,'#af2916');}if(l>1||lockGrowth){pxl(6,8,4,2,'#af2916');pxl(4,9,2,1,'#d90429');}if(l>2||lockGrowth){pxl(5,5,6,3,'#d90429');pxl(7,4,2,1,'#ffb703');}}
   else if(kind=="mushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
 }
-
-// SAFE EXECUTION ORDER GATEWAY LOCK
-window.onload = function() {
-  ren(); show(); updateStickers(); draw(); msg();
-};
