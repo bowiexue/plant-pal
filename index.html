@@ -4,31 +4,131 @@
   <meta charset="UTF-8">
   <title>SproutOS Smartphone Deck</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body { background:#f0f3f5; font-family:monospace; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
-    .phone-container { width:360px; height:740px; background:#111; border:12px solid #222; border-radius:40px; box-shadow:0 12px 32px rgba(0,0,0,0.25); position:relative; overflow:hidden; display:flex; flex-direction:column; }
-    .phone-status-bar { height:24px; background:#000; color:#fff; font-size:10px; display:flex; justify-content:space-between; align-items:center; padding:0 20px; font-weight:bold; }
-    .phone-screen { flex:1; background:#f4f9f4; position:relative; display:flex; flex-direction:column; overflow-y:auto; padding:15px; }
-    .phone-home-bar { height:24px; background:#f4f9f4; display:flex; justify-content:center; align-items:center; cursor:pointer; padding-bottom:4px; border-top:1px solid #eee; }
-    .home-pill { width:100px; height:5px; background:#888; border-radius:10px; }
-  </style>
 </head>
 <body>
   <div class="phone-container">
+    <!-- TOP NOTCH PHONE CLOCK BAR -->
     <div class="phone-status-bar">
       <span id="os-clock">12:00 PM</span><span style="font-size:8px;">SproutOS 📶 🔋 100%</span>
     </div>
+
+    <!-- MAIN ACTIVE VIEWPORT SCREEN FRAME -->
     <div class="phone-screen" id="screen-viewport">
-      <!-- SYSTEM VIEWPORT INSERTION NODE -->
-      <div id="app-view-target"></div>
+      
+      <!-- ================= PAGE 0: HOME DESKTOP APP DECK ================= -->
+      <div id="page-home" class="os-tab active-tab">
+        <div id="wdg" class="sl" style="background:#e8f1f5; border-color:#b0c4de;">
+          <div class="sl-row" style="font-weight:bold;"><span>Palo Alto, CA 📍</span><span id="wdg-temp">73°F</span></div>
+          <div class="sl-row"><span id="wdg-time">12:00:00 PM</span><span>☁️ Mostly Cloudy</span></div>
+        </div>
+        <div style="font-weight:bold; color:#2d6a4f; margin-top:10px; font-size:12px;">📱 App Grid Dashboard:</div>
+        <div class="app-grid">
+          <div class="app-icon" onclick="switchTab('page-plant')" style="border-color:#52b788;"><span style="font-size:24px;">🌿</span><span class="app-label">Plant & Tasks</span></div>
+          <div class="app-icon" onclick="switchTab('page-hamster')" style="border-color:#03045e;"><span style="font-size:24px;">🐹</span><span class="app-label">Hamster Wheel</span></div>
+          <div class="app-icon" onclick="switchTab('page-audio')" style="border-color:#457b9d;"><span style="font-size:24px;">🎵</span><span class="app-label">Ambient Synth</span></div>
+          <div class="app-icon" onclick="switchTab('page-fonts')" style="border-color:#004d40;"><span style="font-size:24px;">🔤</span><span class="app-label">Font Styler</span></div>
+          <div class="app-icon" onclick="switchTab('page-playground')" style="border-color:#ab47bc; grid-column: span 2; aspect-ratio: 2.6;"><span style="font-size:24px;">✨</span><span class="app-label">Playzone Sandbox</span></div>
+        </div>
+      </div>
+
+      <!-- ================= PAGE 1: COMBINED PLANT & TO-DO CONTAINER ================= -->
+      <div id="page-plant" class="os-tab">
+        <div class="sl" style="text-align:center; padding:4px;"><div id="st" class="st" style="font-size:11px;">Loading Growth...</div></div>
+        <div style="display:flex; justify-content:center; margin:4px 0;"><div class="cv-wrap"><canvas id="cv" width="144" height="144"></canvas></div></div>
+        <div class="side-ctrls">
+          <div id="tmbx" class="tm-box mode-focus"><div id="tm" class="tm">25:00</div></div>
+          <div class="bt"><button id="go" onclick="run()">Start</button><button onclick="reset()">Reset</button></div>
+        </div>
+        <div class="sl">
+          <div class="sl-row"><span>Plant:</span><select id="pt" onchange="chg()"><option value="sprout">Thick Sprout</option><option value="cactus">Big Cactus</option><option value="flower">Sunflower</option><option value="orchid">Exotic Orchid</option></select></div>
+        </div>
+        <div class="td" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="font-weight:bold; color:#2d6a4f; margin-bottom:2px;">📝 Connected Tasks Checklist:</div>
+          <div class="rw"><input type="text" id="in" placeholder="Task..."><button onclick="add()">Add</button></div>
+          <ul id="el" style="flex:1; overflow-y:auto; max-height:105px;"></ul>
+        </div>
+        <div class="an-box" style="height:35px; min-height:35px;">🐾 Visitor:<div id="an" class="pt-c"></div></div>
+        <div class="sl" style="background:#eaf4f4; border-color:#cce3de; height:45px; min-height:45px; overflow-y:auto;"><div id="eco-desc" style="font-style:italic; font-size:10px;">Loading data layers...</div></div>
+      </div>
+
+      <!-- ================= PAGE 2: HAMSTER CANVAS TRACKER ================= -->
+      <div id="page-hamster" class="os-tab">
+        <div class="fat-widget">
+          <div class="fat-header"><span style="font-weight:bold; color:#03045e; font-size:12px;">🐹 Hamster Runner</span><span id="hamster-status" style="font-size:10px; font-weight:bold; color:#03045e;">STATUS: IDLE</span></div>
+          <div style="display:flex; flex-direction:column; gap:12px; align-items:center; justify-content:center; padding:10px 0;">
+            <canvas id="hamsterCanvas" width="128" height="128" style="width:144px; height:144px; display:block;"></canvas>
+            <div style="text-align:center; width:100%; display:flex; flex-direction:column; gap:6px; margin-top:5px;">
+              <div style="font-size:13px;">Chores Active: <span id="chore-time" style="font-weight:bold; color:#03045e;">0 mins</span></div>
+              <div style="display:flex; gap:6px; align-items:center; justify-content:center;">
+                <span>Log Size:</span><select id="chore-duration" style="font-size:12px; padding:2px;"><option value="5">5 mins</option><option value="15" selected>15 mins</option><option value="30">30 mins</option><option value="60">1 hour</option></select>
+              </div>
+              <button onclick="triggerChoreBoost()" style="background:#03045e; padding:8px; font-size:12px; width:100%; border-radius:6px;">&#x1F9FA; Log Chore Session</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PAGE 3: AUDIO SYNTH BEATS ================= -->
+      <div id="page-audio" class="os-tab">
+        <div class="mu-box" style="flex:1; justify-content:center; display:flex; flex-direction:column; gap:15px; padding:15px; border-radius:12px;">
+          <div style="font-weight:bold; color:#fff; text-align:center; font-size:13px;">🎵 Ambient Music Mixer</div>
+          <select id="mtype" style="padding:6px; font-size:12px;"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
+          <button id="m" class="mu" onclick="tune()" style="padding:10px; font-size:12px; border-radius:6px;">🔊 Initialize Sound Engine</button>
+        </div>
+      </div>
+
+      <!-- ================= PAGE 4: FONTENGINE DASHBOARD ================= -->
+      <div id="page-fonts" class="os-tab">
+        <div class="sl" style="background:#fff3e0; border-color:#ffe0b2; max-height:100px; overflow-y:auto;"><div style="font-weight:bold; color:#e65100;">✨ Theme Kaomojis:</div><div class="stk-row" id="stk-box"></div></div>
+        <div class="sl" style="background:#e0f2f1; border-color:#b2dfdb; flex:1; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="font-weight:bold; color:#004d40; margin-bottom:4px;">🔤 Font Engine Variance:</div>
+          <input type="text" id="cust-txt-in" value="Plant Pal" oninput="genFonts()" style="margin-bottom:6px; padding:5px;">
+          <div class="fnt-col" id="fnt-box" style="flex:1; overflow-y:auto; gap:4px;"></div>
+        </div>
+      </div>
+
+      <!-- ================= PAGE 5: PLAYGROUND CURSOR SCREEN ================= -->
+      <div id="page-playground" class="os-tab">
+        <div style="font-weight:bold; color:#7b1fa2; font-size:12px; margin-bottom:4px;">✨ Cursor Sandbox Track:</div>
+        <div id="playzone" class="pz" style="flex:1; height:100%;">Move inside for trails & click to trigger animals!</div>
+      </div>
+
     </div>
+    <!-- BOTTOM NAVIGATION SYSTEM PILL -->
     <div class="phone-home-bar" onclick="returnToHome()"><div class="home-pill"></div></div>
   </div>
+
   <script src="database.js"></script>
   <script src="audio.js"></script>
   <script src="engine.js"></script>
   <script src="playground.js"></script>
   <script src="hamster.js"></script>
-  <script src="app-layouts.js"></script>
+  <script>
+    // Unbroken static page visibility controller router
+    function switchTab(tabId) {
+      var tabs = document.getElementsByClassName('os-tab');
+      for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active-tab'); }
+      document.getElementById(tabId).classList.add('active-tab');
+      
+      var viewport = document.getElementById('screen-viewport');
+      var homeBar = document.querySelector('.phone-home-bar');
+      viewport.style.background = tabId==='page-audio'?'#1d3557':tabId==='page-hamster'?'#f0f4f8':'#f4f9f4';
+      homeBar.style.background = viewport.style.background;
+    }
+    function returnToHome() { switchTab('page-home'); }
+    setInterval(function() {
+      var d = new Date(); document.getElementById('os-clock').innerText = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }, 1000);
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if(typeof ren==='function') ren();
+        if(typeof show==='function') show();
+        if(typeof updateStickers==='function') updateStickers();
+        if(typeof draw==='function') draw();
+        if(typeof msg==='function') msg();
+        if(typeof initHamster==='function') initHamster();
+      }, 150);
+    });
+  </script>
 </body>
 </html>
