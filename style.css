@@ -6,6 +6,12 @@ body { background:var(--bg); color:var(--t); display:flex; justify-content:cente
 .mid-row { display:flex; gap:15px; align-items:center; justify-content:space-between; width:100%; }
 .cv-wrap { width:180px; height:180px; background:var(--ac); border-radius:8px; display:flex; justify-content:center; align-items:center; }
 
+/* Phone Home-Screen Style Fatty Rectangle Custom Widget Box */
+.fat-widget { background:#fbf5f0; border:2px solid #e3d5ca; border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:6px; box-shadow:inset 0 1px 3px rgba(0,0,0,0.05); }
+.fat-header { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ebd9cc; padding-bottom:4px; }
+.fat-info { flex:1; display:flex; flex-direction:column; justify-content:center; text-align:left; }
+#hamsterCanvas { background:#fff; border-radius:10px; border:1px solid #ebd9cc; image-rendering:pixelated; width:128px; height:128px; }
+
 .side-ctrls { display:flex; flex-direction:column; gap:8px; flex:1; }
 .stk-row { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
 .stk-btn { background:#fff; color:#222; border:2px solid #e65100; padding:4px 8px; border-radius:20px; cursor:pointer; font-weight:bold; }
