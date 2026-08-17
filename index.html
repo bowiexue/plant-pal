@@ -10,7 +10,6 @@
     .meta-row { display: flex; justify-content: space-between; font-weight: bold; background: #e2e8f0; padding: 6px 12px; border-radius: 12px; margin-bottom: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
     .dashboard-title { font-size: 18px; font-weight: bold; color: var(--pd); margin-bottom: 20px; border-bottom: 3px solid var(--border-color); padding-bottom: 8px; }
     
-    /* FIX: Grid alignment with stretch properties to eliminate the layout gaps */
     .dashboard-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; }
     .chunky-widget { background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 16px; box-shadow: 6px 6px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 12px; height: 100%; }
     
@@ -45,13 +44,17 @@
     .stk-btn { background: #fff; border: 2px solid var(--border-color); color: #000; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px 0px #000; }
     .fnt-col { display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
     .fnt-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px; border-radius: 6px; border: 2px solid var(--border-color); font-weight: bold; cursor: pointer; }
-    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    
+    /* FIX: Added height 100% so the blue audio box stretches to fill the card gap */
+    .mu-box { background: #457b9d; border: 2px solid var(--border-color); border-radius: 12px; padding: 14px; color: white; flex: 1; display: flex; flex-direction: column; justify-content: center; height: 100%; }
     .mu-box select { background: #1d3557; color: white; margin-bottom: 8px; }
     .mu { background: #1d3557; width: 100%; color: white; border: 2px solid var(--border-color); }
     .pz { background: #fff; border: 2px dashed #ab47bc; border-radius: 12px; height: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; color: #7b1fa2; font-style: italic; padding: 12px; text-align: center; }
     .history-item { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px dashed #cbd5e1; font-weight: bold; color: #475569; }
-    .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
-    .widget-inner-grow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; flex: 1; }
+    .toggle-row { display: flex; gap: 8px; align-items: center; background: #f8fafc; padding: 6px; border: 2px solid #cbd5e1; margin-bottom: 6px; }
+    
+    /* FIX: Added height 100% and space-between so the hamster controls fill the card gap */
+    .widget-inner-grow { display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 10px; flex: 1; height: 100%; }
   </style>
 </head>
 <body>
@@ -137,8 +140,8 @@
       </div>
       
       <div class="widget-inner-grow">
-        <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px;"></canvas>
-        <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px;">
+        <canvas id="hamsterCanvas" width="128" height="128" style="border: 2px solid #222; border-radius: 12px; margin-top: auto; margin-bottom: auto;"></canvas>
+        <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 4px; margin-top: auto;">
           <div style="font-weight: bold;">Chore Balance: <span id="chore-time" style="color: #03045e;">0 mins</span> / <span id="chore-target-display" style="color:#d62828;">15 mins</span></div>
           <div class="toggle-row">
             <span style="font-size:10px;">Run Goal:</span>
@@ -167,7 +170,7 @@
     <div class="chunky-widget narrow-widget">
       <div class="widget-header"><span style="color: #1d3557;">🎵 Background Sound Mixer</span></div>
       <div class="mu-box">
-        <div style="font-size: 11px; margin-bottom: 6px;">Select Audio Soundscape Base Layer:</div>
+        <div style="font-size: 11px; margin-bottom: 6px; text-align: center;">Select Audio Soundscape Base Layer:</div>
         <select id="mtype"><option value="chill">Vinyl Pad</option><option value="jazz">Melancholy</option><option value="rain">Rainy Beats</option></select>
         <button id="m" class="mu" onclick="tune()">🔊 Initialize Audio Core</button>
       </div>
