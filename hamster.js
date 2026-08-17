@@ -1,3 +1,5 @@
+window.hamsterIsSad = false;
+
 (function() {
   var canvas = document.getElementById('hamsterCanvas');
   var ctx = canvas.getContext('2d');
@@ -12,7 +14,9 @@
 
   window.triggerChoreBoost = function() {
     idleTicks = 0;
-    choreMinutes += 15;
+    // Reads custom chosen duration value toggle choice
+    var pickedDuration = parseInt(document.getElementById('chore-duration').value || "15");
+    choreMinutes += pickedDuration;
     if (choreMinutes > 60) choreMinutes = 60;
     document.getElementById('chore-time').innerText = choreMinutes + " mins";
   };
@@ -30,8 +34,12 @@
     var status = "IDLE";
     if (choreMinutes >= 60) {
       status = "RUNNING";
+      window.hamsterIsSad = false;
     } else if (idleTicks > 15) {
       status = "SAD";
+      window.hamsterIsSad = true; // Communicates state link over to main engine drawing functions
+    } else {
+      window.hamsterIsSad = false;
     }
     
     var statusEl = document.getElementById('hamster-status');
@@ -39,22 +47,30 @@
 
     drawPixelBlock(0, 15, 16, 1, "#ebd9cc");
 
+    // WHEEL CONFIGURATION: Shifted lower center axis alignment to anchor the hamster beautifully
+    var centerX = 64;
+    var centerY = 68;
+    var radius = 34;
+
     if (status === "RUNNING") {
       wheelRotation += 0.4;
-      ctx.strokeStyle = "#b388ff";
+      
+      // DARK BLUE SPINNING WHEEL RIM BOUNDS
+      ctx.strokeStyle = "#03045e";
       ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.arc(64, 72, 34, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.stroke();
       
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(64, 72);
-      ctx.lineTo(64 + Math.cos(wheelRotation) * 34, 72 + Math.sin(wheelRotation) * 34);
-      ctx.moveTo(64, 72);
-      ctx.lineTo(64 - Math.cos(wheelRotation) * 34, 72 - Math.sin(wheelRotation) * 34);
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(centerX + Math.cos(wheelRotation) * radius, centerY + Math.sin(wheelRotation) * radius);
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(centerX - Math.cos(wheelRotation) * radius, centerY - Math.sin(wheelRotation) * radius);
       ctx.stroke();
 
+      // PERFECTLY ALIGNED RUNNING HAMSTER CENTERED INNER LAYER TRACK
       var bob = (animationFrame % 2) * 1;
       var ox = 4; 
       var oy = 7 + bob;
@@ -69,6 +85,7 @@
       drawPixelBlock(ox+6, oy+6, 1, 1, "#e07a5f");
 
     } else if (status === "SAD") {
+      // RAIN CLOUD
       drawPixelBlock(4, 1, 8, 2, "#90e0ef");
       drawPixelBlock(3, 2, 10, 1, "#00b4d8");
       
@@ -82,14 +99,16 @@
         drawPixelBlock(11, 5, 1, 1, "#0077b6");
       }
 
-      ctx.strokeStyle = "#cfd8dc";
+      // FIXED STATIONARY DARK BLUE REJECTED TRACK RIM
+      ctx.strokeStyle = "#03045e";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(64, 72, 34, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.stroke();
 
+      // SLUMPED INSIDE BED CENTER BOUNDS
       var ox = 5;
-      var oy = 9;
+      var oy = 8;
       drawPixelBlock(ox+2, oy+2, 5, 4, "#b0a99f");
       drawPixelBlock(ox+3, oy+4, 3, 2, "#ffffff");
       drawPixelBlock(ox+1, oy+2, 1, 1, "#ffccd5");
@@ -98,15 +117,16 @@
       drawPixelBlock(ox+7, oy+4, 1, 1, "#ffccd5");
 
     } else {
-      ctx.strokeStyle = "#e2eafc";
+      // COZY IDLE STANDARD BACKGROUND
+      ctx.strokeStyle = "#03045e";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(64, 72, 34, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.stroke();
 
       var breathe = Math.sin(animationFrame * 0.1) * 0.3;
       var ox = 5;
-      var oy = 10;
+      var oy = 9;
       drawPixelBlock(ox+2, oy+1, 5, 4 + breathe, "#e9c46a");
       drawPixelBlock(ox+4, oy+3, 3, 2, "#fff3b0");
       drawPixelBlock(ox+6, oy+2, 1, 1, "#222222");
@@ -115,7 +135,6 @@
     }
   }
 
-  // EXPOSE SAFE TRIGGER TO MASTER CONTROLLER LOOP
   window.initHamster = function() {
     setInterval(function() {
       idleTicks++;
@@ -125,6 +144,8 @@
         if(timeEl) timeEl.innerText = choreMinutes + " mins";
       }
       renderWidget();
+      // Forces main plant engine script text status alerts to match linked states
+      if (typeof msg === 'function') msg();
     }, 1000);
 
     setInterval(renderWidget, 150);
