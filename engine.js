@@ -84,7 +84,7 @@ function draw(){
   else if(k=="bamboo"){if(l>0||lockGrowth){pxl(7,9,2,3,'#38b000');}if(l>1||lockGrowth){pxl(7,6,2,3,'#38b000');pxl(9,8,2,1,'#70e000');}if(l>2||lockGrowth){pxl(7,3,2,3,'#38b000');pxl(5,5,2,1,'#70e000');}}
   else if(k=="rose"){if(l>0||lockGrowth){pxl(7,10,2,2,'#2d6a4f');}if(l>1||lockGrowth){pxl(7,8,2,2,'#2d6a4f');pxl(5,8,2,1,'#40916c');}if(l>2||lockGrowth){pxl(6,5,4,3,'#e63946');pxl(7,4,2,1,'#b5179e');}}
   else if(k=="maple"){if(l>0||lockGrowth){pxl(7,10,2,2,'#af2916');}if(l>1||lockGrowth){pxl(6,8,4,2,'#af2916');pxl(4,9,2,1,'#d90429');}if(l>2||lockGrowth){pxl(5,5,6,3,'#d90429');pxl(7,4,2,1,'#ffb703');}}
-  else if(k=="mushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
+  else if(kind=="mushroom"){if(l>0||lockGrowth){pxl(7,11,2,1,'#f7a399');}if(l>1||lockGrowth){pxl(7,9,2,2,'#f7a399');}if(l>2||lockGrowth){pxl(5,6,6,3,'#e63946');pxl(6,7,1,1,'#fff');pxl(9,6,1,1,'#fff');}}
 }
 
 ren(); show(); updateStickers(); draw(); msg();
